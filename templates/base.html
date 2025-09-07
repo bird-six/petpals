@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}PetPals - 您的宠物用品专家{% endblock %}</title>
+  
+  <!-- 外部核心资源（全站通用） -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- Tailwind 全局配置（颜色、字体等） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4F6F52', // 主色调：绿色（健康/自然）
+            secondary: '#F99417', // 辅助色：橙色（活力/友好）
+            neutral: {
+              100: '#F8FAFC',
+              200: '#E2E8F0',
+              300: '#CBD5E1',
+              800: '#1E293B',
+              900: '#0F172A',
+            }
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'], // 全局字体
+          },
+        },
+      }
+    }
+  </script>
+  
+  <!-- 全局自定义工具类（全站复用样式） -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .card-hover {
+        @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+      }
+      .btn-primary {
+        @apply bg-secondary text-white px-6 py-3 rounded-full font-medium transition-all duration-300 hover:bg-secondary/90 hover:shadow-lg transform hover:-translate-y-0.5;
+      }
+      .btn-secondary {
+        @apply bg-white text-primary border border-primary px-6 py-3 rounded-full font-medium transition-all duration-300 hover:bg-primary/5 hover:shadow-md transform hover:-translate-y-0.5;
+      }
+      /* 滚动动画基础类 */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .scale-in {
+        opacity: 0;
+        transform: scale(0.95);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .scale-in.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body class="font-inter bg-neutral-100 text-neutral-800 overflow-x-hidden">
+  <!-- 全局导航栏（固定顶部，响应式） -->
+  <header id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16 md:h-20">
+        <!-- 品牌标识（全站统一） -->
+        <a href="#" class="flex items-center space-x-2">
+          <span class="text-primary text-3xl"><i class="fa fa-paw"></i></span>
+          <span class="text-2xl font-bold text-primary">PetPals</span>
+        </a>
+        
+        <!-- 桌面端导航菜单 -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="{% url 'index' %}" class="font-medium text-primary hover:text-secondary transition-colors">首页</a>
+          <!-- 下拉菜单：宠物分类 -->
+          <div class="relative group">
+            <a href="{% url 'pets:pets' %}" class="font-medium text-neutral-800 hover:text-secondary transition-colors flex items-center">
+              宠物分类
+              <i class="fa fa-chevron-down ml-1 text-xs"></i>
+            </a>
+            <div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top scale-95 group-hover:scale-100">
+              <a href="#" class="block px-4 py-2 text-sm hover:bg-primary/10 hover:text-primary transition-colors">狗狗专区</a>
+              <a href="#" class="block px-4 py-2 text-sm hover:bg-primary/10 hover:text-primary transition-colors">猫咪专区</a>
+              <a href="#" class="block px-4 py-2 text-sm hover:bg-primary/10 hover:text-primary transition-colors">小宠专区</a>
+              <a href="#" class="block px-4 py-2 text-sm hover:bg-primary/10 hover:text-primary transition-colors">水族专区</a>
+              <a href="#" class="block px-4 py-2 text-sm hover:bg-primary/10 hover:text-primary transition-colors">鸟类专区</a>
+            </div>
+          </div>
+          <a href="{% url 'products:products' %}" class="font-medium text-neutral-800 hover:text-secondary transition-colors">宠物用品</a>
+          <a href="{% url 'services:services' %}" class="font-medium text-neutral-800 hover:text-secondary transition-colors">宠物服务</a>
+          <a href="{% url 'community:community' %}" class="font-medium text-neutral-800 hover:text-secondary transition-colors">萌宠社区</a>
+        </nav>
+        
+        <!-- 功能图标区（搜索/用户/购物车） -->
+        <div class="flex items-center space-x-4">
+          <button class="p-2 text-neutral-800 hover:text-primary transition-colors">
+            <i class="fa fa-search text-lg"></i>
+          </button>
+          <button class="p-2 text-neutral-800 hover:text-primary transition-colors">
+            <i class="fa fa-user text-lg"></i>
+          </button>
+          <div class="relative">
+            <button class="p-2 text-neutral-800 hover:text-primary transition-colors">
+              <i class="fa fa-shopping-cart text-lg"></i>
+              <span class="absolute -top-1 -right-1 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span> <!-- 购物车数量动态更新 -->
+            </button>
+          </div>
+          
+          <!-- 移动端菜单按钮 -->
+          <button id="menu-toggle" class="md:hidden p-2 text-neutral-800 hover:text-primary transition-colors">
+            <i class="fa fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 移动端导航菜单（默认隐藏） -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+      <div class="container mx-auto px-4 py-3 space-y-3">
+        <a href="#" class="block font-medium text-primary py-2">首页</a>
+        <!-- 移动端分类下拉 -->
+        <div class="relative">
+          <button id="mobile-category-toggle" class="w-full text-left font-medium text-neutral-800 py-2 flex justify-between items-center">
+            宠物分类
+            <i class="fa fa-chevron-down text-xs"></i>
+          </button>
+          <div id="mobile-category-menu" class="hidden pl-4 mt-1 space-y-2 border-l-2 border-primary/30">
+            <a href="#" class="block text-sm py-1 hover:text-primary transition-colors">狗狗专区</a>
+            <a href="#" class="block text-sm py-1 hover:text-primary transition-colors">猫咪专区</a>
+            <a href="#" class="block text-sm py-1 hover:text-primary transition-colors">小宠专区</a>
+            <a href="#" class="block text-sm py-1 hover:text-primary transition-colors">水族专区</a>
+            <a href="#" class="block text-sm py-1 hover:text-primary transition-colors">鸟类专区</a>
+          </div>
+        </div>
+        <a href="#" class="block font-medium text-neutral-800 py-2 hover:text-primary transition-colors">食品零食</a>
+        <a href="#" class="block font-medium text-neutral-800 py-2 hover:text-primary transition-colors">用品玩具</a>
+        <a href="#" class="block font-medium text-neutral-800 py-2 hover:text-primary transition-colors">健康护理</a>
+        <a href="#" class="block font-medium text-neutral-800 py-2 hover:text-primary transition-colors">宠物服务</a>
+        <a href="#" class="block font-medium text-neutral-800 py-2 hover:text-primary transition-colors">萌宠社区</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 页面内容占位区（核心：后续页面内容在此填充） -->
+  <main class="pt-16 md:pt-20">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- 全局页脚（全站统一） -->
+  <footer class="bg-neutral-900 text-white pt-16 pb-8">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <!-- 品牌信息 -->
+        <div>
+          <div class="flex items-center space-x-2 mb-6">
+            <span class="text-secondary text-3xl"><i class="fa fa-paw"></i></span>
+            <span class="text-2xl font-bold">PetPals</span>
+          </div>
+          <p class="text-neutral-400 mb-6">为宠物提供最好的产品和服务，让每一位宠物主人都能安心、放心。</p>
+          <!-- 社交图标 -->
+          <div class="flex space-x-4">
+            <a href="#" class="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-secondary transition-colors">
+              <i class="fa fa-weixin"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-secondary transition-colors">
+              <i class="fa fa-weibo"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-secondary transition-colors">
+              <i class="fa fa-instagram"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-secondary transition-colors">
+              <i class="fa fa-youtube-play"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 快速链接 -->
+        <div>
+          <h3 class="text-lg font-bold mb-6">快速链接</h3>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">首页</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">关于我们</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">商品分类</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">宠物服务</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">萌宠社区</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">联系我们</a></li>
+          </ul>
+        </div>
+        
+        <!-- 客户服务 -->
+        <div>
+          <h3 class="text-lg font-bold mb-6">客户服务</h3>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">配送信息</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">退换政策</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">常见问题</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">支付方式</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">隐私政策</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-secondary transition-colors">用户协议</a></li>
+          </ul>
+        </div>
+        
+        <!-- 联系信息 -->
+        <div>
+          <h3 class="text-lg font-bold mb-6">联系我们</h3>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fa fa-map-marker text-secondary mt-1 mr-3"></i>
+              <span class="text-neutral-400">北京市朝阳区宠物大厦101室</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-phone text-secondary mr-3"></i>
+              <span class="text-neutral-400">400-123-4567</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-envelope text-secondary mr-3"></i>
+              <span class="text-neutral-400">service@petpals.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-clock-o text-secondary mr-3"></i>
+              <span class="text-neutral-400">周一至周日 9:00-21:00</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- 版权信息 -->
+      <div class="border-t border-neutral-800 pt-8">
+        <p class="text-center text-neutral-500 text-sm">© 2024 PetPals 宠物用品商城. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 全局通用JavaScript（交互逻辑复用） -->
+  <script>
+    // 1. 导航栏滚动效果（背景/阴影动态变化）
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-md');
+        navbar.classList.remove('bg-white/80');
+        navbar.classList.add('bg-white/90');
+      } else {
+        navbar.classList.remove('shadow-md');
+        navbar.classList.add('bg-white/80');
+        navbar.classList.remove('bg-white/90');
+      }
+    });
+    
+    // 2. 移动端菜单切换
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // 3. 移动端分类菜单切换
+    document.getElementById('mobile-category-toggle').addEventListener('click', function() {
+      const mobileCategoryMenu = document.getElementById('mobile-category-menu');
+      mobileCategoryMenu.classList.toggle('hidden');
+    });
+    
+    // 4. 滚动动画（元素进入视口时触发）
+    function handleIntersection(entries, observer) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // 只触发一次
+        }
+      });
+    }
+    
+    // 初始化交叉观察器（控制动画触发时机）
+    const observer = new IntersectionObserver(handleIntersection, {
+      root: null,
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    });
+    
+    // 监听所有需要动画的元素（页面填充时自动生效）
+    window.addEventListener('load', function() {
+      // 初始可见元素立即显示
+      document.querySelectorAll('.fade-in, .scale-in').forEach(element => {
+        const rect = element.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom >= 0) {
+          element.classList.add('visible');
+        } else {
+          observer.observe(element); // 未可见元素加入监听
+        }
+      });
+    });
+  </script>
+</body>
+</html>

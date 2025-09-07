@@ -1,0 +1,1574 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- 页面标题区 -->
+    <section class="pt-16 md:pt-20 bg-primary/10 py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in">
+                <h1 class="text-[clamp(2rem,4vw,3rem)] font-bold text-neutral-900 mb-4">专业宠物服务</h1>
+                <p class="text-neutral-600 max-w-2xl mx-auto">提供全方位的宠物服务，让您的爱宠得到最专业的照顾</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务分类导航 -->
+    <section class="bg-white border-b sticky top-[80px] md:top-[80px] z-40 shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center overflow-x-auto py-4 scrollbar-hide">
+                <a href="#grooming" class="px-4 py-2 text-primary font-medium whitespace-nowrap">宠物美容服务</a>
+                <a href="#health" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors whitespace-nowrap">宠物健康医疗</a>
+                <a href="#care" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors whitespace-nowrap">宠物照料服务</a>
+                <a href="#training" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors whitespace-nowrap">宠物训练服务</a>
+                <a href="#travel" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors whitespace-nowrap">宠物出行服务</a>
+                <a href="#emotional" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors whitespace-nowrap">情感与纪念服务</a>
+                <a href="#special" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors whitespace-nowrap">特殊宠物服务</a>
+                <a href="#value-added" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors whitespace-nowrap">配套增值服务</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1. 宠物美容服务 -->
+    <section id="grooming" class="py-16 bg-white" style="scroll-margin-top: 120px;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fa fa-bath text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">宠物美容服务</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">聚焦宠物的外观清洁、毛发护理与造型设计，兼顾美观与健康</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 基础洗护 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1025/500/300" alt="基础洗护服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">基础洗护</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>全身洗浴、毛发吹干</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>耳道清洁、指甲修剪</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>脚底毛修剪、肛门腺挤压</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥88起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 深度美容 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1062/500/300" alt="深度美容服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">深度美容</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>毛发打结开结、双层被毛梳理</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>泪痕清洁、牙齿擦拭</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>paw垫护理（剃毛+保湿）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥158起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 造型修剪 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/237/500/300" alt="造型修剪服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">造型修剪</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>品种专属造型（泰迪、比熊等）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>创意造型（染色、编发）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>夏季清凉剃毛</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥128起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 特殊护理 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1074/500/300" alt="特殊护理服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">特殊护理</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>皮肤病专用药浴</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>老年宠温和洗护</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>幼犬/孕犬安全洗护</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥168起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 宠物健康医疗服务 -->
+    <section id="health" class="py-16 bg-neutral-50" style="scroll-margin-top: 120px;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fa fa-stethoscope text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">宠物健康医疗服务</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">涵盖预防、诊疗、康复等全周期健康管理，由专业资质人员提供服务</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 预防保健 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/96/500/300" alt="预防保健服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">预防保健</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>疫苗接种（犬六联、猫三联等）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>体内外驱虫</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>定期体检（血常规、生化、B超）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥120起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 疾病诊疗 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/287/500/300" alt="疾病诊疗服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">疾病诊疗</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>内科（感冒、肠胃炎）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>外科（外伤缝合、绝育手术）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>传染病（细小、猫瘟）诊治</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥150起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 专科服务 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1084/500/300" alt="专科服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">专科服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>牙科（洗牙、牙结石去除）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>眼科（结膜炎治疗、白内障筛查）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>骨科（骨折修复）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥200起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 康复护理 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/659/500/300" alt="康复护理服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">康复护理</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>术后护理（伤口换药、消炎）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>理疗（针灸、激光治疗）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>慢性病管理（糖尿病、肾病）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥180起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 紧急救援 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.5s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/235/500/300" alt="紧急救援服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">紧急救援</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>24小时急诊</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>中毒急救、难产助产</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>外伤紧急处理</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥300起</span>
+                            <a href="tel:4001234567" class="bg-red-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-red-600">
+                                紧急呼叫
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 宠物照料服务 -->
+    <section id="care" class="py-16 bg-white" style="scroll-margin-top: 120px;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fa fa-home text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">宠物照料服务</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">解决宠物主因工作、出行等无法照料宠物的痛点，提供灵活的托管方案</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 寄养服务 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1059/500/300" alt="寄养服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">寄养服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>门店寄养（独立笼位/豪华单间）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>家庭寄养（散养环境）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>别墅寄养（高端定制）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥50/天起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 日托服务 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1069/500/300" alt="日托服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">日托服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>日间托管（8-12小时照料）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>临时托管（2-4小时短托）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>节假日托管</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥30起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 上门服务 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1071/500/300" alt="上门服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">上门服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>上门喂食喂水、更换猫砂</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>遛狗（单次/多次）、居家陪伴</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物环境清洁</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥40起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 专属照料 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1072/500/300" alt="专属照料服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">专属照料</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>老年宠专人护理（喂药、按摩）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>病宠康复照料</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>幼宠喂奶/排便辅助</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥80起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 宠物训练服务 -->
+    <section id="training" class="py-16 bg-neutral-50" style="scroll-margin-top: 120px;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fa fa-graduation-cap text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">宠物训练服务</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">通过科学方法矫正行为、培养技能，提升宠物与主人的互动质量</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 基础服从训练 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1025/500/300" alt="基础服从训练" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">基础服从训练</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>定点排便、坐下、握手</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>随行、唤回、拒食训练</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥300/课程</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 行为矫正训练 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1062/500/300" alt="行为矫正训练" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">行为矫正训练</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>拆家、吠叫、扑人行为矫正</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>护食、攻击性行为矫正</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>分离焦虑缓解</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥450/课程</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 技能进阶训练 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/237/500/300" alt="技能进阶训练" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">技能进阶训练</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>障碍赛、接飞盘、装死</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>转圈等趣味技能</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>敏捷训练（提升体能与反应）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥500/课程</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 专项训练 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1074/500/300" alt="专项训练" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">专项训练</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>导盲犬基础训练</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>搜救犬启蒙训练</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>伴侣犬情绪安抚训练</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥800/课程</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 主人培训 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.5s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1059/500/300" alt="主人培训" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">主人培训</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物行为心理学指导</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>正确互动方式教学</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>训练技巧实操课程</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥200/课程</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 宠物出行服务 -->
+    <section id="travel" class="py-16 bg-white" style="scroll-margin-top: 120px;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fa fa-car text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">宠物出行服务</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">满足宠物主带宠出行的需求，提供便捷、安全的交通及配套支持</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 运输服务 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1072/500/300" alt="运输服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">运输服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物专车（市内接送）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>航空托运（检疫+手续代办）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>长途专车（跨城/跨省）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥80起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 出行配套 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1059/500/300" alt="出行配套服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">出行配套</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物车载安全座椅租赁</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>便携笼具租赁</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>出行必需品售卖/租赁</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥20起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 场景化出行 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1069/500/300" alt="场景化出行服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">场景化出行</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物友好酒店预订</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物景区陪同、户外遛宠向导</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物露营组织</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥100起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 代遛服务 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1074/500/300" alt="代遛服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">代遛服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>按时间（30分钟/1小时）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>按需求（散步/运动）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>按宠物类型（小型犬/大型犬）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥30起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 宠物情感与纪念服务 -->
+    <section id="emotional" class="py-16 bg-neutral-50" style="scroll-margin-top: 120px;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fa fa-heart text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">宠物情感与纪念服务</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">聚焦宠物主的情感需求，提供陪伴、纪念及个性化服务</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 陪伴服务 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1025/500/300" alt="陪伴服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">陪伴服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物心理咨询（缓解焦虑）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>孤独宠陪伴玩耍</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>失独宠情感慰藉</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥60起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 摄影摄像 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1062/500/300" alt="摄影摄像服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">摄影摄像</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物写真（室内/户外）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物生日拍摄、主人与宠物合影</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物短视频制作</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥199起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 纪念服务 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1074/500/300" alt="纪念服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">纪念服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物殡葬（火化、土葬）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>骨灰盒/纪念品定制</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>纪念仪式策划</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥399起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                咨询
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 定制服务 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/237/500/300" alt="定制服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">定制服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物专属蛋糕</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>个性化项圈/服饰定制</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物肖像绘画、名字刺绣品</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥88起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                定制
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. 特殊宠物服务 -->
+    <section id="special" class="py-16 bg-white" style="scroll-margin-top: 120px;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fa fa-paw text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">特殊宠物服务</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">针对异宠、残疾宠等特殊群体，提供专业化、差异化服务</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 异宠服务 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1071/500/300" alt="异宠服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">异宠服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>鸟类美容（羽毛修剪）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>爬宠护理（环境消毒）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>小宠诊疗（仓鼠/兔子疾病）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥60起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 残疾宠服务 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1069/500/300" alt="残疾宠服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">残疾宠服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>辅助器具适配（轮椅、假肢）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>康复训练（肢体功能恢复）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>专人照料（喂食/移动）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥100起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 特殊需求服务 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1059/500/300" alt="特殊需求服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">特殊需求服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>过敏体质宠物洗护（无敏产品）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>挑食宠物喂养指导</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>多宠家庭协调服务</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥80起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                预约
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. 宠物配套增值服务 -->
+    <section id="value-added" class="py-16 bg-neutral-50" style="scroll-margin-top: 120px;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <i class="fa fa-plus-circle text-primary text-2xl"></i>
+                </div>
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">宠物配套增值服务</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">围绕宠物生活场景，提供延伸性、便捷性服务</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 宠物保险 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1072/500/300" alt="宠物保险服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">宠物保险</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>健康险（医疗费用报销）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>意外险（第三方责任险）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>寿险（宠物身故赔偿）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥99/年起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                了解详情
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 用品服务 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1062/500/300" alt="用品服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">用品服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物用品配送</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>旧用品回收</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>用品维修（如智能喂食器）</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥10起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                查看服务
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 咨询服务 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/1025/500/300" alt="咨询服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">咨询服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>养宠知识咨询</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物行为问题解答</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物营养搭配指导</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">¥50起</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                咨询专家
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 社群服务 -->
+                <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/237/500/300" alt="社群服务" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">社群服务</h3>
+                        <ul class="text-neutral-600 text-sm space-y-1 mb-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物主题活动（聚会、比赛）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>养宠社群运营</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>宠物领养/送养对接</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold text-lg">免费/收费</span>
+                            <a href="#" class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90">
+                                加入社群
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务预约区 -->
+    <section class="py-16 bg-primary/10">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg max-w-4xl mx-auto">
+                    <div class="p-8 md:p-12">
+                        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-6 text-center fade-in">立即预约服务</h2>
+                        
+                        <form class="space-y-6 fade-in" style="transition-delay: 0.2s">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="pet-name" class="block text-sm font-medium text-neutral-700 mb-1">宠物名称</label>
+                                    <input type="text" id="pet-name" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入宠物名字">
+                                </div>
+                                <div>
+                                    <label for="pet-type" class="block text-sm font-medium text-neutral-700 mb-1">宠物类型</label>
+                                    <select id="pet-type" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+                                        <option value="">请选择宠物类型</option>
+                                        <option value="dog">犬类</option>
+                                        <option value="cat">猫类</option>
+                                        <option value="bird">鸟类</option>
+                                        <option value="reptile">爬行类</option>
+                                        <option value="small">小型宠物</option>
+                                        <option value="other">其他</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="service-type" class="block text-sm font-medium text-neutral-700 mb-1">服务类型</label>
+                                <select id="service-type" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+                                    <option value="">请选择服务类型</option>
+                                    <option value="grooming">宠物美容服务</option>
+                                    <option value="health">宠物健康医疗服务</option>
+                                    <option value="care">宠物照料服务</option>
+                                    <option value="training">宠物训练服务</option>
+                                    <option value="travel">宠物出行服务</option>
+                                    <option value="emotional">宠物情感与纪念服务</option>
+                                    <option value="special">特殊宠物服务</option>
+                                    <option value="value-added">宠物配套增值服务</option>
+                                </select>
+                            </div>
+
+                            <!-- 详细服务项目（根据服务类型条件显示） -->
+                            <div id="service-items-container" class="hidden">
+                                <label class="block text-sm font-medium text-neutral-700 mb-1">详细服务项目（可多选）</label>
+                                
+                                <!-- 宠物美容服务项目 -->
+                                <div id="grooming-items" class="service-items hidden bg-neutral-50 p-4 rounded-lg">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="grooming-basic" name="service-items" value="grooming-basic" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="grooming-basic" class="ml-2 block text-sm text-neutral-700">基础洗护（全身洗浴、毛发吹干、耳道清洁等）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="grooming-deep" name="service-items" value="grooming-deep" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="grooming-deep" class="ml-2 block text-sm text-neutral-700">深度美容（毛发开结、双层被毛梳理、泪痕清洁等）</label>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="grooming-style" name="service-items" value="grooming-style" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="grooming-style" class="ml-2 block text-sm text-neutral-700">造型修剪（品种专属造型、创意造型、夏季清凉剃毛）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="grooming-special" name="service-items" value="grooming-special" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="grooming-special" class="ml-2 block text-sm text-neutral-700">特殊护理（皮肤病药浴、老年宠洗护、幼犬/孕犬洗护等）</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 宠物健康医疗服务项目 -->
+                                <div id="health-items" class="service-items hidden bg-neutral-50 p-4 rounded-lg">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="health-preventive" name="service-items" value="health-preventive" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="health-preventive" class="ml-2 block text-sm text-neutral-700">预防保健（疫苗接种、体内外驱虫、定期体检）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="health-treatment" name="service-items" value="health-treatment" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="health-treatment" class="ml-2 block text-sm text-neutral-700">疾病诊疗（内科、外科、传染病诊治）</label>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="health-specialized" name="service-items" value="health-specialized" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="health-specialized" class="ml-2 block text-sm text-neutral-700">专科服务（牙科、眼科、骨科）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="health-rehabilitation" name="service-items" value="health-rehabilitation" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="health-rehabilitation" class="ml-2 block text-sm text-neutral-700">康复护理（术后护理、理疗、慢性病管理）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="health-emergency" name="service-items" value="health-emergency" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="health-emergency" class="ml-2 block text-sm text-neutral-700">紧急救援（24小时急诊、中毒急救等）</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 宠物照料服务项目 -->
+                                <div id="care-items" class="service-items hidden bg-neutral-50 p-4 rounded-lg">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="care-boarding" name="service-items" value="care-boarding" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="care-boarding" class="ml-2 block text-sm text-neutral-700">寄养服务（门店寄养、家庭寄养、别墅寄养）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="care-daycare" name="service-items" value="care-daycare" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="care-daycare" class="ml-2 block text-sm text-neutral-700">日托服务（日间托管、临时托管、节假日托管）</label>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="care-home" name="service-items" value="care-home" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="care-home" class="ml-2 block text-sm text-neutral-700">上门服务（上门喂食、更换猫砂、遛狗、环境清洁）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="care-specialized" name="service-items" value="care-specialized" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="care-specialized" class="ml-2 block text-sm text-neutral-700">专属照料（老年宠护理、病宠康复照料、幼宠照料）</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 宠物训练服务项目 -->
+                                <div id="training-items" class="service-items hidden bg-neutral-50 p-4 rounded-lg">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="training-basic" name="service-items" value="training-basic" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="training-basic" class="ml-2 block text-sm text-neutral-700">基础服从训练（定点排便、坐下、握手、随行等）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="training-behavior" name="service-items" value="training-behavior" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="training-behavior" class="ml-2 block text-sm text-neutral-700">行为矫正训练（拆家、吠叫、扑人、护食等矫正）</label>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="training-advanced" name="service-items" value="training-advanced" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="training-advanced" class="ml-2 block text-sm text-neutral-700">技能进阶训练（障碍赛、接飞盘、装死等趣味技能）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="training-special" name="service-items" value="training-special" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="training-special" class="ml-2 block text-sm text-neutral-700">专项训练（导盲犬、搜救犬基础训练等）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="training-owner" name="service-items" value="training-owner" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="training-owner" class="ml-2 block text-sm text-neutral-700">主人培训（行为心理学指导、互动方式教学）</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 宠物出行服务项目 -->
+                                <div id="travel-items" class="service-items hidden bg-neutral-50 p-4 rounded-lg">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="travel-transport" name="service-items" value="travel-transport" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="travel-transport" class="ml-2 block text-sm text-neutral-700">运输服务（宠物专车、航空托运、长途专车）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="travel-accessories" name="service-items" value="travel-accessories" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="travel-accessories" class="ml-2 block text-sm text-neutral-700">出行配套（车载安全座椅、便携笼具租赁等）</label>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="travel-scene" name="service-items" value="travel-scene" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="travel-scene" class="ml-2 block text-sm text-neutral-700">场景化出行（宠物友好酒店预订、景区陪同等）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="travel-walking" name="service-items" value="travel-walking" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="travel-walking" class="ml-2 block text-sm text-neutral-700">代遛服务（按时间、按需求、按宠物类型）</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 宠物情感与纪念服务项目 -->
+                                <div id="emotional-items" class="service-items hidden bg-neutral-50 p-4 rounded-lg">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="emotional-companionship" name="service-items" value="emotional-companionship" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="emotional-companionship" class="ml-2 block text-sm text-neutral-700">陪伴服务（心理咨询、孤独宠陪伴、情感慰藉）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="emotional-photography" name="service-items" value="emotional-photography" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="emotional-photography" class="ml-2 block text-sm text-neutral-700">摄影摄像（宠物写真、生日拍摄、合影、短视频）</label>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="emotional-memorial" name="service-items" value="emotional-memorial" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="emotional-memorial" class="ml-2 block text-sm text-neutral-700">纪念服务（殡葬、骨灰盒/纪念品定制、纪念仪式）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="emotional-custom" name="service-items" value="emotional-custom" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="emotional-custom" class="ml-2 block text-sm text-neutral-700">定制服务（专属蛋糕、个性化项圈/服饰、肖像绘画等）</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 特殊宠物服务项目 -->
+                                <div id="special-items" class="service-items hidden bg-neutral-50 p-4 rounded-lg">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="special-exotic" name="service-items" value="special-exotic" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="special-exotic" class="ml-2 block text-sm text-neutral-700">异宠服务（鸟类美容、爬宠护理、小宠诊疗）</label>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="special-disabled" name="service-items" value="special-disabled" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="special-disabled" class="ml-2 block text-sm text-neutral-700">残疾宠服务（辅助器具适配、康复训练、专人照料）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="special-needs" name="service-items" value="special-needs" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="special-needs" class="ml-2 block text-sm text-neutral-700">特殊需求服务（过敏体质洗护、挑食喂养指导等）</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 宠物配套增值服务项目 -->
+                                <div id="value-added-items" class="service-items hidden bg-neutral-50 p-4 rounded-lg">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="value-insurance" name="service-items" value="value-insurance" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="value-insurance" class="ml-2 block text-sm text-neutral-700">宠物保险（健康险、意外险、寿险）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="value-supplies" name="service-items" value="value-supplies" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="value-supplies" class="ml-2 block text-sm text-neutral-700">用品服务（用品配送、旧用品回收、用品维修）</label>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="value-consultation" name="service-items" value="value-consultation" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="value-consultation" class="ml-2 block text-sm text-neutral-700">咨询服务（养宠知识、行为问题解答、营养搭配指导）</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input type="checkbox" id="value-community" name="service-items" value="value-community" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                                                <label for="value-community" class="ml-2 block text-sm text-neutral-700">社群服务（主题活动、养宠社群、领养/送养对接）</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="appointment-date" class="block text-sm font-medium text-neutral-700 mb-1">预约日期</label>
+                                    <input type="date" id="appointment-date" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+                                </div>
+                                <div>
+                                    <label for="appointment-time" class="block text-sm font-medium text-neutral-700 mb-1">预约时间</label>
+                                    <input type="time" id="appointment-time" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="contact-info" class="block text-sm font-medium text-neutral-700 mb-1">联系方式</label>
+                                <input type="tel" id="contact-info" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入您的手机号码">
+                            </div>
+                            
+                            <div>
+                                <label for="special-request" class="block text-sm font-medium text-neutral-700 mb-1">特殊需求（可选）</label>
+                                <textarea id="special-request" rows="3" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请描述您的特殊需求或宠物的特殊情况"></textarea>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="inline-block bg-primary text-white px-8 py-3 rounded-full font-medium transition-all duration-300 hover:bg-primary/90 hover:shadow-lg transform hover:-translate-y-0.5">
+                                    提交预约
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+    <!-- 服务流程 -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">服务流程</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">简单几步，即可为您的爱宠预约专业服务</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="text-center fade-in" style="transition-delay: 0.1s">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-primary font-bold text-xl">01</span>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">选择服务</h3>
+                    <p class="text-neutral-600">浏览并选择适合您宠物的服务项目</p>
+                </div>
+                
+                <div class="text-center fade-in" style="transition-delay: 0.2s">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-primary font-bold text-xl">02</span>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">预约时间</h3>
+                    <p class="text-neutral-600">选择方便的日期和时间</p>
+                </div>
+                
+                <div class="text-center fade-in" style="transition-delay: 0.3s">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-primary font-bold text-xl">03</span>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">确认信息</h3>
+                    <p class="text-neutral-600">填写宠物信息并确认订单</p>
+                </div>
+                
+                <div class="text-center fade-in" style="transition-delay: 0.4s">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <span class="text-primary font-bold text-xl">04</span>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">享受服务</h3>
+                    <p class="text-neutral-600">按预约时间带宠物前来或等待上门服务</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户评价 -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">客户评价</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">看看其他宠物主人对我们服务的评价</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 评价1 -->
+                <div class="bg-neutral-50 rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <p class="text-neutral-700 mb-6">"带狗狗来做了全套美容，服务非常专业，美容师很有耐心，狗狗也很配合。做完之后焕然一新，毛发柔顺有光泽，非常满意！"</p>
+                    <div class="flex items-center">
+                        <img src="https://picsum.photos/id/1005/100/100" alt="用户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-medium">张先生</h4>
+                            <p class="text-sm text-neutral-600">金毛犬主人 · 全套美容服务</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评价2 -->
+                <div class="bg-neutral-50 rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.2s">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <p class="text-neutral-700 mb-6">"出差时把猫咪寄养在这里，每天都能收到照片和视频，工作人员很负责任，猫咪回来后状态很好，一点都没有应激反应，非常放心！"</p>
+                    <div class="flex items-center">
+                        <img src="https://picsum.photos/id/1012/100/100" alt="用户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-medium">李女士</h4>
+                            <p class="text-sm text-neutral-600">布偶猫主人 · 寄养服务</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评价3 -->
+                <div class="bg-neutral-50 rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.3s">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                    </div>
+                    <p class="text-neutral-700 mb-6">"带狗狗来做训练，经过一个月的课程，现在变得听话多了，不再乱咬东西，也学会了定点排便。训练师很专业，还教了我们很多与狗狗互动的技巧。"</p>
+                    <div class="flex items-center">
+                        <img src="https://picsum.photos/id/1027/100/100" alt="用户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-medium">王女士</h4>
+                            <p class="text-sm text-neutral-600">柯基犬主人 · 基础服从训练</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        // 获取服务类型选择框和所有服务项目容器
+        const serviceTypeSelect = document.getElementById('service-type');
+        const serviceItemsContainer = document.getElementById('service-items-container');
+        const allServiceItems = document.querySelectorAll('.service-items');
+        
+        // 监听服务类型变化事件
+        serviceTypeSelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            
+            // 清除所有选中的服务项目
+            document.querySelectorAll('input[name="service-items"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // 如果选择了具体服务类型
+            if (selectedValue) {
+                // 显示服务项目容器
+                serviceItemsContainer.classList.remove('hidden');
+                
+                // 隐藏所有服务项目
+                allServiceItems.forEach(item => {
+                    item.classList.add('hidden');
+                });
+                
+                // 显示对应服务类型的项目
+                const selectedItems = document.getElementById(`${selectedValue}-items`);
+                if (selectedItems) {
+                    selectedItems.classList.remove('hidden');
+                }
+            } else {
+                // 如果未选择服务类型，隐藏整个服务项目容器
+                serviceItemsContainer.classList.add('hidden');
+            }
+        });
+    </script>
+{% endblock %}

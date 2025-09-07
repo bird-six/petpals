@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- 页面标题区 -->
+    <section class="pt-16 md:pt-20 bg-primary/10 py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in">
+                <h1 class="text-[clamp(2rem,4vw,3rem)] font-bold text-neutral-900 mb-4">萌宠社区</h1>
+                <p class="text-neutral-600 max-w-2xl mx-auto">这里是宠物主人的交流乐园，分享宠物的喜怒哀乐，交流养宠经验</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 社区导航 -->
+    <section class="bg-white border-b">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center py-4">
+                <a href="#" class="px-4 py-2 text-primary font-medium border-b-2 border-primary">全部帖子</a>
+                <a href="#" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors">宠物日常</a>
+                <a href="#" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors">养宠经验</a>
+                <a href="#" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors">宠物健康</a>
+                <a href="#" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors">宠物训练</a>
+                <a href="#" class="px-4 py-2 text-neutral-600 hover:text-primary transition-colors">宠物趣事</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 社区内容区 -->
+    <section class="py-12 bg-neutral-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- 帖子列表 -->
+                <div class="lg:col-span-2">
+                    <!-- 发布帖子按钮 -->
+                    <div class="mb-8 fade-in">
+                        <a href="#" class="block w-full bg-primary text-white text-center py-3 rounded-xl font-medium hover:bg-primary/90 transition-colors">
+                            <i class="fa fa-pencil mr-2"></i>发布新帖子
+                        </a>
+                    </div>
+                    
+                    <!-- 帖子1 -->
+                    <div class="bg-white rounded-xl overflow-hidden mb-6 card-hover fade-in" style="transition-delay: 0.1s">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <img src="https://picsum.photos/id/1005/100/100" alt="用户头像" class="w-10 h-10 rounded-full object-cover mr-3">
+                                <div>
+                                    <h4 class="font-medium">张先生</h4>
+                                    <p class="text-xs text-neutral-500">2小时前 · 宠物日常</p>
+                                </div>
+                            </div>
+                            <h3 class="text-lg font-bold mb-3">我家金毛第一次看雪，太兴奋了</h3>
+                            <p class="text-neutral-600 mb-4">今天下雪了，带金毛出去玩耍，第一次见到雪的它简直兴奋到不行，在雪地里疯狂奔跑，玩得不亦乐乎，回来的时候都变成了一只"雪狗"😂</p>
+                            <div class="grid grid-cols-2 gap-2 mb-4">
+                                <img src="https://picsum.photos/id/237/500/300" alt="宠物照片" class="w-full h-48 object-cover rounded-lg">
+                                <img src="https://picsum.photos/id/1025/500/300" alt="宠物照片" class="w-full h-48 object-cover rounded-lg">
+                            </div>
+                            <div class="flex items-center justify-between text-neutral-500">
+                                <div class="flex space-x-6">
+                                    <button class="flex items-center hover:text-primary transition-colors">
+                                        <i class="fa fa-heart-o mr-1"></i>
+                                        <span>128</span>
+                                    </button>
+                                    <button class="flex items-center hover:text-primary transition-colors">
+                                        <i class="fa fa-comment-o mr-1"></i>
+                                        <span>32</span>
+                                    </button>
+                                    <button class="flex items-center hover:text-primary transition-colors">
+                                        <i class="fa fa-share mr-1"></i>
+                                        <span>分享</span>
+                                    </button>
+                                </div>
+                                <button class="hover:text-primary transition-colors">
+                                    <i class="fa fa-bookmark-o"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 帖子2 -->
+                    <div class="bg-white rounded-xl overflow-hidden mb-6 card-hover fade-in" style="transition-delay: 0.2s">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <img src="https://picsum.photos/id/1012/100/100" alt="用户头像" class="w-10 h-10 rounded-full object-cover mr-3">
+                                <div>
+                                    <h4 class="font-medium">李女士</h4>
+                                    <p class="text-xs text-neutral-500">昨天 14:30 · 养宠经验</p>
+                                </div>
+                            </div>
+                            <h3 class="text-lg font-bold mb-3">分享一下我家猫咪的换粮经验</h3>
+                            <p class="text-neutral-600 mb-4">最近给我家猫咪换了新的猫粮，一开始它很不适应，出现了软便的情况。后来我采用了七日换粮法，慢慢过渡，现在已经完全适应了新猫粮，分享一下我的经验...</p>
+                            <div class="bg-neutral-50 p-4 rounded-lg mb-4">
+                                <h4 class="font-medium mb-2">七日换粮法：</h4>
+                                <ul class="list-disc list-inside text-neutral-600 space-y-1 text-sm">
+                                    <li>第1-2天：旧粮75% + 新粮25%</li>
+                                    <li>第3-4天：旧粮50% + 新粮50%</li>
+                                    <li>第5-6天：旧粮25% + 新粮75%</li>
+                                    <li>第7天：新粮100%</li>
+                                </ul>
+                            </div>
+                            <div class="flex items-center justify-between text-neutral-500">
+                                <div class="flex space-x-6">
+                                    <button class="flex items-center hover:text-primary transition-colors">
+                                        <i class="fa fa-heart-o mr-1"></i>
+                                        <span>256</span>
+                                    </button>
+                                    <button class="flex items-center hover:text-primary transition-colors">
+                                        <i class="fa fa-comment-o mr-1"></i>
+                                        <span>64</span>
+                                    </button>
+                                    <button class="flex items-center hover:text-primary transition-colors">
+                                        <i class="fa fa-share mr-1"></i>
+                                        <span>分享</span>
+                                    </button>
+                                </div>
+                                <button class="hover:text-primary transition-colors">
+                                    <i class="fa fa-bookmark-o"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 帖子3 -->
+                    <div class="bg-white rounded-xl overflow-hidden mb-6 card-hover fade-in" style="transition-delay: 0.3s">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <img src="https://picsum.photos/id/1027/100/100" alt="用户头像" class="w-10 h-10 rounded-full object-cover mr-3">
+                                <div>
+                                    <h4 class="font-medium">王女士</h4>
+                                    <p class="text-xs text-neutral-500">3天前 · 宠物训练</p>
+                                </div>
+                            </div>
+                            <h3 class="text-lg font-bold mb-3">柯基定点排便训练成功！分享我的方法</h3>
+                            <p class="text-neutral-600 mb-4">养柯基已经两个月了，最头疼的就是定点排便问题。经过一个月的训练，现在它已经能自己去厕所排便了，分享一下我的训练方法...</p>
+                            <div class="grid grid-cols-3 gap-2 mb-4">
+                                <img src="https://picsum.photos/id/1062/300/300" alt="宠物照片" class="w-full h-32 object-cover rounded-lg">
+                                <img src="https://picsum.photos/id/1074/300/300" alt="宠物照片" class="w-full h-32 object-cover rounded-lg">
+                                <img src="https://picsum.photos/id/1025/300/300" alt="宠物照片" class="w-full h-32 object-cover rounded-lg">
+                            </div>
+                            <div class="flex items-center justify-between text-neutral-500">
+                                <div class="flex space-x-6">
+                                    <button class="flex items-center hover:text-primary transition-colors">
+                                        <i class="fa fa-heart-o mr-1"></i>
+                                        <span>342</span>
+                                    </button>
+                                    <button class="flex items-center hover:text-primary transition-colors">
+                                        <i class="fa fa-comment-o mr-1"></i>
+                                        <span>89</span>
+                                    </button>
+                                    <button class="flex items-center hover:text-primary transition-colors">
+                                        <i class="fa fa-share mr-1"></i>
+                                        <span>分享</span>
+                                    </button>
+                                </div>
+                                <button class="hover:text-primary transition-colors">
+                                    <i class="fa fa-bookmark-o"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 加载更多 -->
+                    <div class="text-center fade-in" style="transition-delay: 0.4s">
+                        <button class="bg-white border border-primary text-primary px-6 py-3 rounded-full font-medium transition-all duration-300 hover:bg-primary hover:text-white">
+                            加载更多
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 侧边栏 -->
+                <div class="lg:col-span-1">
+                    <!-- 社区公告 -->
+                    <div class="bg-white rounded-xl p-6 mb-6 fade-in">
+                        <h3 class="font-bold text-lg mb-4 flex items-center">
+                            <i class="fa fa-bullhorn text-primary mr-2"></i>
+                            社区公告
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="border-b border-neutral-100 pb-3">
+                                <h4 class="font-medium mb-1">【活动通知】宠物摄影大赛开始啦</h4>
+                                <p class="text-sm text-neutral-600">上传您家宠物的美照，赢取丰厚奖品</p>
+                                <p class="text-xs text-neutral-500 mt-1">2023-11-15</p>
+                            </div>
+                            <div class="border-b border-neutral-100 pb-3">
+                                <h4 class="font-medium mb-1">社区新功能上线：宠物成长档案</h4>
+                                <p class="text-sm text-neutral-600">记录宠物的成长瞬间，留下美好回忆</p>
+                                <p class="text-xs text-neutral-500 mt-1">2023-11-10</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">社区规范更新通知</h4>
+                                <p class="text-sm text-neutral-600">请各位用户遵守社区规范，共同维护良好环境</p>
+                                <p class="text-xs text-neutral-500 mt-1">2023-11-05</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 热门话题 -->
+                    <div class="bg-white rounded-xl p-6 mb-6 fade-in" style="transition-delay: 0.2s">
+                        <h3 class="font-bold text-lg mb-4 flex items-center">
+                            <i class="fa fa-fire text-primary mr-2"></i>
+                            热门话题
+                        </h3>
+                        <div class="space-y-3">
+                            <a href="#" class="flex items-center justify-between group">
+                                <span class="text-neutral-700 group-hover:text-primary transition-colors">#冬季宠物保暖技巧#</span>
+                                <span class="text-sm text-neutral-500">2.4k</span>
+                            </a>
+                            <a href="#" class="flex items-center justify-between group">
+                                <span class="text-neutral-700 group-hover:text-primary transition-colors">#宠物挑食怎么办#</span>
+                                <span class="text-sm text-neutral-500">1.8k</span>
+                            </a>
+                            <a href="#" class="flex items-center justify-between group">
+                                <span class="text-neutral-700 group-hover:text-primary transition-colors">#狗狗训练教程#</span>
+                                <span class="text-sm text-neutral-500">1.5k</span>
+                            </a>
+                            <a href="#" class="flex items-center justify-between group">
+                                <span class="text-neutral-700 group-hover:text-primary transition-colors">#猫咪常见疾病预防#</span>
+                                <span class="text-sm text-neutral-500">1.2k</span>
+                            </a>
+                            <a href="#" class="flex items-center justify-between group">
+                                <span class="text-neutral-700 group-hover:text-primary transition-colors">#宠物旅行攻略#</span>
+                                <span class="text-sm text-neutral-500">986</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 活跃用户 -->
+                    <div class="bg-white rounded-xl p-6 fade-in" style="transition-delay: 0.3s">
+                        <h3 class="font-bold text-lg mb-4 flex items-center">
+                            <i class="fa fa-users text-primary mr-2"></i>
+                            活跃用户
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <img src="https://picsum.photos/id/1005/100/100" alt="用户头像" class="w-10 h-10 rounded-full object-cover mr-3">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-sm">张先生</h4>
+                                    <p class="text-xs text-neutral-500">金毛犬主人 · 发帖32</p>
+                                </div>
+                                <button class="text-sm text-primary hover:text-primary/80 transition-colors">关注</button>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="https://picsum.photos/id/1012/100/100" alt="用户头像" class="w-10 h-10 rounded-full object-cover mr-3">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-sm">李女士</h4>
+                                    <p class="text-xs text-neutral-500">布偶猫主人 · 发帖45</p>
+                                </div>
+                                <button class="text-sm text-primary hover:text-primary/80 transition-colors">关注</button>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="https://picsum.photos/id/1027/100/100" alt="用户头像" class="w-10 h-10 rounded-full object-cover mr-3">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-sm">王女士</h4>
+                                    <p class="text-xs text-neutral-500">柯基犬主人 · 发帖28</p>
+                                </div>
+                                <button class="text-sm text-primary hover:text-primary/80 transition-colors">关注</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 社区指南 -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">社区指南</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">共同维护一个友好、和谐的宠物社区环境</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-neutral-100 rounded-xl p-6 text-center fade-in" style="transition-delay: 0.1s">
+                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fa fa-heart text-primary text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">友善交流</h3>
+                    <p class="text-neutral-600 text-sm">尊重他人，文明用语，理性讨论，共同营造友好氛围</p>
+                </div>
+                
+                <div class="bg-neutral-100 rounded-xl p-6 text-center fade-in" style="transition-delay: 0.2s">
+                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fa fa-camera text-primary text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">真实分享</h3>
+                    <p class="text-neutral-600 text-sm">分享真实的养宠经历和照片，禁止盗用他人内容</p>
+                </div>
+                
+                <div class="bg-neutral-100 rounded-xl p-6 text-center fade-in" style="transition-delay: 0.3s">
+                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fa fa-shield text-primary text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">保护隐私</h3>
+                    <p class="text-neutral-600 text-sm">不泄露个人和他人隐私信息，包括联系方式、住址等</p>
+                </div>
+                
+                <div class="bg-neutral-100 rounded-xl p-6 text-center fade-in" style="transition-delay: 0.4s">
+                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fa fa-ban text-primary text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">禁止内容</h3>
+                    <p class="text-neutral-600 text-sm">禁止发布广告、谣言、暴力、色情等违规内容</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

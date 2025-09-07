@@ -1,0 +1,391 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- 宠物商城页面 -->
+<section class="pt-16 md:pt-20 relative">
+  <!-- 顶部横幅 -->
+  <div class="bg-primary/10 py-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center fade-in">
+        <h1 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-neutral-900 mb-4">宠物商城</h1>
+        <p class="text-neutral-600 max-w-3xl mx-auto text-lg">寻找您的新家庭成员，我们提供健康、可爱的各类宠物，都有完整的健康检查和疫苗接种记录</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 筛选和排序栏 -->
+  <div class="bg-white border-b border-neutral-200 py-4 sticky top-16 md:top-20 z-30">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <span class="text-neutral-600 font-medium">筛选:</span>
+          <select class="px-4 py-2 rounded-full border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors">
+            <option>所有宠物</option>
+            <option>狗狗</option>
+            <option>猫咪</option>
+            <option>小宠</option>
+            <option>水族</option>
+            <option>鸟类</option>
+          </select>
+          <select class="px-4 py-2 rounded-full border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors">
+            <option>年龄</option>
+            <option>幼崽(0-6个月)</option>
+            <option>青年(6-24个月)</option>
+            <option>成年(2岁以上)</option>
+          </select>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="text-neutral-600 font-medium">排序:</span>
+          <select class="px-4 py-2 rounded-full border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors">
+            <option>最新上架</option>
+            <option>价格从低到高</option>
+            <option>价格从高到低</option>
+            <option>最受欢迎</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 宠物列表 -->
+  <div class="py-12 bg-neutral-100">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <!-- 宠物卡片1 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/237/500/500" alt="金毛幼犬" class="w-full h-64 object-cover">
+            <span class="absolute top-3 left-3 bg-secondary text-white text-sm font-medium px-3 py-1 rounded-full">热销</span>
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-neutral-600 bg-neutral-100 px-3 py-1 rounded-full">狗狗</span>
+              <div class="flex items-center">
+                <i class="fa fa-mars text-blue-500 mr-1"></i>
+                <span class="text-sm text-neutral-600">公 · 3个月</span>
+              </div>
+            </div>
+            <h3 class="font-bold text-xl mb-1">金毛寻回犬幼犬</h3>
+            <p class="text-sm text-neutral-600 mb-3">温顺友善，聪明易训，适合家庭饲养</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥3,800</span>
+                <span class="text-neutral-400 text-sm line-through ml-2">¥4,500</span>
+              </div>
+              <button class="bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors text-sm">
+                立即购买
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 宠物卡片2 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/40/500/500" alt="布偶猫" class="w-full h-64 object-cover">
+            <span class="absolute top-3 left-3 bg-green-500 text-white text-sm font-medium px-3 py-1 rounded-full">纯种</span>
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-neutral-600 bg-neutral-100 px-3 py-1 rounded-full">猫咪</span>
+              <div class="flex items-center">
+                <i class="fa fa-venus text-pink-500 mr-1"></i>
+                <span class="text-sm text-neutral-600">母 · 4个月</span>
+              </div>
+            </div>
+            <h3 class="font-bold text-xl mb-1">布偶猫幼猫</h3>
+            <p class="text-sm text-neutral-600 mb-3">性格温顺，长相甜美，蓝色眼睛</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥6,500</span>
+              </div>
+              <button class="bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors text-sm">
+                立即购买
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 宠物卡片3 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1024/500/500" alt="垂耳兔" class="w-full h-64 object-cover">
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-neutral-600 bg-neutral-100 px-3 py-1 rounded-full">小宠</span>
+              <div class="flex items-center">
+                <i class="fa fa-mars text-blue-500 mr-1"></i>
+                <span class="text-sm text-neutral-600">公 · 2个月</span>
+              </div>
+            </div>
+            <h3 class="font-bold text-xl mb-1">荷兰垂耳兔</h3>
+            <p class="text-sm text-neutral-600 mb-3">性格温顺，可爱亲人，适合家庭饲养</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥680</span>
+              </div>
+              <button class="bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors text-sm">
+                立即购买
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 宠物卡片4 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1069/500/500" alt="鹦鹉" class="w-full h-64 object-cover">
+            <span class="absolute top-3 left-3 bg-secondary text-white text-sm font-medium px-3 py-1 rounded-full">会说话</span>
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-neutral-600 bg-neutral-100 px-3 py-1 rounded-full">鸟类</span>
+              <div class="flex items-center">
+                <i class="fa fa-venus text-pink-500 mr-1"></i>
+                <span class="text-sm text-neutral-600">母 · 8个月</span>
+              </div>
+            </div>
+            <h3 class="font-bold text-xl mb-1">非洲灰鹦鹉</h3>
+            <p class="text-sm text-neutral-600 mb-3">聪明伶俐，学习能力强，能说会道</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥8,200</span>
+              </div>
+              <button class="bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors text-sm">
+                立即购买
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 宠物卡片5 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.5s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1070/500/500" alt="柯基犬" class="w-full h-64 object-cover">
+            <span class="absolute top-3 left-3 bg-green-500 text-white text-sm font-medium px-3 py-1 rounded-full">纯种</span>
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-neutral-600 bg-neutral-100 px-3 py-1 rounded-full">狗狗</span>
+              <div class="flex items-center">
+                <i class="fa fa-venus text-pink-500 mr-1"></i>
+                <span class="text-sm text-neutral-600">母 · 3个月</span>
+              </div>
+            </div>
+            <h3 class="font-bold text-xl mb-1">彭布罗克柯基犬</h3>
+            <p class="text-sm text-neutral-600 mb-3">活泼可爱，聪明机警，短腿大屁股</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥5,500</span>
+                <span class="text-neutral-400 text-sm line-through ml-2">¥6,800</span>
+              </div>
+              <button class="bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors text-sm">
+                立即购买
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 宠物卡片6 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.6s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/219/500/500" alt="英国短毛猫" class="w-full h-64 object-cover">
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-neutral-600 bg-neutral-100 px-3 py-1 rounded-full">猫咪</span>
+              <div class="flex items-center">
+                <i class="fa fa-mars text-blue-500 mr-1"></i>
+                <span class="text-sm text-neutral-600">公 · 5个月</span>
+              </div>
+            </div>
+            <h3 class="font-bold text-xl mb-1">英国短毛猫</h3>
+            <p class="text-sm text-neutral-600 mb-3">蓝灰色毛发，圆脸大眼睛，性格温和</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥4,200</span>
+              </div>
+              <button class="bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors text-sm">
+                立即购买
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 宠物卡片7 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.7s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1074/500/500" alt="仓鼠" class="w-full h-64 object-cover">
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-neutral-600 bg-neutral-100 px-3 py-1 rounded-full">小宠</span>
+              <div class="flex items-center">
+                <i class="fa fa-venus text-pink-500 mr-1"></i>
+                <span class="text-sm text-neutral-600">母 · 1个月</span>
+              </div>
+            </div>
+            <h3 class="font-bold text-xl mb-1">金丝熊仓鼠</h3>
+            <p class="text-sm text-neutral-600 mb-3">体型较小，性格温顺，易于饲养</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥120</span>
+              </div>
+              <button class="bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors text-sm">
+                立即购买
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 宠物卡片8 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.8s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1025/500/500" alt="观赏鱼" class="w-full h-64 object-cover">
+            <span class="absolute top-3 left-3 bg-green-500 text-white text-sm font-medium px-3 py-1 rounded-full">稀有</span>
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-neutral-600 bg-neutral-100 px-3 py-1 rounded-full">水族</span>
+              <div class="flex items-center">
+                <span class="text-sm text-neutral-600">一对 · 6个月</span>
+              </div>
+            </div>
+            <h3 class="font-bold text-xl mb-1">七彩神仙鱼</h3>
+            <p class="text-sm text-neutral-600 mb-3">色彩艳丽，游姿优雅，观赏性极强</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥1,580</span>
+              </div>
+              <button class="bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors text-sm">
+                立即购买
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 分页控件 -->
+      <div class="flex justify-center mt-12 fade-in">
+        <nav class="flex items-center space-x-2">
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-200 text-neutral-600 hover:bg-primary hover:text-white transition-colors">
+            <i class="fa fa-chevron-left"></i>
+          </a>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white">1</a>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-200 text-neutral-600 hover:bg-primary hover:text-white transition-colors">2</a>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-200 text-neutral-600 hover:bg-primary hover:text-white transition-colors">3</a>
+          <span class="px-2 text-neutral-400">...</span>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-200 text-neutral-600 hover:bg-primary hover:text-white transition-colors">8</a>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-200 text-neutral-600 hover:bg-primary hover:text-white transition-colors">
+            <i class="fa fa-chevron-right"></i>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- 服务保障 -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12 fade-in">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">我们的服务保障</h2>
+        <p class="text-neutral-600 max-w-2xl mx-auto">我们为每一只宠物提供全面的健康保障和完善的售后服务</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="text-center p-6 rounded-xl bg-neutral-100 card-hover fade-in" style="transition-delay: 0.1s">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fa fa-heartbeat text-primary text-2xl"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">健康检查</h3>
+          <p class="text-neutral-600 text-sm">所有宠物均经过全面健康检查，确保无遗传疾病和传染病</p>
+        </div>
+        
+        <div class="text-center p-6 rounded-xl bg-neutral-100 card-hover fade-in" style="transition-delay: 0.2s">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fa fa-shield text-primary text-2xl"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">疫苗接种</h3>
+          <p class="text-neutral-600 text-sm">提供完整的疫苗接种记录和后续接种指导</p>
+        </div>
+        
+        <div class="text-center p-6 rounded-xl bg-neutral-100 card-hover fade-in" style="transition-delay: 0.3s">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fa fa-refresh text-primary text-2xl"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">7天无忧退换</h3>
+          <p class="text-neutral-600 text-sm">购买后7天内如发现健康问题，可申请退换</p>
+        </div>
+        
+        <div class="text-center p-6 rounded-xl bg-neutral-100 card-hover fade-in" style="transition-delay: 0.4s">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fa fa-headphones text-primary text-2xl"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">专业咨询</h3>
+          <p class="text-neutral-600 text-sm">提供终身饲养咨询和健康指导服务</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 常见问题 -->
+  <section class="py-16 bg-neutral-100">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12 fade-in">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">常见问题</h2>
+        <p class="text-neutral-600 max-w-2xl mx-auto">解答您关于购买宠物的常见疑问</p>
+      </div>
+      
+      <div class="max-w-3xl mx-auto space-y-4">
+        <div class="bg-white rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.1s">
+          <h3 class="font-bold text-lg mb-2 flex items-center">
+            <i class="fa fa-question-circle text-primary mr-2"></i>
+            如何选择适合自己的宠物？
+          </h3>
+          <p class="text-neutral-600">我们的专业顾问会根据您的生活环境、家庭成员、空闲时间等因素，为您推荐最适合的宠物品种。</p>
+        </div>
+        
+        <div class="bg-white rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.2s">
+          <h3 class="font-bold text-lg mb-2 flex items-center">
+            <i class="fa fa-question-circle text-primary mr-2"></i>
+            宠物送达的方式是什么？
+          </h3>
+          <p class="text-neutral-600">我们提供专业的宠物配送服务，确保宠物在运输过程中的安全与舒适。同城可免费配送，异地配送根据距离收取适量费用。</p>
+        </div>
+        
+        <div class="bg-white rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.3s">
+          <h3 class="font-bold text-lg mb-2 flex items-center">
+            <i class="fa fa-question-circle text-primary mr-2"></i>
+            购买后如何获得饲养指导？
+          </h3>
+          <p class="text-neutral-600">购买后我们将提供详细的饲养手册，并可通过微信、电话等方式联系我们的专业饲养顾问，获得终身咨询服务。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+{% endblock %}
