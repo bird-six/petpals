@@ -5,4 +5,5 @@ app_name = 'pets'
 urlpatterns = [
     # path('', views.index, name='index'),
     path('', views.pets, name='pets'),
+    path('detail/', views.detail, name='detail'),
 ]

@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.pets import views as pets_views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +28,7 @@ urlpatterns = [
     path('products/', include('apps.products.urls', namespace='products')),
     path('services/', include('apps.services.urls', namespace='services')),
     path('community/', include('apps.community.urls', namespace='community')),
+    path('users/', include('apps.users.urls', namespace='users')),
     path('test/', pets_views.test, name='test'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
