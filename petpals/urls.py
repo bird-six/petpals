@@ -29,6 +29,7 @@ urlpatterns = [
     path('services/', include('apps.services.urls', namespace='services')),
     path('community/', include('apps.community.urls', namespace='community')),
     path('users/', include('apps.users.urls', namespace='users')),
+    path('cart/', include('apps.cart.urls', namespace='cart')),
     path('test/', pets_views.test, name='test'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

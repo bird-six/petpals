@@ -3,7 +3,6 @@ from apps.pets import views
 
 app_name = 'pets'
 urlpatterns = [
-    # path('', views.index, name='index'),
     path('', views.pets, name='pets'),
-    path('detail/', views.detail, name='detail'),
+    path('detail/<int:pet_id>/', views.detail, name='detail'),
 ]

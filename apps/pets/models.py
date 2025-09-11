@@ -13,7 +13,7 @@ def pet_image_path(instance, filename):
     current_time = datetime.now().strftime("%Y%m%d%H%M%S")
 
     # 构建新的文件名：宠物类别-宠物名字-当前时间.扩展名
-    new_filename = f"{instance.species}-{instance.name}-{current_time}.{ext}"
+    new_filename = f"{instance.pet.species}-{instance.pet.name}-{current_time}.{ext}"
 
     # 返回完整路径
     return os.path.join('pets/', new_filename)
@@ -46,11 +46,11 @@ class PetImage(models.Model):
 
 class Pet(models.Model):
     SPECIES_CHOICES = [
-        ('cat', '猫咪'),
-        ('dog', '狗狗'),
-        ('little', '小宠'),
-        ('aquatic', '水族'),
-        ('bird', '鸟类'),
+        ('猫咪', '猫咪'),
+        ('狗狗', '狗狗'),
+        ('小宠', '小宠'),
+        ('水族', '水族'),
+        ('鸟类', '鸟类'),
     ]
     species = models.CharField(
         null=False,
@@ -64,8 +64,8 @@ class Pet(models.Model):
     birth_date = models.DateField(verbose_name="出生日期", null=False, blank=False)  # 宠物出生日期
     weight = models.FloatField(verbose_name='宠物重量(斤)')  # 宠物重量
     GENDER_CHOICES = [
-        ('male', '公'),
-        ('female', '母'),
+        ('公', '公'),
+        ('母', '母'),
     ]
     gender = models.CharField(
         max_length=10,
@@ -74,6 +74,18 @@ class Pet(models.Model):
         null=False,
         blank=False,
     )  # 宠物性别
+    FERTILE_CHOICES = [
+        ('是', '是'),
+        ('否', '否'),
+    ]
+    is_fertile = models.CharField(
+        max_length=5,
+        choices=FERTILE_CHOICES,
+        verbose_name='是否可生育',
+        null=True,
+        blank=True,
+        default='是'
+    )  # 是否可生育
     description = models.TextField(verbose_name='宠物描述', null=False, blank=False)  # 宠物描述
     price = models.FloatField(verbose_name='宠物价格(元)', null=False, blank=False)  # 宠物价格
     tag = models.CharField(max_length=5, verbose_name='宠物标签', null=True, blank=True)  # 宠物标签
