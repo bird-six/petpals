@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录/注册 - PetPals</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4F6F52',
+            secondary: '#F99417',
+            neutral: {
+              100: '#F8FAFC',
+              200: '#E2E8F0',
+              300: '#CBD5E1',
+              400: '#94A3B8',
+              500: '#64748B',
+              600: '#475569',
+              700: '#334155',
+              800: '#1E293B',
+              900: '#0F172A',
+            }
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+<style>
+  /* 保留原有其他样式，替换.btn-primary的定义 */
+  @layer utilities {
+    .content-auto {
+      content-visibility: auto;
+    }
+    .text-shadow {
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .card-hover {
+      @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+    }
+    /* 移除原有.btn-primary定义，移到下方普通CSS */
+    .btn-primary-loading {
+      @apply bg-secondary/80 cursor-not-allowed;
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .error-message {
+      @apply text-red-500 text-sm mt-1 animate-fade-in;
+    }
+    .input-error {
+      @apply border-red-500 focus:ring-red-200 focus:border-red-500;
+    }
+  }
+  
+  .btn-primary {
+    background-color: #F99417; 
+    color: white;
+    padding: 0.75rem 1.5rem; 
+    border-radius: 9999px; 
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    background-color: rgba(249, 148, 23, 0.9); 
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+</style>
+</head>
+<body class="font-inter bg-neutral-100 text-neutral-800 overflow-x-hidden">
+  <section class="py-20 bg-gradient-to-br from-primary/5 to-primary/10 min-h-screen flex items-center">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-6xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div class="grid md:grid-cols-2">
+            <!-- 左侧图片区域 -->
+            <div class="hidden md:block relative">
+              <img src="/static/image/柯基.jpg" alt="宠物伙伴" class="absolute inset-0 w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary/40 flex items-center justify-center">
+                <div class="text-center px-8 text-white">
+                  <div class="mb-8 fade-in">
+                    <div class="flex items-center justify-center space-x-2 mb-4">
+                      <span class="text-secondary text-3xl"><i class="fa fa-paw"></i></span>
+                      <span class="text-3xl font-bold">PetPals</span>
+                    </div>
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4 leading-tight">
+                      欢迎回来，爱宠人士
+                    </h2>
+                    </div>
+                  <p class="text-white/90 mb-8 text-lg">加入我们的宠物爱好者社区，为您的爱宠获取更多专业服务</p>
+                  <div class="flex flex-col items-center space-y-4">
+                    <div class="flex items-center text-white/90">
+                      <i class="fa fa-check-circle mr-2"></i>
+                      <span>专业的宠物护理建议</span>
+                    </div>
+                    <div class="flex items-center text-white/90">
+                      <i class="fa fa-check-circle mr-2"></i>
+                      <span>优质宠物用品推荐</span>
+                    </div>
+                    <div class="flex items-center text-white/90">
+                      <i class="fa fa-check-circle mr-2"></i>
+                      <span>宠物主人交流社区</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 右侧表单区域 -->
+            <div class="p-8 md:p-12">
+              <div class="text-center mb-10">
+                <h1 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-neutral-900 mb-2" id="form-title">登录您的账户</h1>
+                <p class="text-neutral-600" id="form-subtitle">欢迎回来，请登录继续</p>
+              </div>
+              
+              <!-- 选项卡切换 -->
+              <div class="flex mb-8 rounded-lg overflow-hidden border border-neutral-200">
+                <button id="login-tab" class="flex-1 py-3 text-center font-medium transition-colors bg-primary text-white">
+                  登录
+                </button>
+                <button id="register-tab" class="flex-1 py-3 text-center font-medium transition-colors bg-neutral-100 text-neutral-600 hover:bg-neutral-200">
+                  注册
+                </button>
+              </div>
+              
+              <!-- 登录表单 -->
+              <form id="login-form" class="space-y-6" action="/users/login/" method="POST">
+                {% csrf_token %}
+                <!-- 错误提示区域 -->
+                <div id="login-error" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded relative" role="alert">
+                  <strong class="font-bold">登录失败！</strong>
+                  <span class="block sm:inline" id="login-error-message">请检查您的邮箱和密码</span>
+                </div>
+                
+                <div>
+                  <label for="email" class="block text-sm font-medium text-neutral-700 mb-1">电子邮箱</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <i class="fa fa-envelope text-neutral-400"></i>
+                    </div>
+                    <input type="email" id="email" name="email" placeholder="请输入您的邮箱" class="w-full pl-10 pr-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" required>
+                    <div class="error-message hidden" id="email-error"></div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <label for="password" class="block text-sm font-medium text-neutral-700">密码</label>
+                    <a href="#" class="text-sm text-primary hover:text-secondary transition-colors">忘记密码?</a>
+                  </div>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <i class="fa fa-lock text-neutral-400"></i>
+                    </div>
+                    <input type="password" id="password" name="password" placeholder="请输入您的密码" class="w-full pl-10 pr-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" required>
+                    <div class="error-message hidden" id="password-error"></div>
+                  </div>
+                </div>
+                
+                <div class="flex items-center">
+                  <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+                  <label for="remember-me" class="ml-2 block text-sm text-neutral-700">
+                    记住我的登录状态
+                  </label>
+                </div>
+                
+                <button type="submit" class="w-full btn-primary" id="login-button">
+                  <span id="login-button-text">登录账户</span>
+                  <span id="login-loading" class="hidden"><i class="fa fa-spinner fa-spin mr-2"></i>登录中...</span>
+                </button>
+              </form>
+                
+              
+              <!-- 注册表单 (默认隐藏) -->
+              <form id="register-form" class="space-y-6 hidden" action="/users/register/" method="POST">
+                {% csrf_token %}
+                <!-- 错误提示区域 -->
+                <div id="register-error" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded relative" role="alert">
+                  <strong class="font-bold">注册失败！</strong>
+                  <span class="block sm:inline" id="register-error-message">请检查您输入的信息</span>
+                </div>
+                  
+                <div>
+                  <label for="register-email" class="block text-sm font-medium text-neutral-700 mb-1">电子邮箱</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <i class="fa fa-envelope text-neutral-400"></i>
+                    </div>
+                    <input type="email" id="register-email" name="email" placeholder="请输入您的邮箱" class="w-full pl-10 pr-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" required>
+                    <div class="error-message hidden" id="register-email-error"></div>
+                  </div>
+                </div>
+                
+                <div>
+                  <label for="register-password" class="block text-sm font-medium text-neutral-700 mb-1">密码</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <i class="fa fa-lock text-neutral-400"></i>
+                    </div>
+                    <input type="password" id="register-password" name="password" placeholder="请设置密码（至少8位）" class="w-full pl-10 pr-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" required>
+                    <div class="error-message hidden" id="register-password-error"></div>
+                  </div>
+                </div>
+                
+                <div>
+                  <label for="confirm-password" class="block text-sm font-medium text-neutral-700 mb-1">确认密码</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <i class="fa fa-lock text-neutral-400"></i>
+                    </div>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="请再次输入密码" class="w-full pl-10 pr-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" required>
+                    <div class="error-message hidden" id="confirm-password-error"></div>
+                  </div>
+                </div>
+                
+                <div class="flex items-start">
+                  <input id="terms" name="terms" type="checkbox" class="h-4 w-4 mt-1 text-primary focus:ring-primary border-neutral-300 rounded" required>
+                  <label for="terms" class="ml-2 block text-sm text-neutral-700">
+                    我已阅读并同意<a href="#" class="text-primary hover:text-secondary transition-colors">用户协议</a>和<a href="#" class="text-primary hover:text-secondary transition-colors">隐私政策</a>
+                  </label>
+                  <div class="error-message hidden ml-2" id="terms-error"></div>
+                </div>
+                
+                <button type="submit" class="w-full btn-primary" id="register-button">
+                  <span id="register-button-text">创建账户</span>
+                  <span id="register-loading" class="hidden"><i class="fa fa-spinner fa-spin mr-2"></i>注册中...</span>
+                </button>
+              </form>
+              
+              <div class="relative my-8">
+                <div class="absolute inset-0 flex items-center">
+                  <div class="w-full border-t border-neutral-200"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                  <span class="px-2 bg-white text-neutral-500">或使用以下方式登录</span>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-3 gap-4">
+                <button class="flex items-center justify-center py-3 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors">
+                  <i class="fa fa-weixin text-green-500 text-xl"></i>
+                </button>
+                <button class="flex items-center justify-center py-3 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors">
+                  <i class="fa fa-qq text-blue-500 text-xl"></i>
+                </button>
+                <button class="flex items-center justify-center py-3 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors">
+                  <i class="fa fa-weibo text-red-500 text-xl"></i>
+                </button>
+              </div>
+              
+              <p class="text-center text-neutral-600 mt-8" id="toggle-text">
+                还没有账户? <a href="#" id="show-register" class="text-primary font-medium hover:text-secondary transition-colors">立即注册</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+      // 选项卡切换功能
+      const loginTab = document.getElementById('login-tab');
+      const registerTab = document.getElementById('register-tab');
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+      const formTitle = document.getElementById('form-title');
+      const formSubtitle = document.getElementById('form-subtitle');
+      const toggleText = document.getElementById('toggle-text');
+      const showRegister = document.getElementById('show-register');
+      const showLogin = document.createElement('a');
+      showLogin.href = '#';
+      showLogin.className = 'text-primary font-medium hover:text-secondary transition-colors';
+      showLogin.textContent = '立即登录';
+
+      // 切换到登录表单
+      function switchToLogin() {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        loginTab.classList.remove('bg-neutral-100', 'text-neutral-600');
+        loginTab.classList.add('bg-primary', 'text-white');
+        registerTab.classList.remove('bg-primary', 'text-white');
+        registerTab.classList.add('bg-neutral-100', 'text-neutral-600');
+        formTitle.textContent = '登录您的账户';
+        formSubtitle.textContent = '欢迎回来，请登录继续';
+        toggleText.innerHTML = '还没有账户? ';
+        toggleText.appendChild(showRegister);
+        
+        // 更新URL但不刷新页面
+        history.pushState(null, null, '/users/login');
+        
+        // 清除错误信息
+        clearErrors(['login-error', 'email-error', 'password-error']);
+      }
+
+      // 切换到注册表单
+      function switchToRegister() {
+        registerForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+        registerTab.classList.remove('bg-neutral-100', 'text-neutral-600');
+        registerTab.classList.add('bg-primary', 'text-white');
+        loginTab.classList.remove('bg-primary', 'text-white');
+        loginTab.classList.add('bg-neutral-100', 'text-neutral-600');
+        formTitle.textContent = '创建新账户';
+        formSubtitle.textContent = '加入我们，开启宠物护理新体验';
+        toggleText.innerHTML = '已有账户? ';
+        toggleText.appendChild(showLogin);
+        
+        // 更新URL但不刷新页面
+        history.pushState(null, null, '/users/register');
+        
+        // 清除错误信息
+        clearErrors(['register-error', 'register-email-error', 
+            'register-password-error', 'confirm-password-error', 'terms-error']);
+      }
+
+      // 事件监听 - 选项卡切换
+      loginTab.addEventListener('click', switchToLogin);
+      registerTab.addEventListener('click', switchToRegister);
+      showRegister.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchToRegister();
+      });
+      showLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchToLogin();
+      });
+
+      // 根据当前URL决定显示哪个表单
+      if (window.location.pathname === '/users/register') {
+        switchToRegister();
+      } else {
+        switchToLogin();
+      }
+
+      // 表单提交处理 - 登录
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // 前端验证
+        if (!validateLoginForm()) {
+          return;
+        }
+        
+        // 显示加载状态
+        showLoading('login');
+        
+        // 获取表单数据
+        const formData = new FormData(this);
+        
+        // 发送登录请求
+        fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          credentials: 'include' 
+        })
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+              throw new Error(data.message || '登录失败，请检查您的信息');
+            });
+          }
+          return response.json();
+        })
+        .then(data => {
+          // 登录成功
+          hideLoading('login');
+          
+          // 显示成功消息或直接跳转
+          if (data.redirect) {
+            window.location.href = data.redirect;
+          } else {
+            // 如果没有指定跳转地址，默认跳转到首页
+            window.location.href = '/';
+          }
+        })
+        .catch(error => {
+          // 显示错误信息
+          hideLoading('login');
+          showError('login-error', 'login-error-message', error.message);
+          
+          // 如果有字段错误，显示在对应字段下方
+          if (error.fields) {
+            for (const [field, message] of Object.entries(error.fields)) {
+              showFieldError(field + '-error', message);
+            }
+          }
+        });
+      });
+
+      // 表单提交处理 - 注册
+      registerForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // 前端验证
+        if (!validateRegisterForm()) {
+          return;
+        }
+        
+        // 显示加载状态
+        showLoading('register');
+        
+        // 获取表单数据
+        const formData = new FormData(this);
+        
+        // 发送注册请求
+        fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          credentials: 'same-origin'
+        })
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+              throw new Error(data.message || '注册失败，请检查您的信息');
+            });
+          }
+          return response.json();
+        })
+        .then(data => {
+          // 注册成功
+          hideLoading('register');
+          
+          // 显示成功消息
+          showSuccessMessage('注册成功！请登录您的账户');
+          
+          // 切换到登录表单
+          setTimeout(switchToLogin, 2000);
+        })
+        .catch(error => {
+          // 显示错误信息
+          hideLoading('register');
+          showError('register-error', 'register-error-message', error.message);
+          
+          // 如果有字段错误，显示在对应字段下方
+          if (error.fields) {
+            for (const [field, message] of Object.entries(error.fields)) {
+              showFieldError(field + '-error', message);
+            }
+          }
+        });
+      });
+
+      // 登录表单验证
+      function validateLoginForm() {
+        let isValid = true;
+        clearErrors(['email-error', 'password-error']);
+        
+        // 验证邮箱
+        const email = document.getElementById('email').value.trim();
+        if (!email) {
+          showFieldError('email-error', '请输入您的邮箱');
+          isValid = false;
+        } else if (!isValidEmail(email)) {
+          showFieldError('email-error', '请输入有效的邮箱地址');
+          isValid = false;
+        }
+        
+        // 验证密码
+        const password = document.getElementById('password').value;
+        if (!password) {
+          showFieldError('password-error', '请输入您的密码');
+          isValid = false;
+        }
+        
+        return isValid;
+      }
+
+      // 注册表单验证
+      function validateRegisterForm() {
+        let isValid = true;
+        clearErrors(['register-email-error', 'register-password-error', 'confirm-password-error', 'terms-error']);
+          
+        // 验证邮箱
+        const email = document.getElementById('register-email').value.trim();
+        if (!email) {
+          showFieldError('register-email-error', '请输入您的邮箱');
+          isValid = false;
+        } else if (!isValidEmail(email)) {
+          showFieldError('register-email-error', '请输入有效的邮箱地址');
+          isValid = false;
+        }
+        
+        // 验证密码
+        const password = document.getElementById('register-password').value;
+        if (!password) {
+          showFieldError('register-password-error', '请设置您的密码');
+          isValid = false;
+        } else if (password.length < 8) {
+          showFieldError('register-password-error', '密码至少需要8个字符');
+          isValid = false;
+        }
+        
+        // 验证确认密码
+        const confirmPassword = document.getElementById('confirm-password').value;
+        if (!confirmPassword) {
+          showFieldError('confirm-password-error', '请再次输入密码');
+          isValid = false;
+        } else if (confirmPassword !== password) {
+          showFieldError('confirm-password-error', '两次输入的密码不一致');
+          isValid = false;
+        }
+        
+        // 验证同意条款
+        const terms = document.getElementById('terms').checked;
+        if (!terms) {
+          showFieldError('terms-error', '请阅读并同意用户协议和隐私政策');
+          isValid = false;
+        }
+        
+        return isValid;
+      }
+
+      // 工具函数 - 显示字段错误
+      function showFieldError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+          errorElement.textContent = message;
+          errorElement.classList.remove('hidden');
+          
+          // 给输入框添加错误样式
+          const inputElement = errorElement.closest('div').querySelector('input');
+          if (inputElement) {
+            inputElement.classList.add('input-error');
+            
+            // 输入时移除错误样式
+            inputElement.addEventListener('input', function handleInput() {
+              errorElement.classList.add('hidden');
+              inputElement.classList.remove('input-error');
+              inputElement.removeEventListener('input', handleInput);
+            });
+          }
+        }
+      }
+
+      // 工具函数 - 显示错误消息
+      function showError(containerId, messageId, message) {
+        const container = document.getElementById(containerId);
+        const messageElement = document.getElementById(messageId);
+        
+        if (container && messageElement) {
+          messageElement.textContent = message;
+          container.classList.remove('hidden');
+          
+          // 3秒后自动隐藏
+          setTimeout(() => {
+            container.classList.add('hidden');
+          }, 5000);
+        }
+      }
+
+      // 工具函数 - 清除错误
+      function clearErrors(elementIds) {
+        elementIds.forEach(id => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.classList.add('hidden');
+            
+            // 清除输入框错误样式
+            if (id.includes('-error') && id !== 'login-error' && id !== 'register-error') {
+              const inputElement = element.closest('div').querySelector('input');
+              if (inputElement) {
+                inputElement.classList.remove('input-error');
+              }
+            }
+          }
+        });
+      }
+
+      // 工具函数 - 显示加载状态
+      function showLoading(type) {
+        const button = document.getElementById(`${type}-button`);
+        const buttonText = document.getElementById(`${type}-button-text`);
+        const loading = document.getElementById(`${type}-loading`);
+        
+        if (button && buttonText && loading) {
+          button.classList.add('btn-primary-loading');
+          buttonText.classList.add('hidden');
+          loading.classList.remove('hidden');
+          button.disabled = true;
+        }
+      }
+
+      // 工具函数 - 隐藏加载状态
+      function hideLoading(type) {
+        const button = document.getElementById(`${type}-button`);
+        const buttonText = document.getElementById(`${type}-button-text`);
+        const loading = document.getElementById(`${type}-loading`);
+        
+        if (button && buttonText && loading) {
+          button.classList.remove('btn-primary-loading');
+          buttonText.classList.remove('hidden');
+          loading.classList.add('hidden');
+          button.disabled = false;
+        }
+      }
+
+      // 工具函数 - 显示成功消息
+      function showSuccessMessage(message) {
+        // 创建临时成功消息元素
+        const successDiv = document.createElement('div');
+        successDiv.className = 'bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded relative mb-6';
+        successDiv.role = 'alert';
+        successDiv.innerHTML = `<strong class="font-bold">成功！</strong><span class="block sm:inline"> ${message}</span>`;
+        
+        // 添加到注册表单顶部
+        const registerForm = document.getElementById('register-form');
+        registerForm.insertBefore(successDiv, registerForm.firstChild);
+        
+        // 3秒后移除
+        setTimeout(() => {
+          successDiv.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+          setTimeout(() => successDiv.remove(), 500);
+        }, 3000);
+      }
+
+      // 工具函数 - 验证邮箱格式
+      function isValidEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+      }
+
+      // 页面加载动画
+      document.querySelectorAll('.fade-in').forEach(el => {
+        el.classList.add('visible');
+      });
+    });
+  </script>
+</body>
+</html>

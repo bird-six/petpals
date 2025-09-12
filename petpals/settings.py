@@ -139,6 +139,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+
 MEDIA_URL = '/media/'  # 媒体文件的URL前缀
 MEDIA_ROOT = BASE_DIR / 'media'  # 媒体文件存储的物理路径
 
