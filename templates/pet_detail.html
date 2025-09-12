@@ -1,0 +1,451 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- 商品详情头部 -->
+    <section class="pt-16 md:pt-20 bg-primary/5">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900">{{ pet.name }}</h1>
+                    <p class="text-neutral-600 mt-2">健康活泼的{{ pet.species }}，给您的家庭带来欢乐</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <a href="{% url 'pets:pets' %}" class="text-primary flex items-center hover:text-secondary transition-colors">
+                        <i class="fa fa-arrow-left mr-2"></i>
+                        返回宠物列表
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 商品详情主体 -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <!-- 左侧图片区域 -->
+                <div class="fade-in">
+                    <div class="bg-neutral-100 rounded-xl overflow-hidden mb-4 relative">
+                        <!-- 轮播图容器 -->
+                        <div id="carousel-container" class="w-full h-full relative overflow-hidden">
+                            <!-- 滑动图片容器 -->
+                            <div id="carousel-slider" class="w-full h-full flex transition-transform duration-500 ease-in-out">
+                                {% for image in pet.images.all %}
+                                    <img src="{{ image.image.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover flex-shrink-0">
+                                {% endfor %}
+                            </div>
+                            <!-- 轮播指示器 -->
+                            <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+                                {% for image in pet.images.all %}
+                                    <button class="w-2 h-2 rounded-full bg-white/70 hover:bg-white transition-colors carousel-indicator" data-index="{{ forloop.counter0 }}"></button>
+                                {% endfor %}
+                            </div>
+                            <!-- 轮播控制按钮 -->
+                            <button id="prev-btn" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white text-neutral-800 p-2 rounded-full transition-colors">
+                                <i class="fa fa-chevron-left"></i>
+                            </button>
+                            <button id="next-btn" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white text-neutral-800 p-2 rounded-full transition-colors">
+                                <i class="fa fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- 缩略图区域  -->
+                    <div class="flex justify-center items-center">
+                        <div class="flex flex-wrap justify-center gap-3 w-full max-w-lg">
+                            {% for image in pet.images.all %}
+                                <div class="bg-neutral-100 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-primary transition-all thumbnail" data-index="{{ forloop.counter0 }}">
+                                    <img src="{{ image.image.url }}" alt="{{ pet.name }}" class="w-full h-24 object-cover">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧信息区域 -->
+                
+                <div class="fade-in" style="transition-delay: 0.2s">
+                    <div class="bg-neutral-100 rounded-xl p-6 mb-6">
+                        <div class="flex items-center mb-4">
+                            <span class="text-primary font-bold text-3xl">¥{{ pet.price }}</span>
+                            <span class="ml-3 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">健康认证</span>
+                            <span class="ml-3 bg-secondary text-white text-xs px-2 py-1 rounded-full">热门</span>
+                        </div>
+                        
+                        <div class="border-t border-b border-neutral-200 py-4 mb-4">
+                            <div class="flex justify-between mb-3">
+                                <span class="text-neutral-600">品种</span>
+                                <span class="font-medium">{{ pet.breed }}</span>
+                            </div>
+                            <div class="flex justify-between mb-3">
+                                <span class="text-neutral-600">年龄</span>
+                                <span class="font-medium">{{ pet.age }}</span>
+                            </div>
+                            <div class="flex justify-between mb-3">
+                                <span class="text-neutral-600">性别</span>
+                                <span class="font-medium">{{ pet.gender }}</span>
+                            </div>
+                            <div class="flex justify-between mb-3">
+                                <span class="text-neutral-600">生育能力</span>
+                                <span class="font-medium">{{ pet.is_fertile }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-neutral-600">健康状态</span>
+                                <span class="font-medium text-green-600">健康</span>
+                            </div>
+                        </div>
+                        
+                        <!--  
+                        <div class="mb-6">
+                            <h3 class="font-medium text-lg mb-2">数量</h3>
+                            <div class="flex items-center w-32 border border-neutral-300 rounded-lg">
+                                <button class="w-10 h-10 flex items-center justify-center hover:bg-neutral-200 transition-colors">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <input type="number" value="1" min="1" class="w-12 h-10 text-center border-x border-neutral-300">
+                                <button class="w-10 h-10 flex items-center justify-center hover:bg-neutral-200 transition-colors">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        -->
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors flex-1 text-center">
+                                立即购买
+                            </button>
+                            <button class="bg-secondary text-white px-6 py-3 rounded-lg hover:bg-secondary/90 transition-colors flex-1 text-center">
+                                加入购物车
+                            </button>
+                            <button class="bg-neutral-200 p-3 rounded-lg hover:bg-neutral-300 transition-colors">
+                                <i class="fa fa-heart-o text-neutral-800"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-neutral-100 rounded-xl p-6">
+                        <h3 class="font-medium text-lg mb-4 flex items-center">
+                            <i class="fa fa-map-marker text-primary mr-2"></i>
+                            自提点信息
+                        </h3>
+                        <p class="text-neutral-600 mb-3">地址：北京市朝阳区建国路88号PetPals宠物中心</p>
+                        <p class="text-neutral-600 mb-4">营业时间：周一至周日 9:00-21:00</p>
+                        <div class="flex items-center gap-4">
+                            <button class="bg-secondary text-white px-12 py-3 rounded-lg hover:bg-secondary/90 transition-colors text-center">
+                                预约看宠
+                            </button>
+                            <a href="#" class="text-primary hover:text-secondary transition-colors flex items-center ml-auto">
+                                查看地图位置
+                                <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 商品详情描述 -->
+    <section class="py-12 bg-neutral-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="border-b border-neutral-300 mb-8">
+                    <div class="flex space-x-8">
+                        <button class="py-4 border-b-2 border-primary text-primary font-medium">宠物介绍</button>
+                        <button class="py-4 border-b-2 border-transparent text-neutral-600 hover:text-neutral-900 transition-colors">健康档案</button>
+                        <button class="py-4 border-b-2 border-transparent text-neutral-600 hover:text-neutral-900 transition-colors">购买须知</button>
+                        <button class="py-4 border-b-2 border-transparent text-neutral-600 hover:text-neutral-900 transition-colors">评价 (24)</button>
+                    </div>
+                </div>
+                
+                <div class="fade-in">
+                    <h3 class="text-xl font-bold mb-4">关于{{ pet.name }}</h3>
+                    <p class="text-neutral-600 mb-6">
+                        {{ pet.description }}
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        {% for image in pet.images.all %}
+                            <img src="{{ image.image.url }}" alt="{{ pet.name }}" class="w-full h-64 object-cover rounded-xl">
+                        {% endfor %}
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-4">性格特点</h3>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span class="text-neutral-600">温顺友好，适合家庭饲养</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span class="text-neutral-600">聪明易训，服从性高</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span class="text-neutral-600">对小孩和其他宠物友善</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span class="text-neutral-600">活泼好动，需要适量运动</span>
+                        </li>
+                    </ul>
+                    
+                    <h3 class="text-xl font-bold mb-4">包含物品</h3>
+                    <p class="text-neutral-600 mb-4">购买此金毛幼犬将包含以下物品：</p>
+                    <div class="bg-white p-6 rounded-xl mb-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex items-center">
+                                <i class="fa fa-check text-green-500 mr-3"></i>
+                                <span>宠物健康手册</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa fa-check text-green-500 mr-3"></i>
+                                <span>疫苗接种记录</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa fa-check text-green-500 mr-3"></i>
+                                <span>一个月量幼犬粮</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa fa-check text-green-500 mr-3"></i>
+                                <span>宠物用品 starter kit</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa fa-check text-green-500 mr-3"></i>
+                                <span>免费首次体检券</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa fa-check text-green-500 mr-3"></i>
+                                <span>30天健康保障</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务保障 -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">我们的保障</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">为您和您的爱宠提供全方位的保障服务</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-neutral-100 p-6 rounded-xl text-center card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-heartbeat text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">健康检查</h3>
+                    <p class="text-neutral-600 text-sm">所有宠物均经过全面健康检查，确保无遗传疾病和传染病</p>
+                </div>
+                
+                <div class="bg-neutral-100 p-6 rounded-xl text-center card-hover fade-in" style="transition-delay: 0.2s">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-shield text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">疫苗接种</h3>
+                    <p class="text-neutral-600 text-sm">提供完整的疫苗接种记录和后续接种指导</p>
+                </div>
+                
+                <div class="bg-neutral-100 p-6 rounded-xl text-center card-hover fade-in" style="transition-delay: 0.3s">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-refresh text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">30天健康保障</h3>
+                    <p class="text-neutral-600 text-sm">购买后30天内如发现健康问题，可申请退换</p>
+                </div>
+                
+                <div class="bg-neutral-100 p-6 rounded-xl text-center card-hover fade-in" style="transition-delay: 0.4s">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-headphones text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">专业咨询</h3>
+                    <p class="text-neutral-600 text-sm">提供终身饲养咨询和健康指导服务</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 相关推荐 -->
+    <section class="py-12 bg-neutral-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-10 fade-in">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900">相似宠物推荐</h2>
+                <a href="{% url 'pets:pets' %}" class="text-primary font-medium flex items-center hover:text-secondary transition-colors">
+                    查看更多
+                    <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 推荐宠物 -->
+                <div class="bg-neutral-100 rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/1025/500/500" alt="拉布拉多幼犬" class="w-full h-64 object-cover">
+                        <span class="absolute top-3 left-3 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">已接种疫苗</span>
+                        <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+                            <i class="fa fa-heart-o text-neutral-800"></i>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-lg mb-1">拉布拉多幼犬</h3>
+                        <p class="text-sm text-neutral-600 mb-3">3个月大，温顺聪明，适合家庭</p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-primary font-bold text-xl">¥3800.00</span>
+                            </div>
+                            <button class="bg-primary text-white px-3 py-1.5 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-4">常见问题</h2>
+                <p class="text-neutral-600 max-w-2xl mx-auto">解答您关于购买此宠物的常见疑问</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="bg-neutral-100 rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.1s">
+                    <h3 class="font-bold text-lg mb-2 flex items-center">
+                        <i class="fa fa-question-circle text-primary mr-2"></i>
+                        购买后可以退换吗？
+                    </h3>
+                    <p class="text-neutral-600">我们提供30天健康保障期，在保障期内如发现宠物患有传染病，可凭宠物医院证明申请退换。如无健康问题，非质量原因不予退换。</p>
+                </div>
+                
+                <div class="bg-neutral-100 rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.2s">
+                    <h3 class="font-bold text-lg mb-2 flex items-center">
+                        <i class="fa fa-question-circle text-primary mr-2"></i>
+                        包含哪些疫苗？
+                    </h3>
+                    <p class="text-neutral-600">此金毛幼犬已完成二联和四联疫苗接种，并会提供完整的疫苗记录。购买后我们会提供后续疫苗接种时间表和建议。</p>
+                </div>
+                
+                <div class="bg-neutral-100 rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.3s">
+                    <h3 class="font-bold text-lg mb-2 flex items-center">
+                        <i class="fa fa-question-circle text-primary mr-2"></i>
+                        可以配送吗？
+                    </h3>
+                    <p class="text-neutral-600">支持同城配送服务，我们会安排专业人员送货上门，并提供当面交接和饲养指导。异地客户可选择航空托运，我们会提供全程温控和安全保障。</p>
+                </div>
+                
+                <div class="bg-neutral-100 rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.4s">
+                    <h3 class="font-bold text-lg mb-2 flex items-center">
+                        <i class="fa fa-question-circle text-primary mr-2"></i>
+                        提供哪些后续服务？
+                    </h3>
+                    <p class="text-neutral-600">购买后我们提供终身饲养咨询服务，包含饮食建议、行为训练指导等。同时提供首次免费体检，以及后续服务的折扣优惠。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+<script>
+// 获取DOM元素
+const carouselSlider = document.getElementById('carousel-slider');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const indicators = document.querySelectorAll('.carousel-indicator');
+const thumbnails = document.querySelectorAll('.thumbnail');
+const images = document.querySelectorAll('#carousel-slider img');
+
+// 当前显示的图片索引
+let currentIndex = 0;
+const totalImages = images.length;
+
+// 更新滑动效果和指示器状态
+function updateCarousel(index) {
+    // 计算滑动距离
+    const slideWidth = -100 * index;
+    // 应用滑动效果
+    carouselSlider.style.transform = `translateX(${slideWidth}%)`;
+    
+    // 更新指示器状态
+    indicators.forEach((indicator, i) => {
+        if (i === index) {
+            indicator.classList.add('bg-primary');
+            indicator.classList.remove('bg-white/70');
+        } else {
+            indicator.classList.remove('bg-primary');
+            indicator.classList.add('bg-white/70');
+        }
+    });
+    
+    // 更新缩略图状态
+    thumbnails.forEach((thumbnail, i) => {
+        if (i === index) {
+            thumbnail.classList.add('ring-2', 'ring-primary');
+        } else {
+            thumbnail.classList.remove('ring-2', 'ring-primary');
+        }
+    });
+}
+
+// 上一张
+prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+    updateCarousel(currentIndex);
+});
+
+// 下一张
+nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % totalImages;
+    updateCarousel(currentIndex);
+});
+
+// 点击指示器切换图片
+indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel(currentIndex);
+    });
+});
+
+// 点击缩略图切换图片
+thumbnails.forEach((thumbnail, index) => {
+    thumbnail.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel(currentIndex);
+    });
+});
+
+// 自动轮播
+let carouselInterval = setInterval(() => {
+    currentIndex = (currentIndex + 1) % totalImages;
+    updateCarousel(currentIndex);
+}, 5000);
+
+// 鼠标悬停时暂停轮播
+carouselSlider.addEventListener('mouseenter', () => {
+    clearInterval(carouselInterval);
+});
+
+// 鼠标离开时恢复轮播
+carouselSlider.addEventListener('mouseleave', () => {
+    carouselInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % totalImages;
+        updateCarousel(currentIndex);
+    }, 5000);
+});
+
+// 初始化第一个指示器和缩略图为激活状态
+if (indicators.length > 0) {
+    indicators[0].classList.add('bg-primary');
+    indicators[0].classList.remove('bg-white/70');
+}
+if (thumbnails.length > 0) {
+    thumbnails[0].classList.add('ring-2', 'ring-primary');
+}
+</script>
+{% endblock %}
