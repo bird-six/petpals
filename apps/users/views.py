@@ -1,13 +1,83 @@
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from apps.users.models import User
 
-
+@login_required(login_url='users/login/')
 def user_profile(request):
-    return render(request, 'users/user_profile.html')
+    # 判断是否为AJAX请求（通过请求头或参数）
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        # 返回局部模板（不含header/footer）
+        return render(request, 'users/partial/profile_partial.html', {'user': request.user})
+    else:
+        # 返回完整页面
+        return render(request, 'users/user_profile.html', {'user': request.user})
+
+def my_orders(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        # 返回局部模板（不含header/footer）
+        return render(request, 'users/partial/my_orders_partial.html', {'user': request.user})
+    else:
+        # 返回完整页面
+        return render(request, 'users/my_orders.html')
+
+
+def shopping_cart(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        return render(request, 'users/partial/shopping_cart_partial.html', {'user': request.user})
+    else:
+        return render(request, 'users/shopping_cart.html')
+
+def addresses(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        return render(request, 'users/partial/addresses_partial.html', {'user': request.user})
+    else:
+        return render(request, 'users/addresses.html')
+
+def browsing_history(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        return render(request, 'users/partial/browsing_history_partial.html', {'user': request.user})
+    else:
+        return render(request, 'users/browsing_history.html')
+
+def my_posts(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        return render(request, 'users/partial/my_posts_partial.html', {'user': request.user})
+    else:
+        return render(request, 'users/my_posts.html')
+
+
+def my_favorites(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        return render(request, 'users/partial/my_favorites_partial.html', {'user': request.user})
+    else:
+        return render(request, 'users/my_favorites.html')
+
+def account_settings(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        return render(request, 'users/partial/account_settings_partial.html', {'user': request.user})
+    else:
+        return render(request, 'users/account_settings.html')
+
 
 def user_login(request):
     if request.method == 'POST':

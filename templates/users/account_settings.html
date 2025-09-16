@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% block title %}账户设置 - PetPals{% endblock %}
+
+{% block content %}
+<section class="py-16 bg-neutral-100">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-8 fade-in">账户设置</h2>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- 侧边栏（复用） -->
+      <div class="lg:col-span-1 fade-in" style="transition-delay: 0.1s">
+        <div class="bg-white rounded-xl overflow-hidden card-hover">
+          <div class="p-6 border-b border-neutral-200">
+            <div class="flex items-center space-x-4">
+              <img src="https://picsum.photos/id/1005/100/100" alt="用户头像" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+              <div>
+                <h3 class="font-bold text-lg">{{ request.user.username }}</h3>
+                <p class="text-sm text-neutral-600">普通会员</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-4">
+            <ul class="space-y-1">
+              <li>
+                <a href="{% url 'users:user_profile' %}" data-url='{% url 'users:user_profile' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-user-o w-5 text-center mr-3"></i>
+                  <span>个人信息</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_orders' %}" data-url='{% url 'users:my_orders' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-list-alt w-5 text-center mr-3"></i>
+                  <span>我的订单</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:shopping_cart' %}" data-url='{% url 'users:shopping_cart' %}' class="nav-link flex items-center px-4 py-3 text-primary bg-primary/10 rounded-lg">
+                  <i class="fa fa-shopping-cart w-5 text-center mr-3"></i>
+                  <span>购物车</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:addresses' %}" data-url='{% url 'users:addresses' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-map-marker w-5 text-center mr-3"></i>
+                  <span>收货地址</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:browsing_history' %}" data-url='{% url 'users:browsing_history' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-history w-5 text-center mr-3"></i>
+                  <span>浏览记录</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_posts' %}" data-url='{% url 'users:my_posts' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-comment-o w-5 text-center mr-3"></i>
+                  <span>我的发帖</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_favorites' %}" data-url='{% url 'users:my_favorites' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-heart-o w-5 text-center mr-3"></i>
+                  <span>我的收藏</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:account_settings' %}" data-url='{% url 'users:account_settings' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-cog w-5 text-center mr-3"></i>
+                  <span>账户设置</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 主内容区 -->
+      <div class="lg:col-span-3 space-y-8" id="main-content">
+        <!-- 个人信息设置 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+          <div class="p-6 border-b border-neutral-200">
+            <h3 class="text-xl font-bold flex items-center">
+              <i class="fa fa-user-circle text-primary mr-2"></i>
+              个人信息设置
+            </h3>
+          </div>
+          
+          <div class="p-6">
+            <div class="flex flex-col md:flex-row gap-8">
+              <!-- 头像设置 -->
+              <div class="md:w-1/4">
+                <h4 class="text-sm font-medium text-neutral-700 mb-3">头像设置</h4>
+                <div class="flex flex-col items-center">
+                  <img src="https://picsum.photos/id/1005/150/150" alt="用户头像" class="w-32 h-32 rounded-full object-cover border-2 border-primary mb-3">
+                  <label class="bg-neutral-100 hover:bg-neutral-200 text-neutral-700 px-4 py-2 rounded-lg text-sm transition-colors cursor-pointer">
+                    <i class="fa fa-upload mr-1"></i> 更换头像
+                    <input type="file" class="hidden">
+                  </label>
+                  <p class="text-xs text-neutral-500 mt-2 text-center">支持JPG、PNG格式，建议尺寸200x200px</p>
+                </div>
+              </div>
+              
+              <!-- 基本信息设置 -->
+              <div class="md:flex-1">
+                <h4 class="text-sm font-medium text-neutral-700 mb-3">基本信息</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-neutral-700 mb-1">用户名</label>
+                    <input type="text" value="{{ request.user.username }}" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-neutral-700 mb-1">昵称</label>
+                    <input type="text" value="张小明" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-neutral-700 mb-1">手机号码</label>
+                    <input type="tel" value="138****6789" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+                    <button class="text-primary text-sm mt-1 hover:underline">修改手机号码</button>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-neutral-700 mb-1">电子邮箱</label>
+                    <input type="email" value="zhang***@example.com" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+                    <button class="text-primary text-sm mt-1 hover:underline">修改电子邮箱</button>
+                  </div>
+                  <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-neutral-700 mb-1">个人简介</label>
+                    <textarea class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" rows="3" placeholder="请输入个人简介（可选）">资深铲屎官，家有一猫一狗，分享宠物生活日常</textarea>
+                  </div>
+                </div>
+                
+                <div class="mt-6">
+                  <button class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                    保存修改
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 密码设置 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+          <div class="p-6 border-b border-neutral-200">
+            <h3 class="text-xl font-bold flex items-center">
+              <i class="fa fa-lock text-primary mr-2"></i>
+              密码设置
+            </h3>
+          </div>
+          
+          <div class="p-6 max-w-md">
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-neutral-700 mb-1">当前密码</label>
+                <input type="password" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入当前密码">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-neutral-700 mb-1">新密码</label>
+                <input type="password" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入新密码（至少8位）">
+                <p class="text-xs text-neutral-500 mt-1">密码至少8位，包含字母和数字</p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-neutral-700 mb-1">确认新密码</label>
+                <input type="password" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请再次输入新密码">
+              </div>
+              
+              <div class="mt-6">
+                <button class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                  修改密码
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 通知设置 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+          <div class="p-6 border-b border-neutral-200">
+            <h3 class="text-xl font-bold flex items-center">
+              <i class="fa fa-bell-o text-primary mr-2"></i>
+              通知设置
+            </h3>
+          </div>
+          
+          <div class="p-6">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium">订单通知</h4>
+                  <p class="text-sm text-neutral-600">订单状态变更、发货提醒等</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" checked class="sr-only peer">
+                  <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium">消息通知</h4>
+                  <p class="text-sm text-neutral-600">他人回复、私信等消息提醒</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" checked class="sr-only peer">
+                  <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium">活动通知</h4>
+                  <p class="text-sm text-neutral-600">促销活动、新品上线等信息</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer">
+                  <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium">邮件通知</h4>
+                  <p class="text-sm text-neutral-600">重要信息将通过邮件发送</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" checked class="sr-only peer">
+                  <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+            </div>
+            
+            <div class="mt-6">
+              <button class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                保存设置
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

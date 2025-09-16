@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+{% block title %}我的订单 - PetPals{% endblock %}
+{% block content %}
+<section class="py-16 bg-neutral-100">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-8 fade-in">我的订单</h2>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- 侧边栏（复用） -->
+      <div class="lg:col-span-1 fade-in" style="transition-delay: 0.1s">
+        <div class="bg-white rounded-xl overflow-hidden card-hover">
+          <div class="p-6 border-b border-neutral-200">
+            <div class="flex items-center space-x-4">
+              <img src="https://picsum.photos/id/1005/100/100" alt="用户头像" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+              <div>
+                <h3 class="font-bold text-lg">{{ request.user.username }}</h3>
+                <p class="text-sm text-neutral-600">普通会员</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-4">
+            <ul class="space-y-1">
+              <li>
+                <a href="{% url 'users:user_profile' %}" data-url='{% url 'users:user_profile' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-user-o w-5 text-center mr-3"></i>
+                  <span>个人信息</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_orders' %}" data-url='{% url 'users:my_orders' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-list-alt w-5 text-center mr-3"></i>
+                  <span>我的订单</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:shopping_cart' %}" data-url='{% url 'users:shopping_cart' %}' class="nav-link flex items-center px-4 py-3 text-primary bg-primary/10 rounded-lg">
+                  <i class="fa fa-shopping-cart w-5 text-center mr-3"></i>
+                  <span>购物车</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:addresses' %}" data-url='{% url 'users:addresses' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-map-marker w-5 text-center mr-3"></i>
+                  <span>收货地址</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:browsing_history' %}" data-url='{% url 'users:browsing_history' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-history w-5 text-center mr-3"></i>
+                  <span>浏览记录</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_posts' %}" data-url='{% url 'users:my_posts' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-comment-o w-5 text-center mr-3"></i>
+                  <span>我的发帖</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_favorites' %}" data-url='{% url 'users:my_favorites' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-heart-o w-5 text-center mr-3"></i>
+                  <span>我的收藏</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:account_settings' %}" data-url='{% url 'users:account_settings' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-cog w-5 text-center mr-3"></i>
+                  <span>账户设置</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 主内容区 - 订单列表 -->
+      <div class="lg:col-span-3 space-y-8" id="main-content">
+        <!-- 订单筛选区 -->
+        <div class="bg-white rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.2s">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <h3 class="text-xl font-bold flex items-center">
+              <i class="fa fa-list-alt text-primary mr-2"></i>
+              订单管理
+            </h3>
+
+            <div class="flex flex-wrap gap-3">
+              <select class="border border-neutral-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                <option>全部订单状态</option>
+                <option>待付款</option>
+                <option>待发货</option>
+                <option>待收货</option>
+                <option>已完成</option>
+                <option>已取消</option>
+              </select>
+
+              <select class="border border-neutral-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                <option>全部时间</option>
+                <option>近一个月</option>
+                <option>近三个月</option>
+                <option>近半年</option>
+                <option>近一年</option>
+              </select>
+
+              <div class="relative">
+                <input type="text" placeholder="搜索订单号" class="border border-neutral-300 rounded-lg px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-full md:w-48">
+                <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 订单状态标签快速筛选 -->
+          <div class="mt-5 flex flex-wrap gap-2">
+            <button class="px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm">全部订单</button>
+            <button class="px-4 py-1.5 bg-neutral-100 text-neutral-700 rounded-full text-sm hover:bg-neutral-200 transition-colors">待付款 <span class="ml-1 bg-red-500 text-white text-xs px-1.5 rounded-full">2</span></button>
+            <button class="px-4 py-1.5 bg-neutral-100 text-neutral-700 rounded-full text-sm hover:bg-neutral-200 transition-colors">待发货 <span class="ml-1 bg-yellow-500 text-white text-xs px-1.5 rounded-full">1</span></button>
+            <button class="px-4 py-1.5 bg-neutral-100 text-neutral-700 rounded-full text-sm hover:bg-neutral-200 transition-colors">待收货 <span class="ml-1 bg-blue-500 text-white text-xs px-1.5 rounded-full">3</span></button>
+            <button class="px-4 py-1.5 bg-neutral-100 text-neutral-700 rounded-full text-sm hover:bg-neutral-200 transition-colors">已完成</button>
+            <button class="px-4 py-1.5 bg-neutral-100 text-neutral-700 rounded-full text-sm hover:bg-neutral-200 transition-colors">已取消</button>
+          </div>
+        </div>
+
+        <!-- 订单列表 -->
+        <div class="space-y-6 fade-in" style="transition-delay: 0.3s">
+          <!-- 订单1 - 已完成 -->
+          <div class="bg-white rounded-xl overflow-hidden card-hover">
+            <div class="p-6 border-b border-neutral-200 bg-neutral-50">
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                  <div>
+                    <span class="text-sm text-neutral-600">订单编号: </span>
+                    <span class="text-sm font-medium">P2023061500123</span>
+                  </div>
+                  <div>
+                    <span class="text-sm text-neutral-600">下单时间: </span>
+                    <span class="text-sm">2023-06-15 14:30:25</span>
+                  </div>
+                </div>
+                <div class="mt-3 sm:mt-0 flex items-center justify-between sm:justify-end gap-4">
+                  <span class="text-sm text-green-500 font-medium">已完成</span>
+                  <div class="text-sm text-neutral-600">
+                    实付款: <span class="text-primary font-bold">¥259.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6">
+              <div class="space-y-4">
+                <!-- 订单商品1 -->
+                <div class="flex items-center space-x-4">
+                  <img src="https://picsum.photos/id/1062/100/100" alt="宠物航空箱" class="w-20 h-20 object-cover rounded-lg">
+                  <div class="flex-1">
+                    <h4 class="font-medium">宠物航空箱 中型</h4>
+                    <p class="text-sm text-neutral-600 mt-1">颜色: 蓝色 | 尺寸: 50x35x30cm</p>
+                    <p class="text-sm text-neutral-600">数量: 1</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-primary font-medium">¥239.00</p>
+                  </div>
+                </div>
+
+                <!-- 订单商品2 -->
+                <div class="flex items-center space-x-4 pt-4 border-t border-neutral-100">
+                  <img src="https://picsum.photos/id/1080/100/100" alt="宠物拾便袋" class="w-20 h-20 object-cover rounded-lg">
+                  <div class="flex-1">
+                    <h4 class="font-medium">宠物拾便袋 100片装</h4>
+                    <p class="text-sm text-neutral-600 mt-1">颜色: 随机 | 类型: 可降解</p>
+                    <p class="text-sm text-neutral-600">数量: 1</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-primary font-medium">¥19.90</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-neutral-100 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                <div class="text-sm text-neutral-600">
+                  收货地址: 张小明 138****6789 北京市朝阳区建国路88号 现代城5号楼2307室
+                </div>
+                <div class="flex gap-3">
+                  <button class="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary/5 transition-colors text-sm">查看详情</button>
+                  <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-sm">再次购买</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 订单2 - 待收货 -->
+          <div class="bg-white rounded-xl overflow-hidden card-hover">
+            <div class="p-6 border-b border-neutral-200 bg-neutral-50">
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                  <div>
+                    <span class="text-sm text-neutral-600">订单编号: </span>
+                    <span class="text-sm font-medium">P2023061000089</span>
+                  </div>
+                  <div>
+                    <span class="text-sm text-neutral-600">下单时间: </span>
+                    <span class="text-sm">2023-06-10 09:15:42</span>
+                  </div>
+                </div>
+                <div class="mt-3 sm:mt-0 flex items-center justify-between sm:justify-end gap-4">
+                  <span class="text-sm text-blue-500 font-medium">待收货</span>
+                  <div class="text-sm text-neutral-600">
+                    实付款: <span class="text-primary font-bold">¥159.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6">
+              <div class="flex items-center space-x-4">
+                <img src="https://picsum.photos/id/1025/100/100" alt="宠物自动饮水机" class="w-20 h-20 object-cover rounded-lg">
+                <div class="flex-1">
+                  <h4 class="font-medium">宠物自动饮水机 2L</h4>
+                  <p class="text-sm text-neutral-600 mt-1">颜色: 白色 | 容量: 2L</p>
+                  <p class="text-sm text-neutral-600">数量: 1</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-primary font-medium">¥159.00</p>
+                </div>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-neutral-100 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                <div class="text-sm text-neutral-600">
+                  收货地址: 张小明 138****6789 北京市朝阳区建国路88号 现代城5号楼2307室<br>
+                  物流信息: 中通快递 789456123000 <a href="#" class="text-primary hover:underline">查看物流</a>
+                </div>
+                <div class="flex gap-3">
+                  <button class="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary/5 transition-colors text-sm">查看详情</button>
+                  <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-sm">确认收货</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 订单3 - 待付款 -->
+          <div class="bg-white rounded-xl overflow-hidden card-hover">
+            <div class="p-6 border-b border-neutral-200 bg-neutral-50">
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                  <div>
+                    <span class="text-sm text-neutral-600">订单编号: </span>
+                    <span class="text-sm font-medium">P2023061800145</span>
+                  </div>
+                  <div>
+                    <span class="text-sm text-neutral-600">下单时间: </span>
+                    <span class="text-sm">2023-06-18 16:45:12</span>
+                  </div>
+                </div>
+                <div class="mt-3 sm:mt-0 flex items-center justify-between sm:justify-end gap-4">
+                  <span class="text-sm text-red-500 font-medium">待付款</span>
+                  <div class="text-sm text-neutral-600">
+                    应付金额: <span class="text-primary font-bold">¥699.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6">
+              <div class="flex items-center space-x-4">
+                <img src="https://picsum.photos/id/1059/100/100" alt="猫咪智能厕所" class="w-20 h-20 object-cover rounded-lg">
+                <div class="flex-1">
+                  <h4 class="font-medium">猫咪智能厕所</h4>
+                  <p class="text-sm text-neutral-600 mt-1">自动清理，除臭杀菌，健康监测</p>
+                  <p class="text-sm text-neutral-600">数量: 1</p>
+                  <p class="text-sm text-red-500 mt-1">
+                    <i class="fa fa-clock-o mr-1"></i> 剩余支付时间: 1小时25分钟
+                  </p>
+                </div>
+                <div class="text-right">
+                  <p class="text-primary font-medium">¥699.00</p>
+                </div>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-neutral-100 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                <div class="text-sm text-neutral-600">
+                  收货地址: 张小明 138****6789 北京市朝阳区建国路88号 现代城5号楼2307室
+                </div>
+                <div class="flex gap-3">
+                  <button class="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-100 transition-colors text-sm">取消订单</button>
+                  <button class="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-colors text-sm">立即付款</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="flex justify-center fade-in" style="transition-delay: 0.4s">
+          <nav class="flex items-center gap-1">
+            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-300 text-neutral-700 hover:border-primary hover:text-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              <i class="fa fa-chevron-left"></i>
+            </button>
+            <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white">1</button>
+            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-300 text-neutral-700 hover:border-primary hover:text-primary transition-colors">2</button>
+            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-300 text-neutral-700 hover:border-primary hover:text-primary transition-colors">3</button>
+            <span class="w-10 h-10 flex items-center justify-center">...</span>
+            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-300 text-neutral-700 hover:border-primary hover:text-primary transition-colors">8</button>
+            <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-neutral-300 text-neutral-700 hover:border-primary hover:text-primary transition-colors">
+              <i class="fa fa-chevron-right"></i>
+            </button>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

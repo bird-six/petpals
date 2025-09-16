@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block title %}我的收藏 - PetPals{% endblock %}
+
+{% block content %}
+<section class="py-16 bg-neutral-100">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-8 fade-in">我的收藏</h2>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- 侧边栏（复用） -->
+      <div class="lg:col-span-1 fade-in" style="transition-delay: 0.1s">
+        <div class="bg-white rounded-xl overflow-hidden card-hover">
+          <div class="p-6 border-b border-neutral-200">
+            <div class="flex items-center space-x-4">
+              <img src="https://picsum.photos/id/1005/100/100" alt="用户头像" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+              <div>
+                <h3 class="font-bold text-lg">{{ request.user.username }}</h3>
+                <p class="text-sm text-neutral-600">普通会员</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-4">
+            <ul class="space-y-1">
+              <li>
+                <a href="{% url 'users:user_profile' %}" data-url='{% url 'users:user_profile' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-user-o w-5 text-center mr-3"></i>
+                  <span>个人信息</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_orders' %}" data-url='{% url 'users:my_orders' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-list-alt w-5 text-center mr-3"></i>
+                  <span>我的订单</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:shopping_cart' %}" data-url='{% url 'users:shopping_cart' %}' class="nav-link flex items-center px-4 py-3 text-primary bg-primary/10 rounded-lg">
+                  <i class="fa fa-shopping-cart w-5 text-center mr-3"></i>
+                  <span>购物车</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:addresses' %}" data-url='{% url 'users:addresses' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-map-marker w-5 text-center mr-3"></i>
+                  <span>收货地址</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:browsing_history' %}" data-url='{% url 'users:browsing_history' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-history w-5 text-center mr-3"></i>
+                  <span>浏览记录</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_posts' %}" data-url='{% url 'users:my_posts' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-comment-o w-5 text-center mr-3"></i>
+                  <span>我的发帖</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_favorites' %}" data-url='{% url 'users:my_favorites' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-heart-o w-5 text-center mr-3"></i>
+                  <span>我的收藏</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:account_settings' %}" data-url='{% url 'users:account_settings' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-cog w-5 text-center mr-3"></i>
+                  <span>账户设置</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 主内容区 -->
+      <div class="lg:col-span-3 space-y-8" id="main-content">
+        <!-- 收藏筛选 -->
+        <div class="bg-white rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.2s">
+          <div class="flex flex-wrap gap-3">
+            <button class="px-4 py-2 bg-primary text-white rounded-full text-sm">全部收藏</button>
+            <button class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-full text-sm transition-colors">商品</button>
+            <button class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-full text-sm transition-colors">帖子</button>
+            <button class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-full text-sm transition-colors">服务</button>
+          </div>
+        </div>
+        
+        <!-- 收藏商品列表 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+          <div class="p-6 border-b border-neutral-200">
+            <h3 class="text-lg font-bold">收藏的商品</h3>
+          </div>
+          
+          <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- 收藏商品1 -->
+            <div class="border rounded-lg overflow-hidden hover:shadow-md transition-shadow group">
+              <div class="relative">
+                <img src="https://picsum.photos/id/1059/300/300" alt="猫咪智能厕所" class="w-full h-48 object-cover">
+                <button class="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-red-500 hover:bg-white transition-colors">
+                  <i class="fa fa-heart"></i>
+                </button>
+              </div>
+              <div class="p-4">
+                <h4 class="font-medium line-clamp-2">猫咪智能厕所 自动清理 除臭杀菌 健康监测</h4>
+                <div class="flex items-center mt-2 text-yellow-500 text-sm">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-half-o"></i>
+                  <span class="text-neutral-500 ml-1">(126)</span>
+                </div>
+                <p class="text-primary font-medium mt-2">¥699.00</p>
+                <div class="mt-3 flex space-x-2">
+                  <button class="flex-1 bg-primary text-white text-center px-3 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                    加入购物车
+                  </button>
+                  <button class="w-10 h-10 border border-neutral-300 rounded-lg flex items-center justify-center text-neutral-600 hover:border-primary hover:text-primary transition-colors">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 收藏商品2 -->
+            <div class="border rounded-lg overflow-hidden hover:shadow-md transition-shadow group">
+              <div class="relative">
+                <img src="https://picsum.photos/id/1074/300/300" alt="宠物智能项圈" class="w-full h-48 object-cover">
+                <button class="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-red-500 hover:bg-white transition-colors">
+                  <i class="fa fa-heart"></i>
+                </button>
+              </div>
+              <div class="p-4">
+                <h4 class="font-medium line-clamp-2">宠物智能项圈 GPS定位 健康监测 活动记录</h4>
+                <div class="flex items-center mt-2 text-yellow-500 text-sm">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-o"></i>
+                  <span class="text-neutral-500 ml-1">(89)</span>
+                </div>
+                <p class="text-primary font-medium mt-2">¥279.00</p>
+                <div class="mt-3 flex space-x-2">
+                  <button class="flex-1 bg-primary text-white text-center px-3 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                    加入购物车
+                  </button>
+                  <button class="w-10 h-10 border border-neutral-300 rounded-lg flex items-center justify-center text-neutral-600 hover:border-primary hover:text-primary transition-colors">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 收藏帖子列表 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+          <div class="p-6 border-b border-neutral-200">
+            <h3 class="text-lg font-bold">收藏的帖子</h3>
+          </div>
+          
+          <div class="divide-y divide-neutral-200">
+            <!-- 收藏帖子1 -->
+            <div class="p-6 hover:bg-neutral-50 transition-colors">
+              <div class="flex items-start">
+                <img src="https://picsum.photos/id/237/80/80" alt="帖子图片" class="w-20 h-20 object-cover rounded-lg mr-4">
+                <div class="flex-1">
+                  <h4 class="font-medium">新手养狗必备清单（超全整理）</h4>
+                  <p class="text-sm text-neutral-600 mt-1 line-clamp-2">整理了一份新手养狗的必备物品清单，从食品到用品再到保健品，非常全面，希望能帮到刚养狗的朋友们...</p>
+                  <div class="flex items-center mt-3 text-sm text-neutral-500">
+                    <span class="mr-4"><i class="fa fa-user-o mr-1"></i> 宠物达人</span>
+                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 2023-05-28</span>
+                    <span class="mr-4"><i class="fa fa-comment-o mr-1"></i> 156</span>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end">
+                  <button class="text-red-500 hover:text-red-600 transition-colors mb-2">
+                    <i class="fa fa-heart"></i> 取消收藏
+                  </button>
+                  <a href="#" class="text-primary hover:underline text-sm">查看详情</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

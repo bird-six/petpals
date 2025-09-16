@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block title %}我的发帖 - PetPals{% endblock %}
+
+{% block content %}
+<section class="py-16 bg-neutral-100">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-8 fade-in">我的发帖</h2>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- 侧边栏（复用） -->
+      <div class="lg:col-span-1 fade-in" style="transition-delay: 0.1s">
+        <div class="bg-white rounded-xl overflow-hidden card-hover">
+          <div class="p-6 border-b border-neutral-200">
+            <div class="flex items-center space-x-4">
+              <img src="https://picsum.photos/id/1005/100/100" alt="用户头像" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+              <div>
+                <h3 class="font-bold text-lg">{{ request.user.username }}</h3>
+                <p class="text-sm text-neutral-600">普通会员</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-4">
+            <ul class="space-y-1">
+              <li>
+                <a href="{% url 'users:user_profile' %}" data-url='{% url 'users:user_profile' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-user-o w-5 text-center mr-3"></i>
+                  <span>个人信息</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_orders' %}" data-url='{% url 'users:my_orders' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-list-alt w-5 text-center mr-3"></i>
+                  <span>我的订单</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:shopping_cart' %}" data-url='{% url 'users:shopping_cart' %}' class="nav-link flex items-center px-4 py-3 text-primary bg-primary/10 rounded-lg">
+                  <i class="fa fa-shopping-cart w-5 text-center mr-3"></i>
+                  <span>购物车</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:addresses' %}" data-url='{% url 'users:addresses' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-map-marker w-5 text-center mr-3"></i>
+                  <span>收货地址</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:browsing_history' %}" data-url='{% url 'users:browsing_history' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-history w-5 text-center mr-3"></i>
+                  <span>浏览记录</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_posts' %}" data-url='{% url 'users:my_posts' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-comment-o w-5 text-center mr-3"></i>
+                  <span>我的发帖</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:my_favorites' %}" data-url='{% url 'users:my_favorites' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-heart-o w-5 text-center mr-3"></i>
+                  <span>我的收藏</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'users:account_settings' %}" data-url='{% url 'users:account_settings' %}' class="nav-link flex items-center px-4 py-3 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
+                  <i class="fa fa-cog w-5 text-center mr-3"></i>
+                  <span>账户设置</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 主内容区 -->
+      <div class="lg:col-span-3 space-y-8" id="main-content">
+        <!-- 发帖按钮 -->
+        <div class="fade-in" style="transition-delay: 0.2s">
+          <a href="#" class="btn-primary inline-flex items-center">
+            <i class="fa fa-pencil mr-2"></i> 发布新帖
+          </a>
+        </div>
+        
+        <!-- 帖子筛选 -->
+        <div class="bg-white rounded-xl p-6 card-hover fade-in" style="transition-delay: 0.3s">
+          <div class="flex flex-wrap gap-3">
+            <button class="px-4 py-2 bg-primary text-white rounded-full text-sm">全部帖子</button>
+            <button class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-full text-sm transition-colors">已发布</button>
+            <button class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-full text-sm transition-colors">待审核</button>
+            <button class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-full text-sm transition-colors">已驳回</button>
+          </div>
+        </div>
+        
+        <!-- 帖子列表 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+          <div class="divide-y divide-neutral-200">
+            <!-- 帖子1 -->
+            <div class="p-6 hover:bg-neutral-50 transition-colors">
+              <div class="flex items-start">
+                <img src="https://picsum.photos/id/237/80/80" alt="帖子图片" class="w-20 h-20 object-cover rounded-lg mr-4">
+                <div class="flex-1">
+                  <h4 class="font-medium">大家的狗狗都喜欢什么玩具？</h4>
+                  <p class="text-sm text-neutral-600 mt-1 line-clamp-2">我家金毛最近好像对以前的玩具都不感兴趣了，想给他买点新玩具，大家有什么推荐吗？最好是耐咬一点的，他破坏力太强了...</p>
+                  <div class="flex flex-wrap items-center mt-3 text-sm text-neutral-500 gap-y-2">
+                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 2023-06-10</span>
+                    <span class="mr-4"><i class="fa fa-eye mr-1"></i> 128</span>
+                    <span class="mr-4"><i class="fa fa-comment-o mr-1"></i> 24</span>
+                    <span class="mr-4"><i class="fa fa-thumbs-o-up mr-1"></i> 36</span>
+                    <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs">已发布</span>
+                  </div>
+                </div>
+                <div class="flex flex-col space-y-2">
+                  <a href="#" class="text-primary hover:underline text-sm">编辑</a>
+                  <a href="#" class="text-primary hover:underline text-sm">查看详情</a>
+                  <button class="text-neutral-500 hover:text-red-500 text-sm transition-colors">删除</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 帖子2 -->
+            <div class="p-6 hover:bg-neutral-50 transition-colors">
+              <div class="flex items-start">
+                <div class="w-20 h-20 bg-neutral-100 rounded-lg mr-4 flex items-center justify-center text-neutral-400">
+                  <i class="fa fa-camera text-2xl"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-medium">猫咪不喝水怎么办？</h4>
+                  <p class="text-sm text-neutral-600 mt-1 line-clamp-2">我家猫咪最近喝水特别少，换了好几种水盆都没用，担心他会得泌尿系统疾病，有没有什么好办法能让猫咪多喝水？...</p>
+                  <div class="flex flex-wrap items-center mt-3 text-sm text-neutral-500 gap-y-2">
+                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 2023-06-05</span>
+                    <span class="mr-4"><i class="fa fa-eye mr-1"></i> 256</span>
+                    <span class="mr-4"><i class="fa fa-comment-o mr-1"></i> 42</span>
+                    <span class="mr-4"><i class="fa fa-thumbs-o-up mr-1"></i> 58</span>
+                    <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs">已发布</span>
+                  </div>
+                </div>
+                <div class="flex flex-col space-y-2">
+                  <a href="#" class="text-primary hover:underline text-sm">编辑</a>
+                  <a href="#" class="text-primary hover:underline text-sm">查看详情</a>
+                  <button class="text-neutral-500 hover:text-red-500 text-sm transition-colors">删除</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 帖子3（待审核） -->
+            <div class="p-6 hover:bg-neutral-50 transition-colors">
+              <div class="flex items-start">
+                <img src="https://picsum.photos/id/1025/80/80" alt="帖子图片" class="w-20 h-20 object-cover rounded-lg mr-4">
+                <div class="flex-1">
+                  <h4 class="font-medium">这款自动饮水机真的好用吗？</h4>
+                  <p class="text-sm text-neutral-600 mt-1 line-clamp-2">想给我家猫咪买个自动饮水机，看这款销量挺高的，有没有用过的朋友说说实际体验怎么样？值得入手吗？...</p>
+                  <div class="flex flex-wrap items-center mt-3 text-sm text-neutral-500 gap-y-2">
+                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 2023-06-15</span>
+                    <span class="mr-4"><i class="fa fa-eye mr-1"></i> 0</span>
+                    <span class="mr-4"><i class="fa fa-comment-o mr-1"></i> 0</span>
+                    <span class="mr-4"><i class="fa fa-thumbs-o-up mr-1"></i> 0</span>
+                    <span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded text-xs">待审核</span>
+                  </div>
+                </div>
+                <div class="flex flex-col space-y-2">
+                  <a href="#" class="text-primary hover:underline text-sm">编辑</a>
+                  <button class="text-neutral-500 hover:text-red-500 text-sm transition-colors">删除</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 分页 -->
+          <div class="p-6 border-t border-neutral-200 flex justify-center">
+            <nav class="flex items-center space-x-1">
+              <button class="w-9 h-9 flex items-center justify-center rounded border border-neutral-300 text-neutral-500 hover:border-primary hover:text-primary transition-colors">
+                <i class="fa fa-angle-left"></i>
+              </button>
+              <button class="w-9 h-9 flex items-center justify-center rounded bg-primary text-white">1</button>
+              <button class="w-9 h-9 flex items-center justify-center rounded border border-neutral-300 hover:border-primary hover:text-primary transition-colors">2</button>
+              <button class="w-9 h-9 flex items-center justify-center rounded border border-neutral-300 hover:border-primary hover:text-primary transition-colors">
+                <i class="fa fa-angle-right"></i>
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
