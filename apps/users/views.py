@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 
 from apps.users.models import User
 
-@login_required(login_url='users/login/')
+@login_required(login_url='users:user_login')
 def user_profile(request):
     # 判断是否为AJAX请求（通过请求头或参数）
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'

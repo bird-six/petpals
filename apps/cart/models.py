@@ -18,7 +18,6 @@ class Cart(models.Model):
     def __str__(self):
         if self.user:
             return f"{self.user.username}的购物车"
-        return f"会话{self.session_id[:8]}...的购物车"
 
     def get_total_price(self):
         """计算购物车总价"""
