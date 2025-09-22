@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="py-12 bg-neutral-50">
+  {% csrf_token %}
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
 
     <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-sm overflow-hidden">
@@ -10,32 +11,33 @@
           <i class="fa fa-shopping-cart text-primary mr-3"></i>
           我的购物车
         </h1>
-        <p class="text-neutral-600 mt-1">共 <span class="text-primary font-medium">2</span> 件商品</p>
-          
+        <p class="text-neutral-600 mt-1">共 <span class="text-primary font-medium">{{ cart_item_kind }}</span> 类商品，<span class="cart-item-count">{{ cart_item_count }}</span> 件商品</p>
       </div>
 
-      <!-- 购物车商品列表 -->
+      <!-- 购物车商品列表 - 添加空状态判断 -->
+      {% if cart_items %}
       <div class="divide-y divide-neutral-200">
         <!-- 商品 -->
+          {% for item in cart_items %}
         <div class="p-6 hover:bg-neutral-50 transition-colors fade-in" style="transition-delay: 0.2s">
           <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0">
             <div class="flex items-center">
-              <input type="checkbox" class="w-5 h-5 text-primary rounded mr-4">
-              <img src="https://picsum.photos/id/1074/100/100" alt="宠物智能项圈" class="w-24 h-24 object-cover rounded-lg">
+              <input type="checkbox" class="cart-item-checkbox w-5 h-5 text-primary bg-white border-2 border-primary rounded mr-4 focus:ring-primary/20 transition-all cursor-pointer" data-pet-id="{{ item.pet.id }}" data-price="{{ item.pet.price }}">
+              <img src="{{ item.pet.get_primary_image.url }}" alt="{{ item.pet.name }}" class="w-24 h-24 object-cover rounded-lg">
             </div>
-            
+
             <div class="flex-1 sm:ml-6">
-              <h3 class="font-medium text-lg">宠物智能项圈</h3>
-              <p class="text-sm text-neutral-600 mt-1">GPS定位，健康监测，活动记录</p>
+              <h3 class="font-medium text-lg">{{ item.pet.name }}</h3>
+              <p class="text-sm text-neutral-600 mt-1">{{ item.pet.breed }}，{{ item.pet.gender }}，{{ item.pet.age }}</p>
               <div class="flex items-center mt-2">
                 <span class="text-green-500 text-sm">新品</span>
               </div>
             </div>
-            
+
             <div class="sm:text-center sm:w-24">
-              <span class="text-primary font-bold text-xl">¥279.00</span>
+              <span class="text-primary font-bold text-xl">¥{{ item.pet.price }}</span>
             </div>
-            
+
             <div class="sm:w-32">
               <div class="flex items-center border rounded-md w-24 mx-auto sm:mx-0">
                 <button class="w-8 h-8 flex items-center justify-center text-neutral-600 hover:bg-neutral-100 transition-colors">-</button>
@@ -43,67 +45,85 @@
                 <button class="w-8 h-8 flex items-center justify-center text-neutral-600 hover:bg-neutral-100 transition-colors">+</button>
               </div>
             </div>
-            
+
             <div class="sm:w-24 sm:text-center">
-              <span class="text-primary font-medium">¥279.00</span>
+              <span class="text-primary font-medium">¥{{ item.pet.price }}</span>
             </div>
-            
+
+            <!-- 删除按钮 -->
             <div class="sm:w-12">
-              <button class="text-neutral-500 hover:text-red-500 transition-colors ml-auto">
+              <button class="delete-btn text-neutral-500 hover:text-red-500 transition-colors ml-auto" data-pet-id="{{ item.pet.id }}" data-url="{% url 'cart:delete_pet_to_cart' item.pet.id %}">
                 <i class="fa fa-trash-o"></i>
               </button>
             </div>
           </div>
         </div>
+         {% endfor %}
       </div>
+      {% else %}
+      <!-- 购物车为空状态 -->
+      <div class="py-20 px-4 text-center">
+        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-primary/10 mb-6">
+          <i class="fa fa-shopping-cart text-4xl text-primary"></i>
+        </div>
+        <h3 class="text-xl font-medium text-neutral-900 mb-2">购物车还是空的</h3>
+        <p class="text-neutral-600 max-w-md mx-auto mb-8">看起来您还没有添加任何商品到购物车，快去挑选心仪的商品吧！</p>
+        <a href="{% url 'pets:pets' %}" class="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg transition-colors">
+          <span>去逛逛</span>
+          <i class="fa fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+      {% endif %}
 
-      <!-- 操作按钮区 -->
+      <!-- 操作按钮区 - 仅在有商品时显示 -->
+      {% if cart_items %}
       <div class="p-6 bg-neutral-50 border-t border-neutral-200">
         <div class="flex flex-col sm:flex-row justify-between items-center">
           <div class="flex items-center space-x-4 mb-4 sm:mb-0">
-            <button class="flex items-center text-neutral-700 hover:text-primary transition-colors">
-              <i class="fa fa-check-square-o mr-2"></i>
+            <label class="flex items-center text-neutral-700 hover:text-primary transition-colors cursor-pointer select-all-container">
+              <input type="checkbox" id="select-all" class="w-5 h-5 text-primary bg-white border-2 border-primary rounded mr-2 focus:ring-primary/20 transition-all cursor-pointer">
               <span>全选</span>
-            </button>
-            <button class="flex items-center text-neutral-700 hover:text-primary transition-colors">
+            </label>
+            <button id="delete-selected" class="flex items-center text-neutral-700 hover:text-red-500 transition-colors">
               <i class="fa fa-trash-o mr-2"></i>
               <span>删除选中</span>
             </button>
-
           </div>
         </div>
       </div>
 
-      <!-- 结算区 -->
+      <!-- 结算区 - 仅在有商品时显示 -->
       <div class="p-6 border-t border-neutral-200 fade-in" style="transition-delay: 0.3s">
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center">
           <div class="mb-6 lg:mb-0">
             <div class="flex items-center mb-2">
               <span class="text-neutral-600 mr-4">已选商品：</span>
-              <span class="font-medium">2件</span>
+              <span class="font-medium selected-count">{{ cart_item_count }}件</span>
             </div>
             <div class="flex items-center mb-4">
               <span class="text-neutral-600 mr-4">合计金额：</span>
-              <span class="text-2xl font-bold text-primary">¥978.00</span>
-              <span class="text-neutral-500 text-sm ml-2">(不含运费)</span>
+              <span class="text-2xl font-bold text-primary total-price">¥{{ total_price }}</span>
+              <span id="shipping-info" class="text-sm ml-2"></span>
             </div>
             <p class="text-sm text-neutral-500">
               <i class="fa fa-info-circle mr-1"></i>
               满¥199免运费，不足则需支付¥15运费
             </p>
           </div>
-          
+
           <div class="w-full lg:w-auto">
-            <button class="w-full lg:w-64 bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-colors text-lg flex items-center justify-center">
+            <button id="checkout-btn" class="w-full lg:w-64 bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-colors text-lg flex items-center justify-center">
               <span>去结算</span>
               <i class="fa fa-arrow-right ml-2"></i>
             </button>
           </div>
         </div>
       </div>
+      {% endif %}
     </div>
 
-    <!-- 推荐商品区 -->
+    <!-- 推荐商品区 - 仅在有商品时显示 -->
+    {% if cart_items %}
     <div class="mt-12 fade-in" style="transition-delay: 0.4s">
       <h2 class="text-xl font-bold text-neutral-900 mb-6">为您推荐</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -126,7 +146,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- 推荐商品2 -->
         <div class="bg-white rounded-xl overflow-hidden card-hover">
           <div class="relative">
@@ -148,6 +168,287 @@
         </div>
       </div>
     </div>
+    {% endif %}
   </div>
 </section>
+    
+<!-- 删除确认弹窗 -->
+<div id="delete-confirm-overlay" class="hidden fixed inset-0 bg-black/50 z-50 transition-opacity">
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 fade-in-up">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold">确认删除</h3>
+        <button id="close-delete-confirm" class="text-neutral-500 hover:text-neutral-700">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <p id="delete-confirm-message" class="text-neutral-600 mb-6">确定要删除选中的商品吗？</p>
+      <div class="flex justify-end space-x-3">
+        <button id="cancel-delete" class="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg">
+          取消
+        </button>
+        <button id="confirm-delete" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+          确认删除
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const url = this.dataset.url;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.status === 401) {
+                window.location.href = "{% url 'users:user_login' %}";
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.success) {
+                // 精确查找要删除的卡片容器
+                const cardElement = this.closest('div[class^="p-6"]');
+                if (cardElement) {
+                    cardElement.remove();
+                    // 更新所有统计数字
+                    document.querySelectorAll('.cart-item-count').forEach(span => {
+                        span.textContent = data.item_count;
+                    });
+                    document.querySelector('.text-2xl').textContent = `¥${data.total_price}`;
+
+                    // 如果购物车为空，刷新页面显示空状态
+                    if (data.item_count === 0) {
+                        window.location.reload();
+                    }
+                }
+                showToast(data.message, 'success');
+            } else if (data) {
+                showToast(data.message, 'error');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+
+// 添加全选功能
+const selectAllCheckbox = document.getElementById('select-all');
+const itemCheckboxes = document.querySelectorAll('.cart-item-checkbox');
+const deleteSelectedBtn = document.getElementById('delete-selected');
+const selectedCountElement = document.querySelector('.selected-count');
+const totalPriceElement = document.querySelector('.total-price');
+
+// 只有当存在商品时才执行相关脚本
+if (selectAllCheckbox && itemCheckboxes.length > 0) {
+    // 全选/取消全选
+    selectAllCheckbox.addEventListener('change', function() {
+        const isChecked = this.checked;
+        itemCheckboxes.forEach(checkbox => {
+            checkbox.checked = isChecked;
+        });
+        updateCartSummary();
+    });
+
+    // 单个商品选择状态改变
+    itemCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateSelectAllState();
+            updateCartSummary();
+        });
+    });
+
+    // 更新全选状态
+    function updateSelectAllState() {
+        const checkedCount = document.querySelectorAll('.cart-item-checkbox:checked').length;
+        selectAllCheckbox.checked = checkedCount === itemCheckboxes.length && itemCheckboxes.length > 0;
+        selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < itemCheckboxes.length;
+    }
+
+    // 更新购物车汇总信息
+    function updateCartSummary() {
+        const checkedCheckboxes = document.querySelectorAll('.cart-item-checkbox:checked');
+        const selectedCount = checkedCheckboxes.length;
+        let totalPrice = 0;
+
+        checkedCheckboxes.forEach(checkbox => {
+            const price = parseFloat(checkbox.dataset.price);
+            totalPrice += price;
+        });
+
+        selectedCountElement.textContent = `${selectedCount}件`;
+        totalPriceElement.textContent = `¥${totalPrice.toFixed(2)}`;
+
+        // 动态更新包邮信息
+        const shippingInfoElement = document.getElementById('shipping-info');
+        if (totalPrice >= 199) {
+            shippingInfoElement.textContent = '(包邮)';
+            shippingInfoElement.className = 'text-green-500 text-sm ml-2';
+        } else {
+            shippingInfoElement.textContent = '(不含运费)';
+            shippingInfoElement.className = 'text-neutral-500 text-sm ml-2';
+        }
+    }
+
+    // 初始更新全选状态和购物车汇总
+    updateSelectAllState();
+    updateCartSummary();
+}
+
+// 删除选中商品功能
+// 删除选中商品功能
+if (deleteSelectedBtn && itemCheckboxes.length > 0) {
+    let selectedPetIds = []; // 用于存储当前选中的宠物ID
+    
+    // 显示删除确认遮罩层
+    deleteSelectedBtn.addEventListener('click', function() {
+        const checkedCheckboxes = document.querySelectorAll('.cart-item-checkbox:checked');
+
+        if (checkedCheckboxes.length === 0) {
+            showToast('请选择要删除的商品', 'error');
+            return;
+        }
+
+        // 存储选中的宠物ID
+        selectedPetIds = Array.from(checkedCheckboxes).map(checkbox => checkbox.dataset.petId);
+        
+        // 更新确认消息
+        document.getElementById('delete-confirm-message').textContent = 
+            `确定要删除选中的 ${selectedPetIds.length} 件商品吗？`;
+        
+        // 显示遮罩层
+        document.getElementById('delete-confirm-overlay').classList.remove('hidden');
+    });
+    
+    // 关闭删除确认遮罩层
+    document.getElementById('close-delete-confirm').addEventListener('click', function() {
+        document.getElementById('delete-confirm-overlay').classList.add('hidden');
+    });
+    
+    // 取消删除
+    document.getElementById('cancel-delete').addEventListener('click', function() {
+        document.getElementById('delete-confirm-overlay').classList.add('hidden');
+    });
+    
+    // 确认删除
+    document.getElementById('confirm-delete').addEventListener('click', function() {
+        // 隐藏遮罩层
+        document.getElementById('delete-confirm-overlay').classList.add('hidden');
+        
+        // 执行删除操作
+        fetch('{% url 'cart:delete_selected_pets' %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({ pet_ids: selectedPetIds })
+        })
+        .then(response => {
+            if (response.status === 401) {
+                window.location.href = '{% url 'users:user_login' %}';
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.success) {
+                // 删除对应的DOM元素
+                const checkedCheckboxes = document.querySelectorAll('.cart-item-checkbox:checked');
+                checkedCheckboxes.forEach(checkbox => {
+                    const cardElement = checkbox.closest('div[class^="p-6"]');
+                    if (cardElement) {
+                        cardElement.remove();
+                    }
+                });
+
+                // 更新统计数字
+                document.querySelectorAll('.cart-item-count').forEach(span => {
+                    span.textContent = data.item_count;
+                });
+
+                // 更新总价
+                document.querySelector('.total-price').textContent = `¥${data.total_price.toFixed(2)}`;
+
+                // 如果购物车为空，刷新页面显示空状态
+                if (data.item_count === 0) {
+                    window.location.reload();
+                }
+
+                // 重置全选状态
+                selectAllCheckbox.checked = false;
+                selectAllCheckbox.indeterminate = false;
+
+                // 更新购物车汇总信息
+                updateCartSummary();
+
+                showToast(data.message, 'success');
+            } else if (data) {
+                showToast(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showToast('删除失败，请重试', 'error');
+        });
+    });
+}
+
+// 结算功能：收集选中商品并提交到订单页面
+const checkoutBtn = document.getElementById('checkout-btn');
+if (checkoutBtn) {
+  checkoutBtn.addEventListener('click', function() {
+    // 获取所有选中的商品复选框
+    const checkedCheckboxes = document.querySelectorAll('.cart-item-checkbox:checked');
+    
+    // 验证是否有选中商品
+    if (checkedCheckboxes.length === 0) {
+      showToast('请选择要结算的商品', 'error'); // 复用现有提示函数
+      return;
+    }
+    
+    // 收集选中的商品ID
+    const selectedPetIds = Array.from(checkedCheckboxes).map(checkbox => checkbox.dataset.petId);
+    
+    // 创建临时表单提交数据（避免URL参数长度限制）
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = "{% url 'orders:orders' %}"; // 订单页面URL
+    
+    // 添加CSRF令牌（Django安全验证）
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfmiddlewaretoken';
+    csrfInput.value = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    form.appendChild(csrfInput);
+    
+    // 添加选中的商品ID（多个）
+    selectedPetIds.forEach(petId => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'pet_ids'; // 后端通过request.POST.getlist('pet_ids')获取
+      input.value = petId;
+      form.appendChild(input);
+    });
+    
+    // 提交表单跳转
+    document.body.appendChild(form);
+    form.submit();
+  });
+}
+
+</script>
 {% endblock %}

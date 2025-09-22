@@ -69,6 +69,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'tools.context_processors.cart_item_count',
+                'tools.context_processors.cart_item_kind',
             ],
         },
     },
@@ -147,3 +149,5 @@ MEDIA_ROOT = BASE_DIR / 'media'  # 媒体文件存储的物理路径
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.User'

@@ -95,18 +95,23 @@
         
         <!-- 功能图标区 -->
         <div class="flex items-center space-x-4">
+            <!-- 邮箱 -->
             <div class="relative">
             <a href="#" class="p-2 text-neutral-800 hover:text-primary transition-colors">
               <i class="fa fa-envelope text-lg"></i>
               <span class="absolute -top-1 -right-1 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">2</span> <!-- 消息数量动态更新 -->
             </a>
           </div>
+            <!-- 购物车 -->
             <div class="relative">
             <a href="{% url 'cart:cart' %}" class="p-2 text-neutral-800 hover:text-primary transition-colors">
               <i class="fa fa-shopping-cart text-lg"></i>
-              <span class="absolute -top-1 -right-1 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span> <!-- 购物车数量动态更新 -->
+                {% if cart_item_count > 0 %}
+              <span class="absolute -top-1 -right-1 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{ cart_item_count }}</span> <!-- 购物车数量动态更新 -->
+                {% endif %}
             </a>
           </div>
+            <!-- 客服 -->
             <a href="#" class="p-2 text-neutral-800 hover:text-primary transition-colors">
               <i class="text-lg">
                 <svg t="1757253056700" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2550" width="20" height="20">
@@ -114,7 +119,7 @@
                 </svg>
               </i>
             </a>
-            
+            <!-- 个人信息 -->
           <a href="{% url 'users:user_profile' %}" class="p-2 text-neutral-800 hover:text-primary transition-colors">
             <i class="fa fa-user text-lg"></i>
           </a>
@@ -260,6 +265,55 @@
         navbar.classList.remove('bg-white/90');
       }
     });
+    
+    // 自定义toast提示函数
+    function showToast(message, type = 'success') {
+      // 检查是否已存在toast元素，如果有则移除
+      const existingToast = document.getElementById('custom-toast');
+      if (existingToast) {
+        existingToast.remove();
+      }
+      
+      // 创建toast元素
+      const toast = document.createElement('div');
+      toast.id = 'custom-toast';
+      
+      // 设置样式类
+      toast.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-6 py-4 rounded-lg shadow-lg z-50 transition-all duration-300 ease-in-out opacity-0`;
+      
+      // 根据类型设置不同的背景色
+      if (type === 'success') {
+        toast.classList.add('bg-white', 'text-green-600', 'border', 'border-primary/20');
+      } else if (type === 'error') {
+        toast.classList.add('bg-red-500', 'text-white');
+      } else {
+        toast.classList.add('bg-neutral-800', 'text-white');
+      }
+      
+      // 设置提示文本
+      toast.textContent = message;
+      
+      // 添加到body
+      document.body.appendChild(toast);
+      
+      // 显示toast（添加动画）
+      setTimeout(() => {
+        toast.classList.remove('opacity-0');
+        toast.classList.add('opacity-100');
+      }, 10);
+      
+      // 1.5秒后隐藏toast
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+        // 动画结束后移除元素
+        setTimeout(() => {
+          if (document.body.contains(toast)) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 1500);
+    }
     
     // 2. 移动端菜单切换
     document.getElementById('menu-toggle').addEventListener('click', function() {

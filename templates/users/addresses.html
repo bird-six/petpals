@@ -84,7 +84,7 @@
                 <i class="fa fa-map-marker text-primary mr-2"></i>
                 收货地址管理
               </h3>
-              <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+              <button id="add-address-button" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
                 <i class="fa fa-plus mr-1"></i> 添加新地址
               </button>
             </div>
@@ -196,4 +196,429 @@
     </div>
   </div>
 </section>
+
+<div id="address-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+  <!-- 模态框背景蒙层 -->
+  <div id="modal-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+  
+  <!-- 模态框内容 -->
+  <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-xl mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+    <!-- 模态框头部 -->
+    <div class="flex justify-between items-center p-6 border-b border-neutral-200">
+      <h4 class="text-lg font-bold">添加新地址</h4>
+      <button id="close-modal-button" class="text-neutral-500 hover:text-neutral-700 transition-colors">
+        <i class="fa fa-times text-xl"></i>
+      </button>
+    </div>
+    
+    <!-- 模态框表单 -->
+    <form id="address-form" class="p-6 space-y-4">
+      <div class="space-y-2">
+        <label for="recipient-name" class="block text-sm font-medium text-neutral-700">收件人</label>
+        <input type="text" id="recipient-name" name="recipient_name" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入收货人姓名">
+      </div>
+      
+      <div class="space-y-2">
+        <label for="phone-number" class="block text-sm font-medium text-neutral-700">手机号码</label>
+        <input type="tel" id="phone-number" name="phone_number" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入手机号码">
+      </div>
+      
+      <div class="space-y-2">
+        <label class="block text-sm font-medium text-neutral-700">所在地区</label>
+        <div class="flex space-x-2">
+          <select id="province" name="province" class="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+            <option value="">请选择省份</option>
+            <option value="北京市">北京市</option>
+            <option value="上海市">上海市</option>
+            <option value="广东省">广东省</option>
+            <!-- 其他省份选项 -->
+          </select>
+          <select id="city" name="city" class="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+            <option value="">请选择城市</option>
+          </select>
+          <select id="district" name="district" class="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+            <option value="">请选择区县</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="space-y-2">
+        <label for="address-detail" class="block text-sm font-medium text-neutral-700">详细地址</label>
+        <textarea id="address-detail" name="address_detail" rows="3" class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" placeholder="请输入详细地址信息，如街道、门牌号等"></textarea>
+      </div>
+      
+      <div class="flex items-center">
+        <input type="checkbox" id="set-default" name="set_default" class="h-4 w-4 text-primary focus:ring-primary border-neutral-300 rounded">
+        <label for="set-default" class="ml-2 block text-sm text-neutral-700">设为默认收货地址</label>
+      </div>
+      
+      <!-- 模态框底部按钮 -->
+      <div class="flex space-x-3 pt-4">
+        <button type="button" id="cancel-button" class="flex-1 px-6 py-2.5 bg-white border border-neutral-300 rounded-lg text-neutral-700 font-medium hover:bg-neutral-50 transition-colors">
+          取消
+        </button>
+        <button type="submit" class="flex-1 px-6 py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors">
+          保存地址
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+    
+<!-- 替换现有的JavaScript代码 -->
+<script>
+  // 模态框相关元素
+  const addAddressButton = document.getElementById('add-address-button');
+  const addressModal = document.getElementById('address-modal');
+  const modalContent = document.getElementById('modal-content');
+  const modalBackdrop = document.getElementById('modal-backdrop');
+  const closeModalButton = document.getElementById('close-modal-button');
+  const cancelButton = document.getElementById('cancel-button');
+  const addressForm = document.getElementById('address-form');
+  
+  // 地址选择相关元素
+  const provinceSelect = document.getElementById('province');
+  const citySelect = document.getElementById('city');
+  const districtSelect = document.getElementById('district');
+  
+  // 当前编辑的地址ID，用于区分添加和编辑操作
+  let currentAddressId = null;
+  
+  // 显示模态框
+  function showModal() {
+    addressModal.classList.remove('hidden');
+    // 触发重排，然后添加动画效果
+    setTimeout(() => {
+      modalContent.classList.remove('scale-95', 'opacity-0');
+      modalContent.classList.add('scale-100', 'opacity-100');
+    }, 10);
+    
+    // 加载省份数据
+    loadProvinces();
+  }
+  
+  // 隐藏模态框
+  function hideModal() {
+    modalContent.classList.remove('scale-100', 'opacity-100');
+    modalContent.classList.add('scale-95', 'opacity-0');
+    // 等待动画完成后隐藏整个模态框
+    setTimeout(() => {
+      addressModal.classList.add('hidden');
+      // 重置表单和当前编辑的地址ID
+      addressForm.reset();
+      currentAddressId = null;
+      document.querySelector('#address-modal h4').textContent = '添加新地址';
+    }, 300);
+  }
+  
+  // 从API加载省份数据
+  function loadProvinces() {
+    // 清空省份选择框
+    provinceSelect.innerHTML = '<option value="">请选择省份</option>';
+    citySelect.innerHTML = '<option value="">请选择城市</option>';
+    districtSelect.innerHTML = '<option value="">请选择区县</option>';
+    
+    // 发送请求获取省份数据
+    fetch('/users/addresses/provinces/')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('网络响应错误: ' + response.status);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('获取到的省份数据:', data);
+        if (data.success && data.provinces) {
+          // 遍历省份数据，添加到选择框
+          if (Array.isArray(data.provinces)) {
+            data.provinces.forEach(province => {
+              const option = document.createElement('option');
+              // 确保正确获取省份名称，尝试多种可能的属性名
+              const provinceName = province.name || province.provinceName || province.province || province;
+              option.value = provinceName;
+              option.textContent = provinceName;
+              provinceSelect.appendChild(option);
+            });
+          } else if (data.provinces.list && Array.isArray(data.provinces.list)) {
+              data.provinces.list.forEach(province => {
+                const option = document.createElement('option');
+                // 正确使用proName属性，添加默认值避免空值
+                const provinceName = province.proName || "未知省份";
+                option.value = provinceName;
+                option.textContent = provinceName;
+                provinceSelect.appendChild(option);
+              });
+            }
+        } else {
+          alert('获取省份数据失败：' + (data.message || '未知错误'));
+        }
+      })
+      .catch(error => {
+        console.error('获取省份数据时发生错误：', error);
+        alert('获取省份数据失败，请稍后重试');
+      });
+  }
+  
+  // 绑定事件监听器
+  addAddressButton.addEventListener('click', showModal);
+  closeModalButton.addEventListener('click', hideModal);
+  cancelButton.addEventListener('click', hideModal);
+  modalBackdrop.addEventListener('click', hideModal);
+  
+  // 点击模态框内容区域不关闭模态框
+  modalContent.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+  
+// 定义直辖市列表
+const municipalities = ["北京市", "上海市", "天津市", "重庆市"];
+const municipalityMap = {
+  "北京市": { pname: "北京", cname: "北京市" },
+  "天津市": { pname: "天津", cname: "天津市" },
+  "上海市": { pname: "上海", cname: "上海市" },
+  "重庆市": { pname: "重庆", cname: "重庆市" }
+};
+// 省份变化时的处理逻辑
+provinceSelect.addEventListener('change', () => {
+  const selectedProvince = provinceSelect.value;
+  citySelect.innerHTML = '<option value="">请选择城市</option>';
+  districtSelect.innerHTML = '<option value="">请选择区县</option>';
+  
+  if (selectedProvince) {
+    // 判断是否为直辖市
+    if (municipalities.includes(selectedProvince)) {
+      // 直辖市：城市默认为自身，直接设置城市选择框并触发区县加载
+      const option = document.createElement('option');
+      option.value = selectedProvince; // 城市值设为直辖市名称
+      option.textContent = selectedProvince;
+      option.selected = true; // 自动选中
+      citySelect.appendChild(option);
+      
+      // 手动触发城市变化事件，加载区县
+      const event = new Event('change');
+      citySelect.dispatchEvent(event);
+    } else {
+      // 普通省份：正常请求城市数据
+      fetch(`/users/addresses/cities/?pname=${encodeURIComponent(selectedProvince)}`)
+        .then(response => {
+          if (!response.ok) throw new Error('网络响应错误: ' + response.status);
+          return response.json();
+        })
+        .then(data => {
+          console.log('获取到的城市数据:', data);
+          
+          if (data.success) {
+            let cities = [];
+            if (data.cities && data.cities.list && Array.isArray(data.cities.list)) {
+              cities = data.cities.list;
+            } else if (Array.isArray(data.cities)) {
+              cities = data.cities;
+            }
+            
+            if (cities.length > 0) {
+              cities.forEach(city => {
+                const option = document.createElement('option');
+                // 城市是字符串数组，直接使用city作为名称（修正原对象属性访问错误）
+                const cityName = city || "未知城市";
+                option.value = cityName;
+                option.textContent = cityName;
+                citySelect.appendChild(option);
+              });
+            } else {
+              citySelect.innerHTML += '<option value="">未找到城市数据</option>';
+            }
+          } else {
+            citySelect.innerHTML += `<option value="">${data.message || '获取城市数据失败'}</option>`;
+          }
+        })
+        .catch(error => {
+          console.error('获取城市数据错误：', error);
+          citySelect.innerHTML += '<option value="">获取失败，请重试</option>';
+        });
+    }
+  }
+});
+  
+// 城市变化时更新区县选项
+citySelect.addEventListener('change', () => {
+  const selectedProvince = provinceSelect.value;
+  const selectedCity = citySelect.value;
+  districtSelect.innerHTML = '<option value="">请选择区县</option>';
+  
+  if (selectedProvince && selectedCity) {
+    // 处理直辖市参数：pname用简称，cname用全称
+    let pname = selectedProvince;
+    let cname = selectedCity;
+    
+    // 若为直辖市，从映射表中获取正确的pname（简称）
+    if (municipalityMap.hasOwnProperty(selectedProvince)) {
+      pname = municipalityMap[selectedProvince].pname;
+      cname = municipalityMap[selectedProvince].cname; // 确保cname是全称
+    }
+    
+    // 用处理后的pname和cname请求区县数据
+    fetch(`/users/addresses/districts/?pname=${encodeURIComponent(pname)}&cname=${encodeURIComponent(cname)}`)
+      .then(response => {
+        if (!response.ok) throw new Error('网络响应错误: ' + response.status);
+        return response.json();
+      })
+      .then(data => {
+        console.log('获取到的区县数据:', data);
+        
+        // 解析区县数据（原有逻辑不变，适配API返回格式）
+        if (data.success) {
+          let districts = [];
+          // 兼容第三方API的list结构（如{"message":"获取地区县成功","list":["中山区"...]}）
+          if (data.districts && data.districts.list && Array.isArray(data.districts.list)) {
+            districts = data.districts.list;
+          } else if (data.list && Array.isArray(data.list)) { // 直接读取list字段（第三方API可能返回此结构）
+            districts = data.list;
+          } else if (Array.isArray(data.districts)) {
+            districts = data.districts;
+          }
+          
+          if (districts.length > 0) {
+            districts.forEach(district => {
+              const option = document.createElement('option');
+              const districtName = district || "未知区县";
+              option.value = districtName;
+              option.textContent = districtName;
+              districtSelect.appendChild(option);
+            });
+          } else {
+            districtSelect.innerHTML += '<option value="">未找到区县数据</option>';
+          }
+        } else {
+          districtSelect.innerHTML += `<option value="">${data.message || '获取区县数据失败'}</option>`;
+        }
+      })
+      .catch(error => {
+        console.error('获取区县数据错误：', error);
+        districtSelect.innerHTML += '<option value="">获取失败，请重试</option>';
+      });
+  }
+});
+  
+  
+  // 表单提交处理
+  addressForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // 获取表单数据
+    const formData = new FormData(addressForm);
+    const addressData = {
+      recipient_name: formData.get('recipient_name'),
+      phone_number: formData.get('phone_number'),
+      province: formData.get('province'),
+      city: formData.get('city'),
+      district: formData.get('district'),
+      address_detail: formData.get('address_detail'),
+      set_default: formData.get('set_default') !== null
+    };
+    
+    // 表单验证
+    if (!addressData.recipient_name) {
+      alert('请输入收件人姓名');
+      return;
+    }
+    if (!addressData.phone_number) {
+      alert('请输入手机号码');
+      return;
+    }
+    if (!addressData.province || !addressData.city || !addressData.district) {
+      alert('请选择完整的地区信息');
+      return;
+    }
+    if (!addressData.address_detail) {
+      alert('请输入详细地址');
+      return;
+    }
+    
+    // 发送请求保存地址
+    let url = '/users/addresses/add/';
+    if (currentAddressId) {
+      url = `/users/addresses/update/${currentAddressId}/`;
+    }
+    
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}'
+      },
+      body: JSON.stringify(addressData)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.message);
+          hideModal();
+          // 刷新页面以显示最新的地址列表
+          location.reload();
+        } else {
+          alert(data.message || '保存失败，请稍后重试');
+        }
+      })
+      .catch(error => {
+        console.error('保存地址时发生错误：', error);
+        alert('保存失败，请稍后重试');
+      });
+  });
+  
+  // 编辑地址功能
+  document.querySelectorAll('.address-card button').forEach(button => {
+    if (button.innerHTML.includes('编辑')) {
+      button.addEventListener('click', function() {
+        const addressCard = this.closest('.address-card');
+        const addressId = addressCard.dataset.id;
+        
+        // 这里应该从服务器获取地址详情，然后填充表单
+        // 为简化示例，这里假设我们直接从DOM中提取数据
+        const recipientName = addressCard.querySelector('h4').textContent;
+        const phoneNumber = addressCard.querySelector('span').textContent;
+        const fullAddress = addressCard.querySelector('p').textContent;
+        
+        // 解析地址信息（实际应用中可能需要更复杂的解析逻辑）
+        // 这里只是示例，实际应用中应该从服务器获取完整的地址数据
+        document.querySelector('#address-modal h4').textContent = '编辑地址';
+        document.getElementById('recipient-name').value = recipientName;
+        document.getElementById('phone-number').value = phoneNumber.replace(/\*/g, ''); // 假设电话号码格式为138****6789
+        
+        // 显示模态框
+        showModal();
+        currentAddressId = addressId;
+      });
+    } else if (button.innerHTML.includes('删除')) {
+      button.addEventListener('click', function() {
+        const addressCard = this.closest('.address-card');
+        const addressId = addressCard.dataset.id;
+        
+        if (confirm('确定要删除这个地址吗？')) {
+          // 发送请求删除地址
+          fetch(`/users/addresses/delete/${addressId}/`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': '{{ csrf_token }}'
+            }
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                alert(data.message);
+                // 刷新页面以显示最新的地址列表
+                location.reload();
+              } else {
+                alert(data.message || '删除失败，请稍后重试');
+              }
+            })
+            .catch(error => {
+              console.error('删除地址时发生错误：', error);
+              alert('删除失败，请稍后重试');
+            });
+        }
+      });
+    }
+  });
+</script>
 {% endblock %}

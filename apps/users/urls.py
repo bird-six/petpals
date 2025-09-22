@@ -5,6 +5,7 @@ app_name = 'users'
 urlpatterns = [
     path('profile/', views.user_profile, name='user_profile'),
     path('login/', views.user_login, name='user_login'),
+    path('logout/', views.user_logout, name='user_logout'),
     path('register/', views.user_register, name='user_register'),
     path('my_orders/', views.my_orders, name='my_orders'),
     path('shopping_cart/', views.shopping_cart, name='shopping_cart'),
@@ -13,4 +14,9 @@ urlpatterns = [
     path('my_favorites/', views.my_favorites, name='my_favorites'),
     path('my_posts/', views.my_posts, name='my_posts'),
     path('account_settings/', views.account_settings, name='account_settings'),
+
+    path('addresses/provinces/', views.get_provinces, name='get_provinces'),
+    path('addresses/cities/', views.get_cities, name='get_cities'),
+    path('addresses/districts/', views.get_districts, name='get_districts'),
+    path('addresses/add/', views.add_address, name='add_address'),
 ]

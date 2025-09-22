@@ -446,7 +446,7 @@
           
           // 显示成功消息
           showSuccessMessage('注册成功！请登录您的账户');
-          
+          updateCsrfTokens();
           // 切换到登录表单
           setTimeout(switchToLogin, 2000);
         })
@@ -463,6 +463,29 @@
           }
         });
       });
+
+       // 添加获取Cookie和更新CSRF令牌的函数
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function updateCsrfTokens() {
+        const csrfToken = getCookie('csrftoken');
+        document.querySelectorAll('input[name="csrfmiddlewaretoken"]').forEach(input => {
+            input.value = csrfToken;
+        });
+    }
 
       // 登录表单验证
       function validateLoginForm() {

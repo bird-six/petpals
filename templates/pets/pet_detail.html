@@ -439,6 +439,7 @@ carouselSlider.addEventListener('mouseleave', () => {
     }, 5000);
 });
 
+
 // 加入购物车按钮点击事件
 const addToCartBtn = document.getElementById('add-to-cart-btn');
 if (addToCartBtn) {
@@ -465,19 +466,22 @@ if (addToCartBtn) {
             this.innerHTML = originalText;
             this.disabled = false;
             
-            // 显示成功消息
+            // 显示成功消息 - 使用自定义toast代替alert
             if (data.success) {
-                alert(data.message);
+                showToast(data.message, 'success');
+            } else {
+                showToast(data.message, 'error');
             }
         })
         .catch(error => {
             console.error('添加到购物车失败:', error);
             this.innerHTML = originalText;
             this.disabled = false;
-            alert('添加到购物车失败，请稍后再试。');
+            showToast('添加到购物车失败，请稍后再试。', 'error');
         });
     });
 }
+
 
 // 获取CSRF令牌的辅助函数
 function getCookie(name) {
