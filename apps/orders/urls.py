@@ -4,4 +4,5 @@ from apps.orders import views
 app_name = 'orders'
 urlpatterns = [
     path('', views.orders, name='orders'),
+    path('submit/', views.order_submit, name='order_submit'),
 ]

@@ -307,7 +307,6 @@ if (selectAllCheckbox && itemCheckboxes.length > 0) {
 }
 
 // 删除选中商品功能
-// 删除选中商品功能
 if (deleteSelectedBtn && itemCheckboxes.length > 0) {
     let selectedPetIds = []; // 用于存储当前选中的宠物ID
     
@@ -439,7 +438,7 @@ if (checkoutBtn) {
     selectedPetIds.forEach(petId => {
       const input = document.createElement('input');
       input.type = 'hidden';
-      input.name = 'pet_ids'; // 后端通过request.POST.getlist('pet_ids')获取
+      input.name = 'pet_ids';
       input.value = petId;
       form.appendChild(input);
     });

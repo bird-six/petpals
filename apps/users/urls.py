@@ -19,4 +19,8 @@ urlpatterns = [
     path('addresses/cities/', views.get_cities, name='get_cities'),
     path('addresses/districts/', views.get_districts, name='get_districts'),
     path('addresses/add/', views.add_address, name='add_address'),
+    path('addresses/delete/<int:address_id>/', views.delete_address, name='delete_address'),
+    path('addresses/set_default/<int:address_id>/', views.set_default_address, name='set_default_address'),
+    path('addresses/get/<int:address_id>/', views.get_address, name='get_address'),
+    path('addresses/edit/<int:address_id>/', views.edit_address, name='edit_address'),
 ]

@@ -6,7 +6,10 @@ from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 import http.client
+
+from apps.orders.models import Order
 from apps.users.models import User, Address
+from tools.pet_age import calculate_pet_age
 
 
 def user_profile(request):
@@ -22,13 +25,20 @@ def user_profile(request):
 
 def my_orders(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    # 获取用户所有订单（按创建时间倒序）
+    orders = Order.objects.filter(user=request.user).order_by('-created_time')
+
+    for order in orders:
+        for item in order.items.all():
+            # 计算宠物年龄并添加到订单项对象上
+            item.pet_age = calculate_pet_age(item.pet.birth_date)
 
     if is_ajax:
         # 返回局部模板（不含header/footer）
-        return render(request, 'users/partial/my_orders_partial.html', {'user': request.user})
+        return render(request, 'users/partial/my_orders_partial.html', {'user': request.user, 'orders': orders})
     else:
         # 返回完整页面
-        return render(request, 'users/my_orders.html')
+        return render(request, 'users/my_orders.html', {'orders': orders})
 
 
 def shopping_cart(request):
@@ -46,6 +56,23 @@ def addresses(request):
         return render(request, 'users/partial/addresses_partial.html', {'user': request.user, 'addresses': addresses})
     else:
         return render(request, 'users/addresses.html', {'addresses': addresses})
+
+def set_default_address(request, address_id):
+    if request.method == 'POST':
+        try:
+            # 查找指定地址
+            address = Address.objects.get(id=address_id, user=request.user)
+            # 取消其他地址的默认状态
+            Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
+            # 设置当前地址为默认
+            address.is_default = True
+            address.save()
+            return JsonResponse({'success': True, 'message': '默认地址设置成功'})
+        except Address.DoesNotExist:
+            return JsonResponse({'success': False, 'message': '地址不存在或不属于当前用户'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+    return JsonResponse({'success': False, 'message': '请求方法错误'})
 
 def browsing_history(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
@@ -202,7 +229,6 @@ def add_address(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-
             # 创建地址对象
             address = Address(
                 user=request.user,
@@ -225,4 +251,80 @@ def add_address(request):
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
 
+    return JsonResponse({'success': False, 'message': '请求方法错误'})
+@login_required
+def delete_address(request, address_id):
+    """删除地址"""
+    if request.method == 'POST':
+        try:
+            # 查找指定地址并验证所有权
+            address = Address.objects.get(id=address_id, user=request.user)
+            # 删除地址
+            address.delete()
+            return JsonResponse({'success': True, 'message': '地址删除成功'})
+        except Address.DoesNotExist:
+            return JsonResponse({'success': False, 'message': '地址不存在或不属于当前用户'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+    return JsonResponse({'success': False, 'message': '请求方法错误'})
+
+@login_required
+def get_address(request, address_id):
+    """获取地址详情"""
+    if request.method == 'GET':
+        try:
+            # 查找指定地址并验证所有权
+            address = Address.objects.get(id=address_id, user=request.user)
+            # 构建地址详情数据
+            address_data = {
+                'id': address.id,
+                'recipient_name': address.recipient_name,
+                'phone_number': address.phone_number,
+                'province': address.province,
+                'city': address.city,
+                'district': address.district,
+                'detail_address': address.detail_address,
+                'is_default': address.is_default
+            }
+            return JsonResponse({'success': True, 'address': address_data})
+        except Address.DoesNotExist:
+            return JsonResponse({'success': False, 'message': '地址不存在或不属于当前用户'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+    return JsonResponse({'success': False, 'message': '请求方法错误'})
+
+
+@login_required
+def edit_address(request, address_id):
+    """编辑地址"""
+    if request.method == 'POST':
+        try:
+            # 查找指定地址并验证所有权
+            address = Address.objects.get(id=address_id, user=request.user)
+            data = json.loads(request.body)
+
+            # 更新地址信息
+            address.recipient_name = data.get('recipient_name', address.recipient_name)
+            address.phone_number = data.get('phone_number', address.phone_number)
+            address.province = data.get('province', address.province)
+            address.city = data.get('city', address.city)
+            address.district = data.get('district', address.district)
+            address.detail_address = data.get('address_detail', address.detail_address)
+
+            # 处理默认地址设置
+            set_default = data.get('set_default', False)
+            if set_default and not address.is_default:
+                # 取消其他地址的默认状态
+                Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
+                address.is_default = True
+            elif not set_default and address.is_default:
+                address.is_default = False
+
+            address.save()
+
+            return JsonResponse({'success': True, 'message': '地址更新成功'})
+        except Address.DoesNotExist:
+            return JsonResponse({'success': False, 'message': '地址不存在或不属于当前用户'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
     return JsonResponse({'success': False, 'message': '请求方法错误'})

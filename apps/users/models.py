@@ -51,7 +51,7 @@ class Address(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="addresses",  # 便于通过用户查询地址：user.addresses.all()
+        related_name="addresses",
         verbose_name="用户"
     )
     recipient_name = models.CharField(

@@ -8,5 +8,5 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'recipient_name', 'phone_number', 'province', 'city', 'district', 'detail_address', 'is_default')
+    list_display = ('user', 'recipient_name', 'phone_number', 'province', 'city', 'district', 'detail_address', 'is_default')
 
