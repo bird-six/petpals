@@ -14,7 +14,7 @@
         <span class="text-neutral-900">确认订单</span>
       </div>
 
-      <h1 class="text-2xl font-bold text-neutral-900 mb-8 fade-in" style="transition-delay: 0.1s">
+      <h1 class="text-2xl font-bold text-neutral-900 mb-8">
         <i class="fa fa-file-text-o text-primary mr-2"></i>确认订单信息
       </h1>
 
@@ -22,7 +22,7 @@
         <!-- 左侧订单详情 -->
         <div class="lg:col-span-2 space-y-6">
           <!-- 收货地址 -->
-          <div class="bg-white rounded-xl shadow-sm p-6 fade-in" style="transition-delay: 0.2s">
+          <div class="bg-white rounded-xl shadow-sm p-6">
             <h2 class="text-lg font-bold text-neutral-900 mb-4 flex items-center">
               <i class="fa fa-map-marker text-primary mr-2"></i>收货地址
             </h2>
@@ -59,7 +59,7 @@
           </div>
 
           <!-- 支付方式 -->
-          <div class="bg-white rounded-xl shadow-sm p-6 fade-in" style="transition-delay: 0.3s">
+          <div class="bg-white rounded-xl shadow-sm p-6">
             <h2 class="text-lg font-bold text-neutral-900 mb-4 flex items-center">
               <i class="fa fa-credit-card text-primary mr-2"></i>支付方式
             </h2>
@@ -93,7 +93,7 @@
           </div>
 
           <!-- 订单商品 -->
-          <div class="bg-white rounded-xl shadow-sm p-6 fade-in" style="transition-delay: 0.4s">
+          <div class="bg-white rounded-xl shadow-sm p-6">
             <h2 class="text-lg font-bold text-neutral-900 mb-4 flex items-center">
               <i class="fa fa-shopping-basket text-primary mr-2"></i>订单商品
             </h2>
@@ -118,7 +118,7 @@
           </div>
 
           <!-- 备注信息 -->
-          <div class="bg-white rounded-xl shadow-sm p-6 fade-in" style="transition-delay: 0.5s">
+          <div class="bg-white rounded-xl shadow-sm p-6">
             <h2 class="text-lg font-bold text-neutral-900 mb-4 flex items-center">
               <i class="fa fa-comment-o text-primary mr-2"></i>订单备注
             </h2>
@@ -134,7 +134,7 @@
 
         <!-- 右侧结算信息 -->
         <div class="lg:col-span-1">
-          <div class="bg-white rounded-xl shadow-sm p-6 sticky top-24 fade-in" style="transition-delay: 0.3s">
+          <div class="bg-white rounded-xl shadow-sm p-6 sticky top-24">
             <h2 class="text-lg font-bold text-neutral-900 mb-4">订单摘要</h2>
             
             <div class="space-y-3 text-sm">
@@ -183,254 +183,181 @@
     </div>
   </div>
 </section>
-
-<!-- 提交订单确认弹窗 -->
-<div id="order-confirm-overlay" class="hidden fixed inset-0 bg-black/50 z-50 transition-opacity">
-  <div class="flex items-center justify-center min-h-screen">
-    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 fade-in-up">
-      <div class="text-center mb-6">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-          <i class="fa fa-credit-card text-2xl text-primary"></i>
-        </div>
-        <h3 class="text-lg font-bold">确认支付</h3>
-        <p class="text-neutral-600 mt-2">您即将支付 <span class="text-primary font-bold">¥{{ total_price }}</span></p>
-      </div>
-      
-      <div class="flex justify-end space-x-3">
-        <button id="cancel-payment" class="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg">
-          取消
-        </button>
-        <button id="confirm-payment" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90">
-          确认支付
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+    
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
   // 地址选择功能
-  document.addEventListener('DOMContentLoaded', function() {
-    const addressCards = document.querySelectorAll('.address-card');
-    
-    addressCards.forEach(card => {
-      card.addEventListener('click', function() {
-        // 移除所有卡片的active状态和对勾图标
-        addressCards.forEach(c => {
-          c.classList.remove('active');
-          const icon = c.querySelector('.fa');
+  const addressCards = document.querySelectorAll('.address-card');
+  
+  addressCards.forEach(card => {
+    card.addEventListener('click', function() {
+      // 移除所有地址卡片的选中状态
+      addressCards.forEach(c => {
+        c.classList.remove('active', 'border-primary');
+        c.classList.add('border-neutral-300');
+        
+        // 移除其他卡片的勾选图标
+        const icon = c.querySelector('.fa');
+        if (icon) {
           icon.classList.remove('fa-check-circle', 'text-primary');
           icon.classList.add('fa-circle-o', 'text-neutral-400');
-        });
-        
-        // 设置当前卡片为active状态并显示对勾图标
-        this.classList.add('active');
-        const icon = this.querySelector('.fa');
-        icon.classList.remove('fa-circle-o', 'text-neutral-400');
-        icon.classList.add('fa-check-circle', 'text-primary');
+        }
       });
+      
+      // 设置当前卡片为选中状态
+      this.classList.add('active', 'border-primary');
+      this.classList.remove('border-neutral-300');
+      
+      // 添加勾选图标
+      const currentIcon = this.querySelector('.fa');
+      if (currentIcon) {
+        currentIcon.classList.remove('fa-circle-o', 'text-neutral-400');
+        currentIcon.classList.add('fa-check-circle', 'text-primary');
+      }
+    });
+  });
+  // 自动选中默认地址
+  const defaultAddressCard = document.querySelector('.address-card:has(.text-primary.px-2.py-1.rounded)');
+  if (defaultAddressCard) {
+    // 触发点击事件以确保所有选中状态都正确设置
+    defaultAddressCard.click();
+  }
+  
+  // 支付方式选择功能
+  const paymentMethods = document.querySelectorAll('.payment-method');
+  
+  paymentMethods.forEach(method => {
+    method.addEventListener('click', function() {
+      // 移除所有支付方式的选中状态
+      paymentMethods.forEach(m => {
+        m.classList.remove('active', 'border-primary');
+        m.classList.add('border-neutral-300');
+        
+        // 隐藏其他支付方式的勾选图标
+        const icon = m.querySelector('.fa-check-circle');
+        if (icon) {
+          icon.classList.add('hidden');
+        }
+      });
+      
+      // 设置当前支付方式为选中状态
+      this.classList.add('active', 'border-primary');
+      this.classList.remove('border-neutral-300');
+      
+      // 添加勾选图标
+      const checkIcon = document.createElement('i');
+      checkIcon.className = 'fa fa-check-circle text-primary ml-auto';
+      this.appendChild(checkIcon);
+      
     });
   });
   
-    // 支付方式选择功能
-    const paymentMethods = document.querySelectorAll('.payment-method');
+  // 自动选中支付宝支付方式
+  const alipayMethod = document.getElementById('payment-alipay');
+  if (alipayMethod) {
+    // 触发点击事件以选中支付宝
+    alipayMethod.click();
+  }
+  
+  // 提交订单功能
+  const submitButton = document.getElementById('submit-order');
+  
+  submitButton.addEventListener('click', function() {
+    // 获取选中的地址ID
+    const selectedAddress = document.querySelector('.address-card.active');
+    if (!selectedAddress) {
+      alert('请选择收货地址');
+      return;
+    }
+    const addressId = selectedAddress.getAttribute('data-id');
     
-    // 为每个支付方式添加点击事件
-    paymentMethods.forEach(method => {
-      method.addEventListener('click', function() {
-        // 移除所有支付方式的选中状态和选中图标
-        paymentMethods.forEach(m => {
-          m.classList.remove('active');
-          // 查找并移除选中图标
-          const checkIcon = m.querySelector('.fa-check-circle');
-          if (checkIcon) {
-            checkIcon.remove();
-          }
-        });
-        
-        // 添加当前支付方式的选中状态
-        this.classList.add('active');
-        
-        // 添加选中图标
-        const checkIcon = document.createElement('i');
-        checkIcon.className = 'fa fa-check-circle text-primary ml-auto';
-        this.appendChild(checkIcon);
+    // 获取选中的支付方式
+    const selectedPayment = document.querySelector('.payment-method.active');
+    if (!selectedPayment) {
+      alert('请选择支付方式');
+      return;
+    }
+    let paymentMethod = '';
+    if (selectedPayment.id === 'payment-wechat') {
+      paymentMethod = 'wechat';
+    } else if (selectedPayment.id === 'payment-alipay') {
+      paymentMethod = 'alipay';
+    } else if (selectedPayment.id === 'payment-cod') {
+      paymentMethod = 'cod';
+    }
+    
+    // 获取订单备注
+    const remarks = document.getElementById('order-remarks').value;
+    
+    // 收集商品信息
+    const orderItems = [];
+    document.querySelectorAll('#order-items-container > a').forEach(item => {
+      const hrefParts = item.getAttribute('href').split('/').filter(part => part !== '');
+      const petId = hrefParts[hrefParts.length - 1];
+      const name = item.querySelector('h3').textContent;
+      const price = item.querySelector('.text-secondary').textContent.replace('¥', '');
+      const quantity = item.querySelector('.flex.justify-between .text-neutral-600').textContent.replace('x', '');
+      
+      orderItems.push({
+        pet_id: petId,
+        name: name,
+        price: price,
+        quantity: quantity
       });
     });
+    
+    // 构建订单数据
+    const orderData = {
+      address_id: addressId,
+      payment_method: paymentMethod,
+      remarks: remarks,
+      items: orderItems
+    };
+    
+    // 发送POST请求到order_create视图
+    fetch("{% url 'orders:order_create' %}", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken') // 获取CSRF令牌
+      },
+      body: JSON.stringify(orderData),
+      redirect: 'follow' // 允许跟随重定向
+    })
+    .then(response => {
+      // 如果是重定向响应，直接跳转
+      if (response.redirected) {
+        window.location.href = response.url;
+        return;
+      }
+      
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('订单提交失败');
+    })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('提交订单时发生错误，请稍后重试');
+      });
+  });
   
-    // 提交订单按钮点击事件
-    document.addEventListener('DOMContentLoaded', function() {
-    const submitOrderBtn = document.getElementById('submit-order');
-    const orderConfirmOverlay = document.getElementById('order-confirm-overlay');
-    const cancelPaymentBtn = document.getElementById('cancel-payment');
-    const confirmPaymentBtn = document.getElementById('confirm-payment');
-
-    // 显示确认弹窗
-    submitOrderBtn.addEventListener('click', function() {
-        orderConfirmOverlay.classList.remove('hidden');
-        setTimeout(() => {
-            orderConfirmOverlay.style.opacity = '1';
-        }, 10);
-    });
-
-    // 取消支付，隐藏弹窗
-    cancelPaymentBtn.addEventListener('click', function() {
-        orderConfirmOverlay.style.opacity = '0';
-        setTimeout(() => {
-            orderConfirmOverlay.classList.add('hidden');
-        }, 300);
-    });
-
-    // 确认支付，收集数据并提交
-    confirmPaymentBtn.addEventListener('click', function() {
-        const orderData = collectOrderData();
-        if (orderData) {
-            submitOrderData(orderData);
+  // 辅助函数：获取CSRF令牌
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
         }
-    });
-
-    // 收集订单数据（基于ID获取）
-    function collectOrderData() {
-        // 1. 获取选中的地址ID（通过地址容器ID定位）
-        const addressContainer = document.getElementById('address-cards-container');
-        const selectedAddress = addressContainer.querySelector('.address-card.active');
-        if (!selectedAddress) {
-            alert('请选择收货地址');
-            return null;
-        }
-        const addressId = selectedAddress.getAttribute('data-id');
-
-        // 2. 获取选中的支付方式（通过支付方式容器内的active类）
-        const selectedPayment = document.querySelector('.payment-method.active');
-        if (!selectedPayment) {
-            alert('请选择支付方式');
-            return null;
-        }
-        // 通过ID判断支付方式类型（更精准）
-        let paymentMethod;
-        if (selectedPayment.id === 'payment-wechat') {
-            paymentMethod = '微信支付';
-        } else if (selectedPayment.id === 'payment-alipay') {
-            paymentMethod = '支付宝';
-        } else if (selectedPayment.id === 'payment-cod') {
-            paymentMethod = '货到付款';
-        }
-
-        // 3. 获取商品信息（通过商品容器ID）
-        const itemsContainer = document.getElementById('order-items-container');
-        const items = [];
-        itemsContainer.querySelectorAll('a').forEach(item => {
-            // 从链接中提取宠物ID 
-            const petLink = item.getAttribute('href');
-            // 修复：先移除URL末尾的斜杠，然后再分割
-            const cleanLink = petLink.replace(/\/$/, '');
-            const petId = cleanLink.split('/').pop();
-            
-            // 获取商品数量
-            const quantityText = item.querySelector('.flex.justify-between span:last-child').textContent;
-            const quantity = parseInt(quantityText.replace('x', ''));
-            
-            items.push({
-                pet_id: petId,
-                quantity: quantity
-            });
-        });
-
-        if (items.length === 0) {
-            alert('订单中没有商品');
-            return null;
-        }
-
-        // 4. 获取备注信息
-        const remarks = document.getElementById('order-remarks').value.trim();
-
-        return {
-            address_id: addressId,
-            payment_method: paymentMethod,
-            items: items,
-            remarks: remarks
-        };
+      }
     }
-
-    // 提交订单数据到服务器
-    function submitOrderData(orderData) {
-        const csrftoken = getCookie('csrftoken');
-        
-        fetch("{% url 'orders:order_submit' %}", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken
-            },
-            body: JSON.stringify(orderData)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('网络响应不正常');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                window.location.href = data.redirect_url;
-            } else {
-                alert('订单提交失败: ' + (data.message || '未知错误'));
-            }
-        })
-        .catch(error => {
-            console.error('订单提交出错:', error);
-            alert('提交订单时发生错误，请稍后再试');
-        });
-    }
-
-    // 获取CSRF cookie
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    // 地址选择功能（保持不变）
-    const addressCards = document.querySelectorAll('.address-card');
-    addressCards.forEach(card => {
-        card.addEventListener('click', function() {
-            addressCards.forEach(c => {
-                c.classList.remove('active');
-                const icon = c.querySelector('.fa');
-                icon.classList.remove('fa-check-circle', 'text-primary');
-                icon.classList.add('fa-circle-o', 'text-neutral-400');
-            });
-            this.classList.add('active');
-            const icon = this.querySelector('.fa');
-            icon.classList.remove('fa-circle-o', 'text-neutral-400');
-            icon.classList.add('fa-check-circle', 'text-primary');
-        });
-    });
-
-    // 支付方式选择功能（保持不变）
-    const paymentMethods = document.querySelectorAll('.payment-method');
-    paymentMethods.forEach(method => {
-        method.addEventListener('click', function() {
-            paymentMethods.forEach(m => {
-                m.classList.remove('active');
-                const checkIcon = m.querySelector('.fa-check-circle');
-                if (checkIcon) checkIcon.remove();
-            });
-            this.classList.add('active');
-            const checkIcon = document.createElement('i');
-            checkIcon.className = 'fa fa-check-circle text-primary ml-auto';
-            this.appendChild(checkIcon);
-        });
-    });
+    return cookieValue;
+  }
 });
 </script>
 {% endblock %}

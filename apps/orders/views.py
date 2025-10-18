@@ -1,175 +1,122 @@
 import json
+
+from alipay.aop.api.AlipayClientConfig import AlipayClientConfig
+from alipay.aop.api.DefaultAlipayClient import DefaultAlipayClient
+from alipay.aop.api.domain.AlipayTradePagePayModel import AlipayTradePagePayModel
+from alipay.aop.api.request.AlipayTradePagePayRequest import AlipayTradePagePayRequest
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from apps.cart.models import Cart, CartItem
 from apps.orders.models import Order, OrderItem
 from apps.pets.models import Pet
 from apps.users.models import Address
+from petpals import settings
 
 
-@login_required  # 确保用户已登录
-def orders(request):
+@login_required
+def order(request):
     if request.method == 'POST':
-        # 获取用户地址
-        user_addresses = Address.objects.filter(user=request.user)
-        # 1. 获取前端提交的选中商品ID列表
+        # 获取选中的宠物商品ID
         pet_ids = request.POST.getlist('pet_ids')
         if not pet_ids:
             return redirect('cart:cart')  # 无商品ID则返回购物车
 
-        # 2. 验证商品是否属于当前用户的购物车（防止恶意提交）
+        # 获取用户购物车
         user_cart = Cart.objects.get(user=request.user)
-        valid_cart_items = CartItem.objects.filter(
+        selected_items = CartItem.objects.filter(
             cart=user_cart,
             pet_id__in=pet_ids  # 只保留用户购物车中存在的商品
         )
+        total_price = sum(item.get_total_price() for item in selected_items)
+        # 获取用户地址
+        user_addresses = Address.objects.filter(user=request.user)
 
-        # 3. 计算订单总价
-        total_price = sum(item.get_total_price() for item in valid_cart_items)
-
-        # 4. 传递数据到订单模板 - 传递CartItem
         return render(request, 'orders/orders.html', {
-            'selected_items': valid_cart_items,
+            'selected_items': selected_items,
             'total_price': total_price,
             'user_addresses': user_addresses
         })
 
-    # 如果是GET请求（直接访问订单页），返回购物车
-    return render(request, 'cart/cart.html', )
+    return render(request, 'orders/orders.html')
 
+
+@login_required  # 确保用户已登录
+def order_create(request):
+    if request.method == 'POST':
+        # 解析请求体中的JSON数据
+        data = json.loads(request.body.decode('utf-8'))
+        # 获取收货地址
+        address = get_object_or_404(Address, id=data['address_id'], user=request.user)
+        # 计算订单总金额
+        total_amount = 0
+        for item in data['items']:
+            total_amount += float(item['price']) * int(item['quantity'])
+
+        # 创建订单
+        order = Order.objects.create(
+            user=request.user,
+            address=address,
+            total_amount=total_amount,
+            payment_method=data['payment_method'],
+            remark=data.get('remarks', '')
+        )
+        # 为每个商品创建订单项
+        for item_data in data['items']:
+            pet = get_object_or_404(Pet, id=item_data['pet_id'])
+            quantity = int(item_data['quantity'])
+            price = float(item_data['price'])
+
+            OrderItem.objects.create(
+                order=order,
+                pet=pet,
+                price=price,
+                count=quantity,
+                total_price=price * quantity
+            )
+        return redirect('orders:pay', order_id=order.id)
+    # 非POST请求返回错误
+    return JsonResponse({'success': False, 'message': '无效的请求方法'})
 
 @login_required
-def order_submit(request):
-    if request.method == 'POST':
-        try:
-            # 1. 解析JSON数据
-            data = json.loads(request.body)
+def pay(request, order_id):
+    # 获取订单信息
+    order = get_object_or_404(Order, id=order_id, user=request.user)
 
-            # 2. 验证必要字段
-            if not data.get('address_id'):
-                return JsonResponse({
-                    'success': False,
-                    'message': '请选择收货地址'
-                })
+    # 如果订单不存在，返回错误
+    if not order:
+        return JsonResponse({'success': False, 'message': '订单不存在'})
 
-            if not data.get('items') or not isinstance(data.get('items'), list):
-                return JsonResponse({
-                    'success': False,
-                    'message': '订单中没有商品'
-                })
+    # 如果订单不是待支付状态，不进行支付
+    if order.status != '待支付':
+        return JsonResponse({'success': False, 'message': '订单状态不正确'})
 
-            # 3. 开始事务处理
-            with transaction.atomic():
-                # 4. 创建订单主表记录
-                # 验证地址ID是有效的数字
-                try:
-                    address_id = int(data['address_id'])
-                except ValueError:
-                    return JsonResponse({
-                        'success': False,
-                        'message': '无效的地址ID'
-                    })
 
-                address = get_object_or_404(Address, id=address_id, user=request.user)
+    # 初始化客户端配置对象AlipayClientConfig
+    alipay_client_config = AlipayClientConfig()  # 初始化支付宝客户端配置对象
+    alipay_client_config.server_url = 'https://openapi-sandbox.dl.alipaydev.com/gateway.do'  # 沙箱环境
+    alipay_client_config.app_id = settings.ALIPAY_SETTINGS['appid']  # 应用ID
+    alipay_client_config.app_private_key = settings.ALIPAY_SETTINGS['app_private_key']  # 应用私钥
+    alipay_client_config.alipay_public_key = settings.ALIPAY_SETTINGS['alipay_public_key']  # 支付宝公钥
+    alipay_client_config.sign_type = settings.ALIPAY_SETTINGS['sign_type']  # 签名类型（默认RSA2）
 
-                # 验证地址中的收货人信息
-                if not address.recipient_name:
-                    return JsonResponse({
-                        'success': False,
-                        'message': '请填写收货人姓名'
-                    })
+    # 创建客户端DefaultAlipayClient实例
+    alipay_client = DefaultAlipayClient(alipay_client_config)
 
-                if not address.phone_number:
-                    return JsonResponse({
-                        'success': False,
-                        'message': '请填写手机号码'
-                    })
+    # 创建订单参数模型
+    page_pay_model = AlipayTradePagePayModel()
+    page_pay_model.out_trade_no = order.order_number  # 商户订单号（唯一）
+    page_pay_model.total_amount = "{0:.2f}".format(order.total_amount)  # 订单金额
+    page_pay_model.subject = f"PetPals订单-{order.order_number}"  # 订单标题
+    page_pay_model.product_code = "FAST_INSTANT_TRADE_PAY"  # 销售产品码
 
-                order = Order.objects.create(
-                    user=request.user,
-                    address=address,
-                    total_amount=0,
-                    status='pending_payment',
-                    remark=data.get('remarks', ''),
-                    payment_method=data['payment_method']
-                )
+    # 创建支付请求对象
+    page_pay_request = AlipayTradePagePayRequest(biz_model=page_pay_model)  # 关联订单参数模型
+    page_pay_request.return_url = settings.ALIPAY_SETTINGS["app_return_url"]  # 同步回调地址（用户支付后跳转）
+    page_pay_request.notify_url = settings.ALIPAY_SETTINGS["app_notify_url"]  # 异步通知地址（核心状态通知）
 
-                # 5. 计算订单总价并创建订单项
-                total_price = 0
-                for item_data in data['items']:
-                    # 验证商品项数据
-                    if 'pet_id' not in item_data or 'quantity' not in item_data:
-                        return JsonResponse({
-                            'success': False,
-                            'message': '商品数据格式错误'
-                        })
-
-                    # 验证宠物ID是有效的数字
-                    try:
-                        pet_id = int(item_data['pet_id'])
-                    except ValueError:
-                        return JsonResponse({
-                            'success': False,
-                            'message': '无效的商品ID'
-                        })
-
-                    # 获取商品并验证
-                    pet = get_object_or_404(Pet, id=pet_id)
-                    quantity = int(item_data['quantity'])
-
-                    if quantity <= 0:
-                        return JsonResponse({
-                            'success': False,
-                            'message': f'商品"{pet.name}"数量无效'
-                        })
-
-                    # 计算单项总价并累加
-                    item_total = pet.price * quantity
-                    total_price += item_total
-
-                    # 创建订单项
-                    OrderItem.objects.create(
-                        order=order,
-                        pet=pet,
-                        price=pet.price,  # 记录下单时的价格
-                        count=quantity,
-                        total_price=item_total
-                    )
-
-                    # 6. 从购物车中移除已购买的商品
-                    user_cart = Cart.objects.get(user=request.user)
-                    cart_item = CartItem.objects.filter(
-                        cart=user_cart,
-                        pet=pet
-                    ).first()
-                    if cart_item:
-                        cart_item.delete()
-
-                # 7. 更新订单总价
-                order.total_amount = total_price
-                order.save()
-
-                # 8. 返回成功响应，重定向到订单详情页
-                return JsonResponse({
-                    'success': True,
-                    'redirect_url': '/orders/detail/{}/'.format(order.id)
-                })
-
-        except json.JSONDecodeError:
-            return JsonResponse({
-                'success': False,
-                'message': '数据格式错误'
-            })
-        except Exception as e:
-            return JsonResponse({
-                'success': False,
-                'message': f'提交订单时发生错误：{str(e)}'
-            })
-
-    # 如果不是POST请求，返回错误
-    return JsonResponse({
-        'success': False,
-        'message': '不支持的请求方法'
-    })
+    # 生成支付链接，前端跳转支付页面
+    pay_url = alipay_client.page_execute(page_pay_request,
+                                         http_method='GET')  # 调用page_execute方法生成支付链接（http_method可选"GET"或"POST"）
+    return HttpResponse(f'<script>window.location.href="{pay_url}";</script>')  # 返回支付URL，前端跳转至支付宝支付页面

@@ -12,11 +12,11 @@ User = get_user_model()
 class Order(models.Model):
     """订单主表"""
     ORDER_STATUS = (
-        ("pending_payment", "待支付"),
-        ("paid", "已支付"),
-        ("shipped", "已发货"),
-        ("completed", "已完成"),
-        ("cancelled", "已取消"),
+        ("待支付", "待支付"),
+        ("已支付", "已支付"),
+        ("已发货", "已发货"),
+        ("已完成", "已完成"),
+        ("已取消", "已取消"),
     )
     # 添加支付方式选项
     PAYMENT_METHOD = (
@@ -29,7 +29,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders", verbose_name="用户")
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, verbose_name="收货地址")
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="订单总金额")
-    status = models.CharField(max_length=16, choices=ORDER_STATUS, default="pending_payment", verbose_name="订单状态")
+    status = models.CharField(max_length=16, choices=ORDER_STATUS, default="待支付", verbose_name="订单状态")
     pay_time = models.DateTimeField(null=True, blank=True, verbose_name="支付时间")
     ship_time = models.DateTimeField(null=True, blank=True, verbose_name="发货时间")
     complete_time = models.DateTimeField(null=True, blank=True, verbose_name="完成时间")
