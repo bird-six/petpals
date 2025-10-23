@@ -144,7 +144,7 @@
               </div>
               <div class="flex justify-between">
                 <span class="text-neutral-600">运费</span>
-                <span>{% if shipping_fee > 0 %}¥{{ shipping_fee }}{% else %}免费{% endif %}</span>
+                <span>{% if total_price < 199 %}¥15{% else %}免费{% endif %}</span>
               </div>
               <div class="flex justify-between">
                 <span class="text-neutral-600">优惠券折扣</span>
@@ -153,7 +153,7 @@
               <div class="pt-3 border-t border-neutral-200 mt-3">
                 <div class="flex justify-between items-center">
                   <span class="font-medium">实付款</span>
-                  <span class="text-primary font-bold text-xl">¥{{ total_price }}</span>
+                  <span class="text-primary font-bold text-xl">{% if total_price < 199 %}¥{{ total_price|add:15 }}{% else %}{{ total_price }}{% endif %}</span>
                 </div>
               </div>
             </div>

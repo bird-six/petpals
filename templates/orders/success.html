@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}支付成功 - PetPals{% endblock %}
+
+{% block content %}
+<section class="py-20 bg-neutral-50">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center fade-in">
+      <div class="bg-white rounded-2xl shadow-sm p-8 md:p-12">
+        <!-- 成功图标 -->
+        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 mb-6">
+          <i class="fa fa-check-circle text-4xl text-green-500"></i>
+        </div>
+        
+        <h1 class="text-2xl md:text-3xl font-bold text-neutral-900 mb-2">支付成功</h1>
+        <p class="text-neutral-600 mb-8">您的订单已支付完成，我们将尽快为您发货</p>
+        
+        <!-- 订单信息 -->
+        <div class="bg-neutral-50 rounded-xl p-6 mb-8 text-left">
+          <h2 class="font-medium text-neutral-900 mb-4">订单信息</h2>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between">
+              <span class="text-neutral-600">订单编号</span>
+              <span class="font-medium">{{ order.order_number }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-neutral-600">创建时间</span>
+              <span class="font-medium">{{ order.created_time|date:"Y年m月d日 H:i:s" }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-neutral-600">支付方式</span>
+              <span>{{ order.get_payment_method_display }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-neutral-600">支付时间</span>
+              <span>{{ order.pay_time|date:"Y年m月d日 H:i:s" }}</span>
+            </div>
+            <div class="flex justify-between pt-3 border-t border-neutral-200 mt-3">
+              <span class="text-neutral-600">订单金额</span>
+              <span class="text-primary font-bold">¥{{ order.total_amount }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 操作按钮 -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#" class="btn-primary">
+            查看订单详情
+          </a>
+          <a href="{% url 'pets:pets' %}" class="btn-secondary">
+            继续购物
+          </a>
+        </div>
+      </div>
+      
+      <!-- 配送信息提示 -->
+      <div class="mt-8 bg-primary/5 rounded-xl p-4 text-sm text-neutral-600">
+        <div class="flex items-start">
+          <i class="fa fa-info-circle text-primary mt-1 mr-2"></i>
+          <p>您将收到短信通知，包含订单跟踪信息。如有疑问，请联系客服：400-123-4567</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

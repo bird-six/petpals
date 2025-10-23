@@ -109,9 +109,9 @@
                         -->
                         
                         <div class="flex flex-col sm:flex-row gap-4">
-                            <button class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors flex-1 text-center">
+                            <a href="{% url 'orders:checkout' pet.id %}" id="buy-now-btn" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors flex-1 text-center">
                                 立即购买
-                            </button>
+                            </a>
                             <button id="add-to-cart-btn" data-pet-id="{{ pet.id }}" class="bg-secondary text-white px-6 py-3 rounded-lg hover:bg-secondary/90 transition-colors flex-1 text-center">
                                 加入购物车
                             </button>

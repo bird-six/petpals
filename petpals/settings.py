@@ -155,8 +155,8 @@ AUTH_USER_MODEL = 'users.User'
 # 支付宝沙箱配置
 ALIPAY_SETTINGS = {
     "appid": "9021000155669214",
-    "app_return_url": "http://s4f43958.natappfree.cc/pay/success/",    # 同步回调地址
-    "app_notify_url": "http://s4f43958.natappfree.cc/alipay/notify/",  # 异步回调地址
+    "app_return_url": "http://s4f43958.natappfree.cc/orders/pay/result/",    # 同步回调地址
+    "app_notify_url": "http://s4f43958.natappfree.cc/orders/alipay/notify/",  # 异步回调地址
     "app_private_key_path": os.path.join(BASE_DIR, "keys/app_private_key.pem"),  # 应用私钥路径
     "alipay_public_key_path": os.path.join(BASE_DIR, "keys/alipay_public_key.pem"),  # 支付宝公钥路径
     "sign_type": "RSA2",  # 签名方式

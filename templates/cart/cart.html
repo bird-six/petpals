@@ -425,7 +425,7 @@ if (checkoutBtn) {
     // 创建临时表单提交数据（避免URL参数长度限制）
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = "{% url 'orders:order' %}"; // 订单页面URL
+    form.action = "{% url 'orders:checkout' %}"; // 订单页面URL
     
     // 添加CSRF令牌（Django安全验证）
     const csrfInput = document.createElement('input');

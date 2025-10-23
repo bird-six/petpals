@@ -1,0 +1,407 @@
+{% extends "base.html" %}
+
+{% block title %}订单详情 - PetPals{% endblock %}
+
+{% block content %}
+<!-- 页面内容 -->
+<main class="pb-16">
+  <!-- 订单详情头部 -->
+  <section class="py-8 bg-primary/5">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+        <div>
+          <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900">订单详情</h1>
+          <p class="text-neutral-600 mt-2">查看您的订单信息和状态</p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <a href="{% url 'users:my_orders' %}" class="text-primary flex items-center hover:text-secondary transition-colors">
+            <i class="fa fa-arrow-left mr-2"></i>
+            返回订单列表
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 订单信息主体 -->
+  <section class="py-12 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <!-- 左侧订单基本信息 -->
+        <div class="lg:col-span-2 space-y-8">
+          <!-- 订单编号和状态 -->
+          <div class="bg-neutral-100 rounded-xl p-6 fade-in">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 class="text-xl font-bold mb-2">订单编号: <span class="text-primary">{{ order.order_number }}</span></h2>
+                <p class="text-neutral-600">下单时间: {{ order.created_time|date:"Y-m-d H:i:s" }}</p>
+              </div>
+              <div class="mt-4 md:mt-0">
+                <span class="inline-block bg-green-100 text-green-800 text-m font-medium px-4 py-2 rounded-full">{{ order.status }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 收货信息 -->
+          <div class="bg-neutral-100 rounded-xl p-6 fade-in" style="transition-delay: 0.1s">
+            <h3 class="text-lg font-bold mb-4 flex items-center">
+              <i class="fa fa-map-marker text-primary mr-2"></i>
+              收货信息
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-neutral-600 mb-1"><span class="font-medium">收货人:</span> {{ order.address.recipient_name }}</p>
+                <p class="text-neutral-600 mb-1"><span class="font-medium">联系电话:</span> {{ order.address.phone_number }}</p>
+                <p class="text-neutral-600"><span class="font-medium">收货地址:</span> {{ order.address.province }} {{ order.address.city }} {{ order.address.district }} {{ order.detail_address }}</p>
+              </div>
+              <div>
+                <p class="text-neutral-600 mb-1"><span class="font-medium">配送方式:</span> 顺丰速运</p>
+                <p class="text-neutral-600 mb-1"><span class="font-medium">预计送达:</span> 2023-06-17</p>
+                <p class="text-neutral-600"><span class="font-medium">订单备注:</span> {{ order.remark }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 订单商品列表 -->
+          <div class="bg-neutral-100 rounded-xl overflow-hidden fade-in" style="transition-delay: 0.2s">
+            <div class="p-6 border-b border-neutral-200">
+              <h3 class="text-lg font-bold flex items-center">
+                <i class="fa fa-shopping-basket text-primary mr-2"></i>
+                商品信息
+              </h3>
+            </div>
+            
+            <!-- 商品1 -->
+            {% for item in order.items.all %}
+            <div class="p-6 border-b border-neutral-200 hover:bg-neutral-50 transition-colors">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0">
+                <img src="{{ item.pet.get_primary_image.url }}" alt="{{ item.pet.name }}" class="w-24 h-24 object-cover rounded-lg">
+                
+                <div class="flex-1 sm:ml-6">
+                  <h4 class="font-medium text-lg">{{ item.pet.name }}</h4>
+                  <p class="text-sm text-neutral-600 mt-1">{{ item.pet.breed }}，{{ item.pet.gender }}，{{ item.pet.age }}</p>
+                  <div class="flex items-center mt-2">
+                    <span class="text-green-500 text-sm">新品</span>
+                  </div>
+                </div>
+                
+                <div class="sm:text-center sm:w-24">
+                  <span class="text-primary font-bold">¥{{ item.pet.price }}</span>
+                </div>
+                
+                <div class="sm:w-24 text-center">
+                  <span class="text-neutral-700">x1</span>
+                </div>
+                
+                <div class="sm:w-24 sm:text-right">
+                  <span class="text-primary font-medium">¥{{ item.pet.price }}</span>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        
+            <!--物流信息-->
+          <div class="bg-neutral-100 rounded-xl p-6 fade-in" style="transition-delay: 0.3s">
+            <h3 class="text-lg font-bold mb-4 flex items-center">
+              <i class="fa fa-credit-card text-primary mr-2"></i>
+              物流信息
+            </h3>
+            <div class="space-y-3">
+                {% for route in routes %}
+                <div class="flex items-center">
+                  <span class="text-primary font-medium">{{ route.acceptTime }}</span>
+                  <span class="text-neutral-600 ml-2">{{ route.acceptAddress }}</span>
+                </div>
+                    {{ route.remark }}
+                {% endfor %}
+            </div>
+          </div>
+        
+          <!-- 支付信息 -->
+          <div class="bg-neutral-100 rounded-xl p-6 fade-in" style="transition-delay: 0.3s">
+            <h3 class="text-lg font-bold mb-4 flex items-center">
+              <i class="fa fa-credit-card text-primary mr-2"></i>
+              支付信息
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="text-neutral-600">支付方式：</span>
+                <span class="font-medium">{{ order.get_payment_method_display }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-600">支付时间：</span>
+                <span class="font-medium">{{ order.pay_time|date:"Y-m-d H:i:s" }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-600">支付流水号：</span>
+                <span class="font-medium">{{ order.trade_no }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 右侧订单金额和操作 -->
+        <div class="space-y-8">
+          <!-- 订单金额明细 -->
+          <div class="bg-neutral-100 rounded-xl p-6 fade-in" style="transition-delay: 0.2s">
+            <h3 class="text-lg font-bold mb-6">订单金额明细</h3>
+            
+            <div class="space-y-3 mb-6">
+              <div class="flex justify-between">
+                <span class="text-neutral-600">商品总价</span>
+                <span>¥{{ order.total_amount }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-600">运费</span>
+                  {% if order.total_amount < 199 %}
+                    <span>¥15.00</span>
+                  {% else %}
+                    <span>¥0.00(包邮)</span>
+                  {% endif %}
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-600">优惠券折扣</span>
+                <span class="text-green-600">-¥0.00</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-600">会员折扣</span>
+                <span class="text-green-600">-¥0.00</span>
+              </div>
+            </div>
+            
+            <div class="border-t border-neutral-200 pt-4">
+              <div class="flex justify-between items-center">
+                <span class="font-bold">实付款</span>
+                <span class="text-2xl font-bold text-primary">¥{{ order.total_amount }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 订单状态跟踪 -->
+          <div class="bg-neutral-100 rounded-xl p-6 fade-in" style="transition-delay: 0.3s">
+            <h3 class="text-lg font-bold mb-6">订单状态跟踪</h3>
+            
+            <div class="relative">
+              <!-- 时间线 -->
+              <div class="absolute left-2.5 top-5 bottom-16 w-0.5 bg-neutral-200"></div>
+            
+              <div class="relative pl-10 pb-6">
+                <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center z-10">
+                  <i class="fa fa-check text-white text-xs"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">订单已创建</h4>
+                  <p class="text-sm text-neutral-600">{{ order.created_time|date:"Y-m-d H:i:s" }}</p>
+                </div>
+              </div>
+              
+              
+              <div class="relative pl-10 pb-6">
+                <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center z-10">
+                  <i class="fa fa-check text-white text-xs"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">买家付款</h4>
+                  {% if order.status == "已支付" or order.status == "已完成" or order.status == "已发货" %}
+                  <p class="text-sm text-neutral-600">{{ order.pay_time|date:"Y-m-d H:i:s" }}</p>
+                  {% else %}
+                  <span class="text-neutral-500">待支付</span>
+                  {% endif %}
+                </div>
+              </div>
+                
+              
+              <div class="relative pl-10 pb-6">
+                <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-neutral-300 flex items-center justify-center z-10">
+                </div>
+                <div>
+                  <h4 class="font-medium text-neutral-600">商品发货</h4>
+                    {% if order.status == "已发货" or order.status == "已完成" %}
+                  <p class="text-sm text-neutral-500">2025-10-20 15:31:05</p>
+                  {% else %}
+                  <p class="text-sm text-neutral-500">待更新</p>
+                  {% endif %}
+                </div>
+              </div>
+              
+              
+              <div class="relative pl-10 pb-6">
+                <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-neutral-300 flex items-center justify-center z-10">
+                </div>
+                <div>
+                  <h4 class="font-medium text-neutral-600">商品送达</h4>
+                  <p class="text-sm text-neutral-500">待更新</p>
+                </div>
+              </div>
+            
+              <div class="relative pl-10 pb-6">
+                <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-neutral-300 flex items-center justify-center z-10">
+                </div>
+                <div>
+                  <h4 class="font-medium text-neutral-600">确认收货</h4>
+                  {% if order.status == "已完成" %}
+                  <p class="text-sm text-neutral-500">2025-10-18 17:41:30</p>
+                      {% else %}
+                  <span class="text-neutral-500">待更新</span>
+                  {% endif %}
+                </div>
+              </div>
+                
+            </div>
+          </div>
+          
+          <!-- 订单操作 -->
+          <div class="bg-neutral-100 rounded-xl p-6 fade-in" style="transition-delay: 0.4s">
+            <h3 class="text-lg font-bold mb-6">订单操作</h3>
+            
+            <div class="flex flex-col space-y-3">
+              <button class="btn-secondary flex items-center justify-center">
+                <i class="fa fa-truck mr-2"></i>
+                查看物流
+              </button>
+              <a href="{% url 'orders:refund' order.id %}" class="bg-white border border-neutral-300 text-neutral-700 px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-neutral-50 flex items-center justify-center">
+                <i class="fa fa-repeat mr-2"></i>
+                申请退换
+              </a>
+              <button class="bg-white border border-neutral-300 text-neutral-700 px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-neutral-50 flex items-center justify-center">
+                <i class="fa fa-comment mr-2"></i>
+                联系客服
+              </button>
+              <button class="bg-white border border-neutral-300 text-neutral-700 px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-neutral-50 flex items-center justify-center">
+                <i class="fa fa-print mr-2"></i>
+                打印订单
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 推荐商品 -->
+  <section class="py-12 bg-neutral-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-end mb-10 fade-in">
+        <div>
+          <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-neutral-900 mb-2">为您推荐</h2>
+          <p class="text-neutral-600">您可能还喜欢这些商品</p>
+        </div>
+        <a href="#" class="hidden md:flex items-center text-primary font-medium hover:text-secondary transition-colors group">
+          查看更多
+          <i class="fa fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+        </a>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- 推荐商品1 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.1s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1059/500/500" alt="猫咪智能厕所" class="w-full h-48 object-cover">
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="font-medium text-lg mb-1">猫咪智能厕所</h3>
+            <p class="text-sm text-neutral-600 mb-3">自动清理，除臭杀菌，健康监测</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥699.00</span>
+              </div>
+              <button class="bg-primary text-white p-2 rounded-full hover:bg-primary/90 transition-colors">
+                <i class="fa fa-shopping-cart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 推荐商品2 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.2s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1074/500/500" alt="宠物智能项圈" class="w-full h-48 object-cover">
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="font-medium text-lg mb-1">宠物智能项圈</h3>
+            <p class="text-sm text-neutral-600 mb-3">GPS定位，健康监测，活动记录</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥279.00</span>
+              </div>
+              <button class="bg-primary text-white p-2 rounded-full hover:bg-primary/90 transition-colors">
+                <i class="fa fa-shopping-cart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 推荐商品3 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.3s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/237/500/500" alt="宠物营养补充剂" class="w-full h-48 object-cover">
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="font-medium text-lg mb-1">宠物营养补充剂</h3>
+            <p class="text-sm text-neutral-600 mb-3">多种维生素，增强免疫力，促进消化</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥129.00</span>
+              </div>
+              <button class="bg-primary text-white p-2 rounded-full hover:bg-primary/90 transition-colors">
+                <i class="fa fa-shopping-cart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 推荐商品4 -->
+        <div class="bg-white rounded-xl overflow-hidden card-hover fade-in" style="transition-delay: 0.4s">
+          <div class="relative">
+            <img src="https://picsum.photos/id/235/500/500" alt="天然无谷狗粮" class="w-full h-48 object-cover">
+            <span class="absolute top-3 left-3 bg-secondary text-white text-sm font-medium px-3 py-1 rounded-full">热销</span>
+            <button class="absolute top-3 right-3 bg-white/80 hover:bg-white p-2 rounded-full transition-colors">
+              <i class="fa fa-heart-o text-neutral-800"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="font-medium text-lg mb-1">天然无谷狗粮 2kg</h3>
+            <p class="text-sm text-neutral-600 mb-3">适合全年龄段狗狗，富含蛋白质</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-primary font-bold text-xl">¥89.00</span>
+                <span class="text-neutral-400 text-sm line-through ml-2">¥129.00</span>
+              </div>
+              <button class="bg-primary text-white p-2 rounded-full hover:bg-primary/90 transition-colors">
+                <i class="fa fa-shopping-cart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 text-center md:hidden">
+        <a href="#" class="inline-flex items-center text-primary font-medium hover:text-secondary transition-colors group">
+          查看更多
+          <i class="fa fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<!-- 页面特定JS -->
+<script>
+  // 订单详情页专属交互逻辑
+  document.addEventListener('DOMContentLoaded', function() {
+    // 可以添加订单相关的交互效果
+  });
+</script>
+{% endblock %}

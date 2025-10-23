@@ -36,6 +36,7 @@ class Order(models.Model):
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     remark = models.TextField(null=True, blank=True, verbose_name="订单备注")
     payment_method = models.CharField(max_length=16, choices=PAYMENT_METHOD, verbose_name="支付方式")
+    trade_no = models.CharField(max_length=64, null=True, blank=True, verbose_name="支付交易号")
     def generate_order_number(self):
         """生成唯一订单号：时间戳+随机字符串（确保唯一性）"""
         timestamp = int(time.time() * 1000)  # 毫秒级时间戳，减少重复概率
